@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { TREE } from "@/lib/tree";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { ChevronLeft, Home as HomeIcon, AlertTriangle, Shield, FileText, Scale } from "lucide-react";
+import { ChevronLeft, Home as HomeIcon, AlertTriangle, Shield, FileText, Scale, Phone } from "lucide-react";
 
 export const Route = createFileRoute("/help/leaf/$leafId")({
   head: ({ params }) => {
@@ -16,6 +16,41 @@ export const Route = createFileRoute("/help/leaf/$leafId")({
   },
   component: LeafPage,
 });
+
+function extractPhone(text: string): string | null {
+  const match = text.match(/\b(1930|112|100|1091|1098|181|1800\d*)\b/);
+  return match ? match[1] : null;
+}
+
+function ActionItem({ text, index, badge }: { text: string; index: number; badge: "lime" | "red" }) {
+  const phone = extractPhone(text);
+
+  if (phone) {
+    return (
+      <li className="flex items-center gap-3">
+        <span className="grid size-6 shrink-0 place-items-center rounded-md bg-red-600 font-mono text-xs font-bold text-white">
+          {String(index + 1).padStart(2, "0")}
+        </span>
+        <a
+          href={`tel:${phone}`}
+          className="inline-flex items-center gap-2 rounded-lg border-2 border-red-600 bg-red-50 px-2.5 py-1 text-sm font-bold text-red-700 shadow-[2px_2px_0_0_#b91c1c] transition-transform hover:-translate-y-0.5"
+        >
+          {text}
+          <Phone className="size-3.5 shrink-0 text-red-600" />
+        </a>
+      </li>
+    );
+  }
+
+  return (
+    <li className="flex gap-3 items-start">
+      <span className={`grid size-6 shrink-0 place-items-center rounded-md font-mono text-xs font-bold ${badge === "lime" ? "bg-lime text-lime-foreground" : "text-primary"}`}>
+        {badge === "lime" ? String(index + 1).padStart(2, "0") : "→"}
+      </span>
+      <span className="text-sm pt-0.5">{text}</span>
+    </li>
+  );
+}
 
 function LeafPage() {
   const { leafId } = Route.useParams();
@@ -53,19 +88,10 @@ function LeafPage() {
 
           {/* Action grid */}
           <div className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2">
-            <PlanCard
-              icon={<AlertTriangle className="size-5" />}
-              eyebrow="Do this now"
-              tint="lime"
-            >
-              <ol className="space-y-2.5 text-sm">
+            <PlanCard icon={<AlertTriangle className="size-5" />} eyebrow="Do this now" tint="lime">
+              <ol className="space-y-2.5">
                 {leaf.actions.map((a, i) => (
-                  <li key={i} className="flex gap-3">
-                    <span className="grid size-6 shrink-0 place-items-center rounded-md bg-lime font-mono text-xs font-bold text-lime-foreground">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span>{a}</span>
-                  </li>
+                  <ActionItem key={i} text={a} index={i} badge="lime" />
                 ))}
               </ol>
             </PlanCard>
@@ -83,13 +109,11 @@ function LeafPage() {
             </PlanCard>
 
             <PlanCard icon={<Scale className="size-5" />} eyebrow="Authorities & routes" tint="primary">
-              <ul className="space-y-2 text-sm">
+              <ol className="space-y-2.5">
                 {leaf.authorities.map((a, i) => (
-                  <li key={i} className="flex gap-2">
-                    <span className="text-primary">→</span> {a}
-                  </li>
+                  <ActionItem key={i} text={a} index={i} badge="red" />
                 ))}
-              </ul>
+              </ol>
             </PlanCard>
 
             <PlanCard icon={<FileText className="size-5" />} eyebrow="Drafts we can prep" tint="card">
