@@ -1,0 +1,2429 @@
+{
+  "title": "Suraksha V1 Indian Scam Decision Tree",
+  "doors": [
+    {
+      "id": "money",
+      "emoji": "💸",
+      "title": "I Lost Money",
+      "subtitle": "UPI, investment, job, loan app, bank, shopping, relationship scams.",
+      "question": "How did the money issue happen?",
+      "options": [
+        {
+          "label": "UPI / QR / GPay / PhonePe / Paytm",
+          "question": "What happened with UPI?",
+          "options": [
+            {
+              "label": "I paid someone and got blocked",
+              "leaf": "upi_paid_blocked"
+            },
+            {
+              "label": "I scanned QR to receive money",
+              "leaf": "qr_receive_scam"
+            },
+            {
+              "label": "OTP / UPI PIN / card details",
+              "leaf": "otp_pin_scam"
+            },
+            {
+              "label": "Remote access / screen sharing",
+              "leaf": "remote_access_scam"
+            },
+            {
+              "label": "Fake customer care number",
+              "leaf": "fake_customer_care"
+            },
+            {
+              "label": "Unknown/unauthorised transaction",
+              "leaf": "unauthorised_transaction"
+            }
+          ]
+        },
+        {
+          "label": "Investment / Trading / Crypto",
+          "question": "What kind of investment scam?",
+          "options": [
+            {
+              "label": "Telegram/WhatsApp stock tips",
+              "leaf": "telegram_investment"
+            },
+            {
+              "label": "Crypto/fake exchange",
+              "leaf": "crypto_scam"
+            },
+            {
+              "label": "Fake SEBI/RBI documents",
+              "leaf": "fake_regulated_investment"
+            },
+            {
+              "label": "Recharge/pay more to withdraw",
+              "leaf": "task_investment"
+            }
+          ]
+        },
+        {
+          "label": "Job / Work-from-home / Visa",
+          "question": "What did they ask money for?",
+          "options": [
+            {
+              "label": "Registration/training fee",
+              "leaf": "job_fee_scam"
+            },
+            {
+              "label": "Likes/reviews/task job",
+              "leaf": "task_job_scam"
+            },
+            {
+              "label": "Overseas job/visa",
+              "leaf": "visa_job_scam"
+            },
+            {
+              "label": "Equipment/security deposit",
+              "leaf": "equipment_deposit_job"
+            }
+          ]
+        },
+        {
+          "label": "Loan App / Lending App",
+          "question": "What is happening?",
+          "options": [
+            {
+              "label": "Harassment after borrowing",
+              "leaf": "loan_app_harassment"
+            },
+            {
+              "label": "They contact family/contacts",
+              "leaf": "loan_app_contacts"
+            },
+            {
+              "label": "Morphed photos/shame threats",
+              "leaf": "loan_app_morphed"
+            },
+            {
+              "label": "Never borrowed but threatened",
+              "leaf": "fake_loan_extortion"
+            }
+          ]
+        },
+        {
+          "label": "Card / Bank / KYC / Account",
+          "question": "What did they claim?",
+          "options": [
+            {
+              "label": "KYC expired/account block",
+              "leaf": "kyc_scam"
+            },
+            {
+              "label": "Credit card reward/limit",
+              "leaf": "credit_card_reward"
+            },
+            {
+              "label": "TRAI/SIM misuse threat",
+              "leaf": "sim_trai_scam"
+            },
+            {
+              "label": "Account frozen/cyber lien",
+              "leaf": "account_lien"
+            },
+            {
+              "label": "ATM/debit card misuse",
+              "leaf": "atm_misuse"
+            }
+          ]
+        },
+        {
+          "label": "Shopping / Marketplace / Delivery",
+          "question": "Where did it happen?",
+          "options": [
+            {
+              "label": "Instagram/social shopping",
+              "leaf": "instagram_shop"
+            },
+            {
+              "label": "OLX/Facebook marketplace",
+              "leaf": "marketplace_scam"
+            },
+            {
+              "label": "Courier/customs parcel",
+              "leaf": "courier_customs"
+            },
+            {
+              "label": "E-commerce refund/replacement",
+              "leaf": "ecommerce_refund"
+            }
+          ]
+        },
+        {
+          "label": "Relationship / Matrimonial / Honey Trap",
+          "question": "What happened?",
+          "options": [
+            {
+              "label": "Matrimonial profile took money",
+              "leaf": "matrimonial_scam"
+            },
+            {
+              "label": "Romance/dating app money requests",
+              "leaf": "romance_scam"
+            },
+            {
+              "label": "Honey trap/compromising setup",
+              "leaf": "honey_trap"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "threats",
+      "emoji": "🚨",
+      "title": "Someone Is Threatening Me",
+      "subtitle": "Digital arrest, sextortion, blackmail, harassment, stalking.",
+      "question": "What kind of threat?",
+      "options": [
+        {
+          "label": "Fake Police / Digital Arrest",
+          "question": "What are they saying?",
+          "options": [
+            {
+              "label": "Video call from police/CBI/ED/Narcotics",
+              "leaf": "digital_arrest"
+            },
+            {
+              "label": "Parcel has drugs/customs issue",
+              "leaf": "fake_parcel_threat"
+            },
+            {
+              "label": "Aadhaar/SIM/bank identity misuse",
+              "leaf": "identity_misuse_threat"
+            },
+            {
+              "label": "Demanding fine/security deposit",
+              "leaf": "fake_police_payment"
+            }
+          ]
+        },
+        {
+          "label": "Sextortion / Private Images",
+          "question": "What is the status?",
+          "options": [
+            {
+              "label": "They have real intimate content",
+              "leaf": "sextortion_real"
+            },
+            {
+              "label": "They made morphed/fake content",
+              "leaf": "sextortion_morphed"
+            },
+            {
+              "label": "Threatening to send to contacts",
+              "leaf": "sextortion_contact_threat"
+            },
+            {
+              "label": "They already shared it",
+              "leaf": "sextortion_shared"
+            }
+          ]
+        },
+        {
+          "label": "Blackmail / Extortion",
+          "question": "What are they using?",
+          "options": [
+            {
+              "label": "Private information",
+              "leaf": "private_info_blackmail"
+            },
+            {
+              "label": "Business/reputation threat",
+              "leaf": "business_extortion"
+            },
+            {
+              "label": "False case / false allegation",
+              "leaf": "false_case_threat"
+            },
+            {
+              "label": "Repeated money demands",
+              "leaf": "repeat_extortion"
+            }
+          ]
+        },
+        {
+          "label": "Harassment / Stalking",
+          "question": "Where is it happening?",
+          "options": [
+            {
+              "label": "WhatsApp/phone calls",
+              "leaf": "whatsapp_harassment"
+            },
+            {
+              "label": "Social media/impersonation",
+              "leaf": "social_harassment"
+            },
+            {
+              "label": "Offline following/stalking",
+              "leaf": "offline_stalking"
+            },
+            {
+              "label": "Known person/ex threatening",
+              "leaf": "known_person_threat"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "process",
+      "emoji": "🏛️",
+      "title": "Police / Cyber / Bank Problem",
+      "subtitle": "Reporting, FIR, bank reversal, portal delays, consumer routes.",
+      "question": "Where are you stuck?",
+      "options": [
+        {
+          "label": "Cybercrime Reporting",
+          "question": "What is the issue?",
+          "options": [
+            {
+              "label": "Need to report online fraud",
+              "leaf": "cyber_report_needed"
+            },
+            {
+              "label": "1930 not working/not answered",
+              "leaf": "1930_issue"
+            },
+            {
+              "label": "Cyber portal complaint delay",
+              "leaf": "portal_delay"
+            },
+            {
+              "label": "Bank needs cyber complaint",
+              "leaf": "bank_needs_cyber"
+            }
+          ]
+        },
+        {
+          "label": "Police Complaint / FIR",
+          "question": "What happened?",
+          "options": [
+            {
+              "label": "Police refused FIR/complaint",
+              "leaf": "fir_refused"
+            },
+            {
+              "label": "Police says civil matter",
+              "leaf": "civil_matter_pushback"
+            },
+            {
+              "label": "Threat case but no action",
+              "leaf": "threat_police_inaction"
+            }
+          ]
+        },
+        {
+          "label": "Bank / Account / Recovery",
+          "question": "What happened?",
+          "options": [
+            {
+              "label": "Need freeze/reversal after fraud",
+              "leaf": "bank_reversal"
+            },
+            {
+              "label": "Account frozen/cyber lien",
+              "leaf": "account_lien"
+            },
+            {
+              "label": "Bank rejected complaint",
+              "leaf": "bank_rejected"
+            }
+          ]
+        },
+        {
+          "label": "Consumer / Platform Complaint",
+          "question": "Which issue?",
+          "options": [
+            {
+              "label": "E-commerce/seller refund",
+              "leaf": "consumer_refund"
+            },
+            {
+              "label": "Telecom/SIM complaint",
+              "leaf": "telecom_issue"
+            },
+            {
+              "label": "Travel booking/refund",
+              "leaf": "travel_booking_scam"
+            },
+            {
+              "label": "Course/coaching scam",
+              "leaf": "course_scam"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "other",
+      "emoji": "🏠",
+      "title": "Work, Home, Family, Other",
+      "subtitle": "Non-scam legal problems that will still enter Suraksha.",
+      "question": "What kind of issue?",
+      "options": [
+        {
+          "label": "Work / Employer / Freelance",
+          "question": "What happened?",
+          "options": [
+            {
+              "label": "Salary not paid",
+              "leaf": "salary_not_paid"
+            },
+            {
+              "label": "Freelance/client not paying",
+              "leaf": "freelance_unpaid"
+            }
+          ]
+        },
+        {
+          "label": "Landlord / Housing",
+          "question": "What happened?",
+          "options": [
+            {
+              "label": "Security deposit not returned",
+              "leaf": "deposit_not_returned"
+            },
+            {
+              "label": "Illegal eviction/threat",
+              "leaf": "illegal_eviction"
+            },
+            {
+              "label": "Rental listing/broker scam",
+              "leaf": "rental_listing"
+            }
+          ]
+        },
+        {
+          "label": "Family / Safety",
+          "question": "What is happening?",
+          "options": [
+            {
+              "label": "Domestic violence",
+              "leaf": "domestic_violence"
+            },
+            {
+              "label": "Family threatening adult relationship",
+              "leaf": "family_relationship_threat"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "leaves": {
+    "upi_paid_blocked": {
+      "title": "UPI paid and got blocked",
+      "urgency": "High",
+      "explanation": "User voluntarily paid through UPI after deception. Speed matters for freezing downstream accounts.",
+      "actions": [
+        "Call 1930 if recent",
+        "File cyber complaint",
+        "Inform bank/payment app",
+        "Preserve chats",
+        "Do not negotiate privately"
+      ],
+      "evidence": [
+        "UPI transaction ID",
+        "Screenshots",
+        "Scammer phone/UPI ID",
+        "Listing/profile link"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Bank freeze request"
+      ],
+      "lawyer": "Recommended if amount is large"
+    },
+    "qr_receive_scam": {
+      "title": "QR code receive-money scam",
+      "urgency": "High",
+      "explanation": "User scanned QR and entered UPI PIN thinking they were receiving money. PIN generally authorizes sending money.",
+      "actions": [
+        "Call 1930",
+        "Raise bank dispute",
+        "Report UPI ID",
+        "File cyber complaint",
+        "Report marketplace profile"
+      ],
+      "evidence": [
+        "QR screenshot",
+        "UPI history",
+        "Chats",
+        "Phone number"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Bank dispute"
+      ],
+      "lawyer": "Usually optional initially"
+    },
+    "otp_pin_scam": {
+      "title": "OTP / UPI PIN / card detail scam",
+      "urgency": "Critical",
+      "explanation": "User shared OTP/PIN/card details or approved a payment request.",
+      "actions": [
+        "Block account/card",
+        "Call bank",
+        "Call 1930",
+        "Change passwords from clean device",
+        "File cyber complaint"
+      ],
+      "evidence": [
+        "OTP SMS",
+        "Caller number",
+        "Transaction IDs",
+        "Bank SMS"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station",
+        "Bank fraud desk",
+        "Bank branch manager / nodal officer",
+        "RBI Ombudsman route if bank fails after complaint"
+      ],
+      "drafts": [
+        "Bank fraud complaint",
+        "Cyber complaint"
+      ],
+      "lawyer": "Recommended"
+    },
+    "remote_access_scam": {
+      "title": "Remote access app bank drain",
+      "urgency": "Critical",
+      "explanation": "Scammer used AnyDesk/TeamViewer/QuickSupport/screen sharing to control or view the device.",
+      "actions": [
+        "Disconnect internet",
+        "Uninstall remote app",
+        "Freeze accounts/cards",
+        "Change credentials",
+        "File cyber complaint"
+      ],
+      "evidence": [
+        "App installed",
+        "Call logs",
+        "Transactions",
+        "Device screenshots"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station",
+        "Bank fraud desk",
+        "Bank branch manager / nodal officer",
+        "RBI Ombudsman route if bank fails after complaint"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Bank liability complaint"
+      ],
+      "lawyer": "Recommended"
+    },
+    "fake_customer_care": {
+      "title": "Fake customer care number scam",
+      "urgency": "High",
+      "explanation": "User called a fake customer-care number found online and was guided into payment or data sharing.",
+      "actions": [
+        "Stop contact",
+        "Call official support only",
+        "Block card/account if needed",
+        "Call 1930 if money moved",
+        "File cyber complaint"
+      ],
+      "evidence": [
+        "Search result screenshot",
+        "Phone number",
+        "Call log",
+        "Payment proof"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Bank request"
+      ],
+      "lawyer": "Recommended for high amount"
+    },
+    "unauthorised_transaction": {
+      "title": "Unauthorised bank/card/UPI transaction",
+      "urgency": "Critical",
+      "explanation": "Money moved without clear authorization. Bank reporting timeline is critical.",
+      "actions": [
+        "Block card/account",
+        "Report bank in writing",
+        "Call 1930",
+        "File cyber complaint",
+        "Get ticket number"
+      ],
+      "evidence": [
+        "Bank SMS",
+        "Statement",
+        "Transaction ID",
+        "Complaint ticket"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station",
+        "Bank fraud desk",
+        "Bank branch manager / nodal officer",
+        "RBI Ombudsman route if bank fails after complaint"
+      ],
+      "drafts": [
+        "Bank unauthorised transaction complaint",
+        "RBI escalation"
+      ],
+      "lawyer": "Recommended if bank rejects"
+    },
+    "telegram_investment": {
+      "title": "Telegram/WhatsApp investment scam",
+      "urgency": "High",
+      "explanation": "Fake groups, profit screenshots, advisors, and withdrawal traps are used for repeated deposits.",
+      "actions": [
+        "Stop all payments",
+        "Save group/admin details",
+        "File cyber complaint",
+        "Report bank/UPI IDs",
+        "Do not pay withdrawal tax/fees"
+      ],
+      "evidence": [
+        "Group link",
+        "Admin numbers",
+        "Payment IDs",
+        "Fake app/site",
+        "Profit screenshots"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Bank freeze request"
+      ],
+      "lawyer": "Recommended"
+    },
+    "crypto_scam": {
+      "title": "Crypto/fake exchange scam",
+      "urgency": "High",
+      "explanation": "User was routed to a fake exchange/wallet or asked to send crypto/INR for fake returns.",
+      "actions": [
+        "Stop funding",
+        "Record wallet addresses",
+        "Save transaction hashes",
+        "File cyber complaint",
+        "Report platform if real exchange involved"
+      ],
+      "evidence": [
+        "Wallet address",
+        "Transaction hash",
+        "Exchange screenshots",
+        "Chats"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Exchange support notice"
+      ],
+      "lawyer": "Recommended"
+    },
+    "fake_regulated_investment": {
+      "title": "Fake SEBI/RBI regulated investment scheme",
+      "urgency": "High",
+      "explanation": "Scammers show fake regulator documents/certificates to create trust.",
+      "actions": [
+        "Preserve certificates",
+        "Verify independently",
+        "File cyber complaint",
+        "Report website/entity",
+        "Stop further payment"
+      ],
+      "evidence": [
+        "Fake certificates",
+        "Company name",
+        "Bank details",
+        "Website",
+        "Chats"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Regulator complaint"
+      ],
+      "lawyer": "Recommended"
+    },
+    "task_investment": {
+      "title": "Task investment recharge scam",
+      "urgency": "High",
+      "explanation": "Small returns are shown first, then user is asked to recharge/pay more to unlock withdrawals.",
+      "actions": [
+        "Stop recharging",
+        "Save dashboard",
+        "File cyber complaint",
+        "Report bank/UPI IDs",
+        "Do not pay tax/verification fee"
+      ],
+      "evidence": [
+        "Dashboard",
+        "Task screenshots",
+        "Payment proof",
+        "Agent chats"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Bank freeze request"
+      ],
+      "lawyer": "Recommended"
+    },
+    "job_fee_scam": {
+      "title": "Fake job registration/training fee scam",
+      "urgency": "Medium-High",
+      "explanation": "Fake recruiter asks for registration, training, HR, certificate, or processing fee.",
+      "actions": [
+        "Stop payments",
+        "Verify company domain",
+        "File cyber complaint if paid",
+        "Report job post",
+        "Send refund demand if identifiable"
+      ],
+      "evidence": [
+        "Offer letter",
+        "Recruiter contact",
+        "Payment proof",
+        "Job listing"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station",
+        "National Consumer Helpline",
+        "Consumer Commission",
+        "Platform grievance officer"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Refund demand"
+      ],
+      "lawyer": "Optional unless high amount"
+    },
+    "task_job_scam": {
+      "title": "Task job / likes / reviews scam",
+      "urgency": "High",
+      "explanation": "Work-from-home task scam pays small amounts then asks deposits to continue or withdraw.",
+      "actions": [
+        "Stop deposits",
+        "Preserve task history",
+        "File cyber complaint",
+        "Report group/app",
+        "Do not share KYC"
+      ],
+      "evidence": [
+        "Task screenshots",
+        "Group links",
+        "Payment proof",
+        "Agent numbers"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Bank request"
+      ],
+      "lawyer": "Recommended"
+    },
+    "visa_job_scam": {
+      "title": "Overseas job / visa scam",
+      "urgency": "High",
+      "explanation": "Fake agents collect money for visa, ticket, processing, medical, permit, or embassy work.",
+      "actions": [
+        "Stop paying",
+        "Demand written license/details",
+        "File police/cyber complaint",
+        "Preserve documents",
+        "Warn others factually"
+      ],
+      "evidence": [
+        "Agent details",
+        "Receipts",
+        "Offer/visa letters",
+        "Passport copy shared"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station",
+        "112 for immediate danger",
+        "Nearest Police Station",
+        "Senior officer/SP/DCP escalation"
+      ],
+      "drafts": [
+        "Police complaint",
+        "Cyber complaint",
+        "Refund notice"
+      ],
+      "lawyer": "Recommended"
+    },
+    "equipment_deposit_job": {
+      "title": "Fake equipment/security deposit job scam",
+      "urgency": "Medium-High",
+      "explanation": "Recruiter asks refundable laptop/equipment/security deposit before onboarding.",
+      "actions": [
+        "Do not pay further",
+        "Verify official company email",
+        "File cyber complaint if paid",
+        "Report post",
+        "Request refund"
+      ],
+      "evidence": [
+        "Offer letter",
+        "Payment proof",
+        "Recruiter emails",
+        "Email headers"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Refund demand"
+      ],
+      "lawyer": "Optional"
+    },
+    "loan_app_harassment": {
+      "title": "Loan app harassment after borrowing",
+      "urgency": "Critical if threats/images",
+      "explanation": "Predatory loan app harasses despite repayment, uses contacts and threats.",
+      "actions": [
+        "Stop panic-paying repeatedly",
+        "Preserve harassment",
+        "File cyber complaint",
+        "File police complaint for threats",
+        "Tell contacts not to engage"
+      ],
+      "evidence": [
+        "App name/APK",
+        "Payment proof",
+        "Messages",
+        "Call logs",
+        "Contact screenshots"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station",
+        "112 for immediate danger",
+        "Nearest Police Station",
+        "Senior officer/SP/DCP escalation"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Police complaint",
+        "Contact-warning message"
+      ],
+      "lawyer": "Recommended"
+    },
+    "loan_app_contacts": {
+      "title": "Loan app contacting family/contacts",
+      "urgency": "Critical",
+      "explanation": "App scraped contacts and is using social shame to extort.",
+      "actions": [
+        "Tell contacts it is extortion",
+        "Save their screenshots",
+        "File cyber complaint",
+        "Police complaint for harassment",
+        "Do not install more apps"
+      ],
+      "evidence": [
+        "Contact screenshots",
+        "Call recordings",
+        "App details",
+        "Loan/payment records"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station",
+        "112 for immediate danger",
+        "Nearest Police Station",
+        "Senior officer/SP/DCP escalation"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Police complaint"
+      ],
+      "lawyer": "Recommended"
+    },
+    "loan_app_morphed": {
+      "title": "Loan app morphed image extortion",
+      "urgency": "Critical",
+      "explanation": "Morphed obscene/defamatory images are used to extract money.",
+      "actions": [
+        "Do not pay further",
+        "Save images/messages",
+        "File cyber and police complaint",
+        "Request takedown if shared",
+        "Warn trusted contacts"
+      ],
+      "evidence": [
+        "Morphed images",
+        "Sender numbers",
+        "Threat messages",
+        "Forwarded screenshots"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station",
+        "112 for immediate danger",
+        "Nearest Police Station",
+        "Senior officer/SP/DCP escalation"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Police complaint",
+        "Takedown request"
+      ],
+      "lawyer": "Urgent"
+    },
+    "fake_loan_extortion": {
+      "title": "Fake loan demand without borrowing",
+      "urgency": "High",
+      "explanation": "Scammers claim fake dues or loan records and threaten user.",
+      "actions": [
+        "Do not pay",
+        "Ask for agreement once then stop",
+        "File cyber complaint",
+        "Block/report numbers",
+        "Warn contacts if threatened"
+      ],
+      "evidence": [
+        "Threat messages",
+        "Numbers",
+        "App link",
+        "Fake loan docs"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station",
+        "112 for immediate danger",
+        "Nearest Police Station",
+        "Senior officer/SP/DCP escalation"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Police complaint"
+      ],
+      "lawyer": "Recommended"
+    },
+    "kyc_scam": {
+      "title": "Fake KYC/account block scam",
+      "urgency": "High",
+      "explanation": "Scammer claims KYC expired/account will block and pushes link/OTP/remote app.",
+      "actions": [
+        "Do not click links",
+        "Call bank from official source",
+        "Block card/account if details shared",
+        "Call 1930 if money gone",
+        "Change passwords"
+      ],
+      "evidence": [
+        "SMS/link",
+        "Caller number",
+        "Fake app",
+        "Transaction proof"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station",
+        "Bank fraud desk",
+        "Bank branch manager / nodal officer",
+        "RBI Ombudsman route if bank fails after complaint"
+      ],
+      "drafts": [
+        "Bank complaint",
+        "Cyber complaint"
+      ],
+      "lawyer": "Recommended if loss occurred"
+    },
+    "credit_card_reward": {
+      "title": "Credit card reward/limit scam",
+      "urgency": "High",
+      "explanation": "Reward points, limit upgrade, fee reversal, or closure bait used to capture OTP/card data.",
+      "actions": [
+        "Block card",
+        "Inform bank",
+        "Dispute transactions",
+        "File cyber complaint",
+        "Change credentials"
+      ],
+      "evidence": [
+        "Card SMS",
+        "OTP/caller details",
+        "Transactions",
+        "Fake link"
+      ],
+      "authorities": [
+        "Bank fraud desk",
+        "Bank branch manager / nodal officer",
+        "RBI Ombudsman route if bank fails after complaint",
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station"
+      ],
+      "drafts": [
+        "Card dispute",
+        "Cyber complaint"
+      ],
+      "lawyer": "Recommended if bank denies reversal"
+    },
+    "sim_trai_scam": {
+      "title": "TRAI/SIM misuse threat",
+      "urgency": "High",
+      "explanation": "Caller claims SIM/Aadhaar used in crime and pressures for verification/payment.",
+      "actions": [
+        "Do not share OTP",
+        "Verify with telecom provider",
+        "Do not join fake police call",
+        "Report cybercrime",
+        "Monitor accounts"
+      ],
+      "evidence": [
+        "Caller number",
+        "Messages",
+        "Video screenshots",
+        "Payment proof"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Telecom complaint"
+      ],
+      "lawyer": "Recommended if threats continue"
+    },
+    "account_lien": {
+      "title": "Bank account frozen / cyber lien",
+      "urgency": "Medium-High",
+      "explanation": "Account may be frozen because disputed funds entered it or linked cyber complaint exists.",
+      "actions": [
+        "Ask bank for written reason/reference",
+        "Collect proof of fund source",
+        "Contact investigating police if provided",
+        "Avoid moving questionable funds",
+        "Consult lawyer if account critical"
+      ],
+      "evidence": [
+        "Bank notice",
+        "Lien reference",
+        "Statement",
+        "Invoices/contracts"
+      ],
+      "authorities": [
+        "Bank fraud desk",
+        "Bank branch manager / nodal officer",
+        "RBI Ombudsman route if bank fails after complaint",
+        "112 for immediate danger",
+        "Nearest Police Station",
+        "Senior officer/SP/DCP escalation"
+      ],
+      "drafts": [
+        "Bank clarification request",
+        "Police representation"
+      ],
+      "lawyer": "Recommended"
+    },
+    "atm_misuse": {
+      "title": "ATM/debit card misuse",
+      "urgency": "High",
+      "explanation": "Card credentials or ATM access may be compromised.",
+      "actions": [
+        "Block card",
+        "Report bank immediately",
+        "File cyber/police complaint",
+        "Ask bank for dispute process",
+        "Preserve SMS/location"
+      ],
+      "evidence": [
+        "ATM SMS",
+        "Statement",
+        "Card status",
+        "Time/location"
+      ],
+      "authorities": [
+        "Bank fraud desk",
+        "Bank branch manager / nodal officer",
+        "RBI Ombudsman route if bank fails after complaint",
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station"
+      ],
+      "drafts": [
+        "Bank dispute",
+        "Police complaint"
+      ],
+      "lawyer": "Recommended"
+    },
+    "instagram_shop": {
+      "title": "Instagram/social shopping scam",
+      "urgency": "Medium-High",
+      "explanation": "Fake seller takes payment, blocks user, sends wrong product, or disappears.",
+      "actions": [
+        "Capture profile/page",
+        "Report profile",
+        "File cyber complaint if fraud",
+        "Raise card/UPI dispute if possible",
+        "Warn factually"
+      ],
+      "evidence": [
+        "Profile URL",
+        "Chats",
+        "Payment proof",
+        "Product post"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station",
+        "National Consumer Helpline",
+        "Consumer Commission",
+        "Platform grievance officer"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Platform report"
+      ],
+      "lawyer": "Optional for small amount"
+    },
+    "marketplace_scam": {
+      "title": "OLX/Facebook Marketplace scam",
+      "urgency": "High",
+      "explanation": "QR receive scam, fake army buyer, courier deposit, advance seller fraud.",
+      "actions": [
+        "Do not scan QR to receive",
+        "Preserve listing/chats",
+        "Report platform profile",
+        "Call 1930 if loss",
+        "File cyber complaint"
+      ],
+      "evidence": [
+        "Listing URL",
+        "Profile",
+        "UPI proof",
+        "Chats"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Platform report"
+      ],
+      "lawyer": "Depends on amount"
+    },
+    "courier_customs": {
+      "title": "Courier/customs parcel scam",
+      "urgency": "Critical if fake police",
+      "explanation": "Scammer says parcel has drugs/passports/cash/customs issue and demands money or transfers to fake police.",
+      "actions": [
+        "Do not pay",
+        "Do not stay on video call",
+        "Verify tracking on official site",
+        "Report cybercrime",
+        "Call 1930 if paid"
+      ],
+      "evidence": [
+        "Tracking message",
+        "Caller number",
+        "Fake documents",
+        "Payment demand"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station",
+        "112 for immediate danger",
+        "Nearest Police Station",
+        "Senior officer/SP/DCP escalation"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Police complaint"
+      ],
+      "lawyer": "Recommended"
+    },
+    "ecommerce_refund": {
+      "title": "E-commerce refund/replacement fraud",
+      "urgency": "Medium-High",
+      "explanation": "Fake support agent or refund link tricks user into UPI/card/bank compromise.",
+      "actions": [
+        "Use official app only",
+        "Do not enter UPI PIN to receive refund",
+        "Block card/account if details shared",
+        "File cyber complaint if money lost"
+      ],
+      "evidence": [
+        "Order ID",
+        "Fake number/link",
+        "Payment proof",
+        "Chats"
+      ],
+      "authorities": [
+        "National Consumer Helpline",
+        "Consumer Commission",
+        "Platform grievance officer",
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station"
+      ],
+      "drafts": [
+        "Platform complaint",
+        "Cyber complaint"
+      ],
+      "lawyer": "Optional unless money lost"
+    },
+    "matrimonial_scam": {
+      "title": "Matrimonial profile money scam",
+      "urgency": "High",
+      "explanation": "Fake marriage prospect builds trust and asks money for emergency/travel/customs/investment.",
+      "actions": [
+        "Stop payments",
+        "Preserve profile/chats",
+        "Verify identity independently",
+        "File cyber complaint",
+        "Report profile"
+      ],
+      "evidence": [
+        "Profile screenshots",
+        "Chats",
+        "Payment proof",
+        "ID documents"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Platform complaint"
+      ],
+      "lawyer": "Recommended"
+    },
+    "romance_scam": {
+      "title": "Romance/dating app money scam",
+      "urgency": "High",
+      "explanation": "Relationship trust used for money, gifts, travel funds, medical help, or emergencies.",
+      "actions": [
+        "Stop paying",
+        "Do not share more private material",
+        "Preserve chats",
+        "File cyber complaint",
+        "Report profile"
+      ],
+      "evidence": [
+        "Profile",
+        "Chats",
+        "Payment proof",
+        "Identity claims"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Platform report"
+      ],
+      "lawyer": "Recommended if significant"
+    },
+    "honey_trap": {
+      "title": "Honey trap scam",
+      "urgency": "Critical if blackmail",
+      "explanation": "Victim is lured into compromising interaction and then threatened for money/reputation.",
+      "actions": [
+        "Do not keep paying",
+        "Preserve threats",
+        "File cyber/police complaint",
+        "Tell one trusted person if safety risk",
+        "Avoid meeting privately"
+      ],
+      "evidence": [
+        "Chats",
+        "Calls",
+        "Payment demands",
+        "Threat screenshots"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station",
+        "112 for immediate danger",
+        "Nearest Police Station",
+        "Senior officer/SP/DCP escalation"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Police complaint"
+      ],
+      "lawyer": "Recommended/Urgent"
+    },
+    "digital_arrest": {
+      "title": "Digital arrest / fake police video call",
+      "urgency": "Critical",
+      "explanation": "Fraudsters impersonate police/CBI/ED/Narcotics/TRAI and claim user is under digital arrest. Authorities do not arrest by video call.",
+      "actions": [
+        "Disconnect call",
+        "Do not pay fine/security deposit",
+        "Call 1930 if paid",
+        "Report on cybercrime.gov.in",
+        "Call local police/112 if physically threatened"
+      ],
+      "evidence": [
+        "Caller ID",
+        "Video screenshots",
+        "Fake notices",
+        "Payment proof",
+        "Bank accounts given"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station",
+        "112 for immediate danger",
+        "Nearest Police Station",
+        "Senior officer/SP/DCP escalation"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Police complaint",
+        "Bank freeze request"
+      ],
+      "lawyer": "Urgent"
+    },
+    "fake_parcel_threat": {
+      "title": "Fake parcel crime threat",
+      "urgency": "Critical",
+      "explanation": "Caller claims parcel in user's name contains drugs/passports/cash and uses fear to extract money.",
+      "actions": [
+        "Do not stay on call",
+        "Verify courier independently",
+        "Do not share Aadhaar/bank details",
+        "Report cybercrime",
+        "Call 1930 if paid"
+      ],
+      "evidence": [
+        "Parcel number",
+        "Caller number",
+        "Fake documents",
+        "Payment demand"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station",
+        "112 for immediate danger",
+        "Nearest Police Station",
+        "Senior officer/SP/DCP escalation"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Courier verification email"
+      ],
+      "lawyer": "Recommended"
+    },
+    "identity_misuse_threat": {
+      "title": "Aadhaar/SIM/bank identity misuse threat",
+      "urgency": "High-Critical",
+      "explanation": "Scammer says identity is used in crime and pressures for money/data.",
+      "actions": [
+        "Do not share OTP/Aadhaar on call",
+        "Verify independently",
+        "Report cybercrime",
+        "Monitor bank accounts",
+        "Change passwords if details shared"
+      ],
+      "evidence": [
+        "Caller details",
+        "Messages",
+        "Documents shown",
+        "Data shared"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Telecom/bank intimation"
+      ],
+      "lawyer": "Recommended"
+    },
+    "fake_police_payment": {
+      "title": "Fake police fine/security deposit demand",
+      "urgency": "Critical",
+      "explanation": "Demand to transfer money to avoid arrest during call/video call is a scam signal.",
+      "actions": [
+        "Do not pay",
+        "Disconnect",
+        "Report cybercrime",
+        "Call 1930 if paid",
+        "Inform bank for freeze/reversal"
+      ],
+      "evidence": [
+        "Payment details demanded",
+        "Caller number",
+        "Video screenshots",
+        "UPI/bank IDs"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station",
+        "112 for immediate danger",
+        "Nearest Police Station",
+        "Senior officer/SP/DCP escalation"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Bank freeze request"
+      ],
+      "lawyer": "Urgent"
+    },
+    "sextortion_real": {
+      "title": "Sextortion with real intimate content",
+      "urgency": "Critical",
+      "explanation": "Threat to leak intimate content unless user pays or complies.",
+      "actions": [
+        "Do not pay repeatedly",
+        "Preserve threats",
+        "Report cybercrime",
+        "If minor involved seek urgent police help",
+        "Request platform takedown if shared"
+      ],
+      "evidence": [
+        "Threat messages",
+        "Profile/number",
+        "Payment demands",
+        "Where content may be posted"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station",
+        "112 for immediate danger",
+        "Nearest Police Station",
+        "Senior officer/SP/DCP escalation"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Police complaint",
+        "Takedown request"
+      ],
+      "lawyer": "Urgent"
+    },
+    "sextortion_morphed": {
+      "title": "Sextortion with morphed/fake content",
+      "urgency": "Critical",
+      "explanation": "Fake/morphed obscene content is used for blackmail.",
+      "actions": [
+        "Do not pay",
+        "Save fake content as evidence",
+        "Report cybercrime",
+        "Ask recipients not to forward",
+        "Request platform takedown"
+      ],
+      "evidence": [
+        "Morphed image/video",
+        "Sender numbers",
+        "Threats",
+        "Recipient screenshots"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station",
+        "112 for immediate danger",
+        "Nearest Police Station",
+        "Senior officer/SP/DCP escalation"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Police complaint",
+        "Takedown request"
+      ],
+      "lawyer": "Urgent"
+    },
+    "sextortion_contact_threat": {
+      "title": "Threat to send content to contacts",
+      "urgency": "Critical",
+      "explanation": "Threatening contacts is an extortion tactic. Paying often leads to repeated demands.",
+      "actions": [
+        "Do not pay further",
+        "Secure social accounts",
+        "Preserve threats",
+        "Report cybercrime",
+        "Warn trusted contacts briefly if needed"
+      ],
+      "evidence": [
+        "Threats",
+        "Contact-list screenshots",
+        "Profile/number",
+        "Payment demands"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station",
+        "112 for immediate danger",
+        "Nearest Police Station",
+        "Senior officer/SP/DCP escalation"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Trusted-contact message"
+      ],
+      "lawyer": "Urgent"
+    },
+    "sextortion_shared": {
+      "title": "Private/morphed content already shared",
+      "urgency": "Critical",
+      "explanation": "Immediate focus is evidence, takedown, reporting, and safety support.",
+      "actions": [
+        "Do not delete evidence",
+        "Save URLs/screenshots",
+        "Report platform takedown",
+        "File cyber/police complaint",
+        "Get trusted support"
+      ],
+      "evidence": [
+        "URLs",
+        "Screenshots",
+        "Sender IDs",
+        "Recipient evidence"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station",
+        "112 for immediate danger",
+        "Nearest Police Station",
+        "Senior officer/SP/DCP escalation"
+      ],
+      "drafts": [
+        "Takedown request",
+        "Cyber complaint",
+        "Police complaint"
+      ],
+      "lawyer": "Urgent"
+    },
+    "private_info_blackmail": {
+      "title": "Private information blackmail",
+      "urgency": "High",
+      "explanation": "Someone threatens to expose private information unless user pays or obeys.",
+      "actions": [
+        "Preserve exact threats",
+        "Do not negotiate endlessly",
+        "Secure accounts",
+        "Report if money demanded",
+        "Consult lawyer for reputation stakes"
+      ],
+      "evidence": [
+        "Threat messages",
+        "Information threatened",
+        "Demand details",
+        "Identity"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station",
+        "112 for immediate danger",
+        "Nearest Police Station",
+        "Senior officer/SP/DCP escalation"
+      ],
+      "drafts": [
+        "Police complaint",
+        "Legal notice",
+        "Cyber complaint"
+      ],
+      "lawyer": "Recommended"
+    },
+    "business_extortion": {
+      "title": "Business/reputation extortion",
+      "urgency": "High",
+      "explanation": "Threat involves reviews, defamatory posts, client exposure, or business disruption unless paid.",
+      "actions": [
+        "Preserve threats",
+        "Do not pay without strategy",
+        "Prepare evidence",
+        "Send legal notice if identifiable",
+        "Report cyber extortion if online"
+      ],
+      "evidence": [
+        "Threats",
+        "Profiles",
+        "Business records",
+        "Payment demands"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station",
+        "112 for immediate danger",
+        "Nearest Police Station",
+        "Senior officer/SP/DCP escalation"
+      ],
+      "drafts": [
+        "Legal notice",
+        "Police complaint",
+        "Takedown request"
+      ],
+      "lawyer": "Recommended"
+    },
+    "false_case_threat": {
+      "title": "False case / false allegation threat",
+      "urgency": "High",
+      "explanation": "Threat of false complaint/public accusation used to extort money/control behavior.",
+      "actions": [
+        "Preserve messages",
+        "Do not threaten back",
+        "Prepare chronology",
+        "Consult lawyer if serious",
+        "Consider preventive police representation"
+      ],
+      "evidence": [
+        "Chats",
+        "Call logs",
+        "Witnesses",
+        "Chronology"
+      ],
+      "authorities": [
+        "112 for immediate danger",
+        "Nearest Police Station",
+        "Senior officer/SP/DCP escalation"
+      ],
+      "drafts": [
+        "Preventive complaint",
+        "Lawyer brief"
+      ],
+      "lawyer": "Recommended"
+    },
+    "repeat_extortion": {
+      "title": "Repeated extortion demands",
+      "urgency": "Critical if ongoing",
+      "explanation": "Repeated demands often continue after payment. Priority is reporting and safety.",
+      "actions": [
+        "Stop further payment unless advised",
+        "Preserve demands",
+        "Report to police/cybercrime",
+        "Inform bank if transfers made",
+        "Create safety plan"
+      ],
+      "evidence": [
+        "Payment history",
+        "Threats",
+        "Scammer IDs",
+        "Call logs"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station",
+        "112 for immediate danger",
+        "Nearest Police Station",
+        "Senior officer/SP/DCP escalation"
+      ],
+      "drafts": [
+        "Police complaint",
+        "Cyber complaint"
+      ],
+      "lawyer": "Urgent"
+    },
+    "whatsapp_harassment": {
+      "title": "Phone/WhatsApp harassment",
+      "urgency": "Medium-High",
+      "explanation": "Repeated calls/messages may be harassment, stalking, intimidation, or extortion.",
+      "actions": [
+        "Do not engage emotionally",
+        "Take screenshots/call logs",
+        "Block after evidence",
+        "Report WhatsApp/account",
+        "File police complaint if threats/obscenity/extortion"
+      ],
+      "evidence": [
+        "Call logs",
+        "Messages",
+        "Voice notes",
+        "Numbers"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station",
+        "112 for immediate danger",
+        "Nearest Police Station",
+        "Senior officer/SP/DCP escalation"
+      ],
+      "drafts": [
+        "Police complaint",
+        "Platform report"
+      ],
+      "lawyer": "Depends on severity"
+    },
+    "social_harassment": {
+      "title": "Social media harassment/impersonation",
+      "urgency": "Medium-High",
+      "explanation": "Abusive DMs, impersonation, threats, obscene messages, or public defamation online.",
+      "actions": [
+        "Save URLs/usernames",
+        "Report platform",
+        "Lock privacy",
+        "File cyber complaint if threats/obscenity/impersonation",
+        "Avoid mass retaliation"
+      ],
+      "evidence": [
+        "Profile URLs",
+        "Screenshots",
+        "Post/comment links",
+        "Dates"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Platform takedown"
+      ],
+      "lawyer": "Recommended if threats/impersonation"
+    },
+    "offline_stalking": {
+      "title": "Offline stalking/following",
+      "urgency": "Critical if physical danger",
+      "explanation": "Repeated following/unwanted visits can escalate. Safety comes before documentation.",
+      "actions": [
+        "Move to safe place",
+        "Call 112 if immediate danger",
+        "Tell trusted people",
+        "Preserve CCTV/location proof",
+        "File police complaint"
+      ],
+      "evidence": [
+        "Photos/videos",
+        "CCTV references",
+        "Witness names",
+        "Timeline"
+      ],
+      "authorities": [
+        "112 for immediate danger",
+        "Nearest Police Station",
+        "Senior officer/SP/DCP escalation"
+      ],
+      "drafts": [
+        "Police complaint",
+        "Safety incident log"
+      ],
+      "lawyer": "Urgent"
+    },
+    "known_person_threat": {
+      "title": "Known person/ex threatening",
+      "urgency": "High-Critical",
+      "explanation": "Threats from known people may involve stalking, blackmail, domestic violence, or extortion.",
+      "actions": [
+        "Do not meet alone",
+        "Preserve messages",
+        "Tell trusted person",
+        "File police complaint if threats continue",
+        "Consult lawyer if false cases involved"
+      ],
+      "evidence": [
+        "Chats",
+        "Call logs",
+        "Prior incidents",
+        "Witnesses"
+      ],
+      "authorities": [
+        "112 for immediate danger",
+        "Nearest Police Station",
+        "Senior officer/SP/DCP escalation"
+      ],
+      "drafts": [
+        "Police complaint",
+        "Preventive complaint"
+      ],
+      "lawyer": "Recommended/Urgent"
+    },
+    "cyber_report_needed": {
+      "title": "Need to report online fraud",
+      "urgency": "High if recent",
+      "explanation": "User needs guided cybercrime report and bank freeze process.",
+      "actions": [
+        "Call 1930 for recent money loss",
+        "File cybercrime.gov.in complaint",
+        "Upload evidence",
+        "Save acknowledgement",
+        "Follow up with bank"
+      ],
+      "evidence": [
+        "Transaction ID",
+        "Scammer info",
+        "Screenshots",
+        "Bank statement"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Bank follow-up"
+      ],
+      "lawyer": "Not initially"
+    },
+    "1930_issue": {
+      "title": "1930 not reachable / not answered",
+      "urgency": "High",
+      "explanation": "If helpline fails, file online and contact bank immediately in parallel.",
+      "actions": [
+        "Keep trying 1930",
+        "File portal complaint",
+        "Call bank fraud desk",
+        "Visit cyber police if high amount",
+        "Record attempts"
+      ],
+      "evidence": [
+        "Call logs",
+        "Transaction proof",
+        "Complaint draft"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station",
+        "Bank fraud desk",
+        "Bank branch manager / nodal officer",
+        "RBI Ombudsman route if bank fails after complaint"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Bank freeze request"
+      ],
+      "lawyer": "Optional"
+    },
+    "portal_delay": {
+      "title": "Cyber portal complaint delay",
+      "urgency": "Medium-High",
+      "explanation": "User needs follow-up and escalation record after filing.",
+      "actions": [
+        "Save acknowledgement",
+        "Follow with bank",
+        "Follow with cyber police",
+        "Send written escalation",
+        "Track all communication"
+      ],
+      "evidence": [
+        "Acknowledgement",
+        "Bank ticket",
+        "Evidence bundle"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station",
+        "Bank fraud desk",
+        "Bank branch manager / nodal officer",
+        "RBI Ombudsman route if bank fails after complaint"
+      ],
+      "drafts": [
+        "Follow-up letter",
+        "Escalation email"
+      ],
+      "lawyer": "Recommended for high amount"
+    },
+    "bank_needs_cyber": {
+      "title": "Bank asking for cyber complaint",
+      "urgency": "High",
+      "explanation": "Bank may require cyber acknowledgement to process freeze/dispute.",
+      "actions": [
+        "File cyber complaint",
+        "Submit acknowledgement to bank",
+        "Ask bank for written confirmation",
+        "Escalate to nodal officer if delayed"
+      ],
+      "evidence": [
+        "Cyber acknowledgement",
+        "Transaction details",
+        "Bank ticket"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station",
+        "Bank fraud desk",
+        "Bank branch manager / nodal officer",
+        "RBI Ombudsman route if bank fails after complaint"
+      ],
+      "drafts": [
+        "Bank submission email",
+        "Nodal escalation"
+      ],
+      "lawyer": "Optional"
+    },
+    "fir_refused": {
+      "title": "Police refused FIR/complaint",
+      "urgency": "Medium-High",
+      "explanation": "Written escalation and senior officer route may be needed.",
+      "actions": [
+        "Submit written complaint",
+        "Keep receiving copy",
+        "Ask for diary/DD entry",
+        "Escalate to SP/DCP",
+        "Consult lawyer for magistrate route if serious"
+      ],
+      "evidence": [
+        "Written complaint",
+        "Refusal details",
+        "Evidence bundle"
+      ],
+      "authorities": [
+        "112 for immediate danger",
+        "Nearest Police Station",
+        "Senior officer/SP/DCP escalation"
+      ],
+      "drafts": [
+        "Senior officer escalation",
+        "Complaint draft"
+      ],
+      "lawyer": "Recommended if serious"
+    },
+    "civil_matter_pushback": {
+      "title": "Police says it is civil matter",
+      "urgency": "Medium",
+      "explanation": "Some disputes are civil, but deception/threats may still justify criminal complaint depending on facts.",
+      "actions": [
+        "Clarify deception from beginning",
+        "Show false promise evidence",
+        "Ask for written receipt",
+        "Consider consumer/civil route",
+        "Consult lawyer if police refuses"
+      ],
+      "evidence": [
+        "Agreement/chats",
+        "Payment proof",
+        "False promise evidence"
+      ],
+      "authorities": [
+        "112 for immediate danger",
+        "Nearest Police Station",
+        "Senior officer/SP/DCP escalation",
+        "National Consumer Helpline",
+        "Consumer Commission",
+        "Platform grievance officer"
+      ],
+      "drafts": [
+        "Complaint refinement",
+        "Legal notice"
+      ],
+      "lawyer": "Recommended"
+    },
+    "threat_police_inaction": {
+      "title": "Threat case but police not acting",
+      "urgency": "High-Critical",
+      "explanation": "Safety-first escalation is needed where threats/stalking/extortion exist.",
+      "actions": [
+        "Call 112 if immediate danger",
+        "Submit written complaint",
+        "Escalate to senior police",
+        "Preserve evidence",
+        "Avoid confrontation"
+      ],
+      "evidence": [
+        "Threat screenshots",
+        "Call logs",
+        "Witnesses"
+      ],
+      "authorities": [
+        "112 for immediate danger",
+        "Nearest Police Station",
+        "Senior officer/SP/DCP escalation"
+      ],
+      "drafts": [
+        "Threat complaint",
+        "Escalation letter"
+      ],
+      "lawyer": "Recommended/Urgent"
+    },
+    "bank_reversal": {
+      "title": "Bank freeze/reversal request after fraud",
+      "urgency": "High",
+      "explanation": "Bank needs quick fraud intimation with transaction IDs and cyber acknowledgement.",
+      "actions": [
+        "Call bank fraud desk",
+        "Submit written freeze/reversal request",
+        "Attach cyber complaint",
+        "Ask ticket number",
+        "Escalate if delayed"
+      ],
+      "evidence": [
+        "Transaction IDs",
+        "Cyber complaint",
+        "Bank statement"
+      ],
+      "authorities": [
+        "Bank fraud desk",
+        "Bank branch manager / nodal officer",
+        "RBI Ombudsman route if bank fails after complaint",
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station"
+      ],
+      "drafts": [
+        "Bank freeze request",
+        "Nodal escalation"
+      ],
+      "lawyer": "Optional"
+    },
+    "bank_rejected": {
+      "title": "Bank rejected fraud complaint",
+      "urgency": "Medium-High",
+      "explanation": "User may need written rejection, nodal escalation, and RBI Ombudsman route.",
+      "actions": [
+        "Ask written reason",
+        "Escalate to nodal officer",
+        "Prepare timeline",
+        "Use RBI Ombudsman if unresolved",
+        "Attach cyber complaint"
+      ],
+      "evidence": [
+        "Bank rejection",
+        "Complaint timestamps",
+        "Cyber complaint"
+      ],
+      "authorities": [
+        "Bank fraud desk",
+        "Bank branch manager / nodal officer",
+        "RBI Ombudsman route if bank fails after complaint"
+      ],
+      "drafts": [
+        "Nodal escalation",
+        "RBI complaint"
+      ],
+      "lawyer": "Recommended"
+    },
+    "consumer_refund": {
+      "title": "E-commerce/seller refund problem",
+      "urgency": "Low-Medium",
+      "explanation": "May be consumer complaint unless seller was fake/fraudulent.",
+      "actions": [
+        "Raise platform grievance",
+        "Send written refund demand",
+        "Use National Consumer Helpline",
+        "File consumer complaint if unresolved",
+        "Use cyber route for fake seller"
+      ],
+      "evidence": [
+        "Order ID",
+        "Invoice",
+        "Chats",
+        "Delivery proof"
+      ],
+      "authorities": [
+        "National Consumer Helpline",
+        "Consumer Commission",
+        "Platform grievance officer"
+      ],
+      "drafts": [
+        "Refund demand",
+        "Consumer complaint"
+      ],
+      "lawyer": "Optional"
+    },
+    "telecom_issue": {
+      "title": "Telecom/SIM complaint issue",
+      "urgency": "Medium",
+      "explanation": "SIM misuse/SIM swap/telecom grievance may require telecom and cyber escalation.",
+      "actions": [
+        "Contact telecom provider",
+        "Block/replace SIM if compromised",
+        "File cyber complaint if financial loss",
+        "Preserve messages",
+        "Escalate to telecom grievance"
+      ],
+      "evidence": [
+        "SIM messages",
+        "Provider complaint",
+        "Transaction proof"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station",
+        "Telecom provider grievance officer"
+      ],
+      "drafts": [
+        "Telecom complaint",
+        "Cyber complaint"
+      ],
+      "lawyer": "Optional"
+    },
+    "travel_booking_scam": {
+      "title": "Travel booking/refund scam",
+      "urgency": "Medium-High",
+      "explanation": "Can be consumer dispute or scam depending on fake agency/payment deception.",
+      "actions": [
+        "Preserve booking proof",
+        "Verify agency",
+        "Raise platform/payment dispute",
+        "File consumer complaint",
+        "File cyber complaint if fake agency vanished"
+      ],
+      "evidence": [
+        "Tickets",
+        "Receipts",
+        "Chats",
+        "Website URL"
+      ],
+      "authorities": [
+        "National Consumer Helpline",
+        "Consumer Commission",
+        "Platform grievance officer",
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station"
+      ],
+      "drafts": [
+        "Refund demand",
+        "Consumer complaint",
+        "Cyber complaint"
+      ],
+      "lawyer": "Optional"
+    },
+    "course_scam": {
+      "title": "Course/coaching/education scam",
+      "urgency": "Medium",
+      "explanation": "False placement/refund promises may be consumer issue; fake institute may be fraud.",
+      "actions": [
+        "Collect ads/promises",
+        "Ask refund in writing",
+        "Use consumer route",
+        "File police/cyber complaint if fake",
+        "Avoid unsupported public allegations"
+      ],
+      "evidence": [
+        "Brochure/ads",
+        "Payment receipt",
+        "Chats",
+        "Refund policy"
+      ],
+      "authorities": [
+        "National Consumer Helpline",
+        "Consumer Commission",
+        "Platform grievance officer",
+        "112 for immediate danger",
+        "Nearest Police Station",
+        "Senior officer/SP/DCP escalation"
+      ],
+      "drafts": [
+        "Refund demand",
+        "Consumer complaint"
+      ],
+      "lawyer": "Optional"
+    },
+    "salary_not_paid": {
+      "title": "Salary not paid",
+      "urgency": "Medium",
+      "explanation": "Employer has delayed/withheld wages/salary. Route depends on employee vs contractor.",
+      "actions": [
+        "Send written salary demand",
+        "Collect offer letter/payslips",
+        "Approach labour authority if employee",
+        "Consider legal notice",
+        "For contractor use recovery route"
+      ],
+      "evidence": [
+        "Offer letter",
+        "Payslips",
+        "Bank statement",
+        "Emails"
+      ],
+      "authorities": [
+        "Labour Commissioner",
+        "Company HR",
+        "Lawyer/civil route"
+      ],
+      "drafts": [
+        "Salary demand",
+        "Labour complaint"
+      ],
+      "lawyer": "Recommended if 2+ months"
+    },
+    "freelance_unpaid": {
+      "title": "Freelance/client not paying",
+      "urgency": "Low-Medium",
+      "explanation": "Usually contract/recovery unless deception from start.",
+      "actions": [
+        "Send invoice/demand",
+        "Collect delivery proof",
+        "Check contract terms",
+        "Send legal notice if ignored",
+        "Use platform dispute if applicable"
+      ],
+      "evidence": [
+        "Contract",
+        "Invoice",
+        "Delivery proof",
+        "Chats"
+      ],
+      "authorities": [
+        "Client",
+        "Platform dispute",
+        "Lawyer/civil route"
+      ],
+      "drafts": [
+        "Payment demand",
+        "Legal notice"
+      ],
+      "lawyer": "Optional"
+    },
+    "deposit_not_returned": {
+      "title": "Security deposit not returned",
+      "urgency": "Medium",
+      "explanation": "Landlord withholding deposit after move-out needs agreement, handover proof and written demand.",
+      "actions": [
+        "Send written demand",
+        "Ask itemized deductions",
+        "Preserve move-out photos",
+        "Check agreement",
+        "Use legal notice if ignored"
+      ],
+      "evidence": [
+        "Rent agreement",
+        "Deposit proof",
+        "Move-out photos",
+        "Chats"
+      ],
+      "authorities": [
+        "Landlord",
+        "Rent/civil route depending state"
+      ],
+      "drafts": [
+        "Deposit demand",
+        "Legal notice"
+      ],
+      "lawyer": "Optional/Recommended"
+    },
+    "illegal_eviction": {
+      "title": "Illegal eviction/threat by landlord",
+      "urgency": "High",
+      "explanation": "Threats, lockout, forced eviction need urgent record and possible police/legal help.",
+      "actions": [
+        "Do not leave under threat without record",
+        "Preserve threats",
+        "Call police if force/violence",
+        "Check agreement",
+        "Consult lawyer"
+      ],
+      "evidence": [
+        "Agreement",
+        "Threat messages",
+        "Photos/videos",
+        "Rent proof"
+      ],
+      "authorities": [
+        "112 for immediate danger",
+        "Nearest Police Station",
+        "Senior officer/SP/DCP escalation"
+      ],
+      "drafts": [
+        "Police complaint",
+        "Legal notice"
+      ],
+      "lawyer": "Recommended/Urgent"
+    },
+    "rental_listing": {
+      "title": "Rental listing/broker scam",
+      "urgency": "Medium-High",
+      "explanation": "Fake flat/broker collects token/visit/booking amount and vanishes.",
+      "actions": [
+        "Verify property before paying",
+        "Preserve listing/broker details",
+        "File cyber complaint if paid online",
+        "Report platform",
+        "Demand refund if identifiable"
+      ],
+      "evidence": [
+        "Listing URL",
+        "Broker phone",
+        "Payment proof",
+        "Property photos"
+      ],
+      "authorities": [
+        "1930 cyber financial fraud helpline",
+        "cybercrime.gov.in",
+        "Bank/payment app fraud desk",
+        "Nearest Cyber Police Station",
+        "National Consumer Helpline",
+        "Consumer Commission",
+        "Platform grievance officer"
+      ],
+      "drafts": [
+        "Cyber complaint",
+        "Refund demand"
+      ],
+      "lawyer": "Recommended"
+    },
+    "domestic_violence": {
+      "title": "Domestic violence",
+      "urgency": "Critical if immediate danger",
+      "explanation": "Safety-first issue. Legal routes include police, protection support, shelter/helpline and court protection.",
+      "actions": [
+        "Call 112 if immediate danger",
+        "Move to safe place if possible",
+        "Tell trusted person",
+        "Preserve medical/photos/messages",
+        "Contact local women helpline/support"
+      ],
+      "evidence": [
+        "Injury photos",
+        "Medical records",
+        "Threats",
+        "Witnesses"
+      ],
+      "authorities": [
+        "112 for immediate danger",
+        "Nearest Police Station",
+        "Senior officer/SP/DCP escalation",
+        "Women helpline/protection support where available"
+      ],
+      "drafts": [
+        "Police complaint",
+        "Protection support brief"
+      ],
+      "lawyer": "Urgent"
+    },
+    "family_relationship_threat": {
+      "title": "Family threatening adult relationship",
+      "urgency": "High if violence/confinement",
+      "explanation": "Adults need safety planning if family threatens violence, confinement, or forced marriage.",
+      "actions": [
+        "Do not escalate alone",
+        "Preserve threats",
+        "Move to safe place if immediate risk",
+        "Call police/112 if confined or attacked",
+        "Consult lawyer/NGO if protection needed"
+      ],
+      "evidence": [
+        "Threat messages",
+        "Call recordings",
+        "ID proof",
+        "Location/safety details"
+      ],
+      "authorities": [
+        "112 for immediate danger",
+        "Nearest Police Station",
+        "Senior officer/SP/DCP escalation",
+        "Legal aid/NGO"
+      ],
+      "drafts": [
+        "Police protection request"
+      ],
+      "lawyer": "Recommended/Urgent"
+    }
+  }
+}
