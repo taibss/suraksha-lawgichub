@@ -238,75 +238,75 @@ function Chatbot() {
     const t = text.toLowerCase();
 
     const leafMatches: [string[], string][] = [
-      [[ "digital arrest", "fake police video call", "video call police" ], "digital_arrest" ],
-      [[ "parcel threat", "fake parcel", "parcel crime" ], "fake_parcel_threat" ],
-      [[ "identity misuse", "aadhaar misuse", "sim misuse threat" ], "identity_misuse_threat" ],
-      [[ "police fine", "security deposit police" ], "fake_police_payment" ],
-      [[ "sextortion", "intimate", "naked video", "nude video" ], "sextortion_real" ],
-      [[ "morphed photo", "morphed video", "fake photo", "fake nude" ], "sextortion_morphed" ],
-      [[ "send to contacts", "send to family", "share with contacts" ], "sextortion_contact_threat" ],
-      [[ "already shared", "photo leaked", "video leaked" ], "sextortion_shared" ],
-      [[ "private information", "personal info blackmail" ], "private_info_blackmail" ],
-      [[ "business extortion", "reputation extortion" ], "business_extortion" ],
-      [[ "false case", "false allegation" ], "false_case_threat" ],
-      [[ "repeat extortion", "repeated extortion" ], "repeat_extortion" ],
-      [[ "whatsapp harassment", "phone harassment", "call harassment" ], "whatsapp_harassment" ],
-      [[ "social media harassment", "impersonation", "fake account" ], "social_harassment" ],
-      [[ "stalking", "following me", "offline stalking" ], "offline_stalking" ],
-      [[ "ex threatening", "known person", "neighbour threat" ], "known_person_threat" ],
+      [["digital arrest", "fake police video call", "video call police"], "digital_arrest"],
+      [["parcel threat", "fake parcel", "parcel crime"], "fake_parcel_threat"],
+      [["identity misuse", "aadhaar misuse", "sim misuse threat"], "identity_misuse_threat"],
+      [["police fine", "security deposit police"], "fake_police_payment"],
+      [["sextortion", "intimate", "naked video", "nude video"], "sextortion_real"],
+      [["morphed photo", "morphed video", "fake photo", "fake nude"], "sextortion_morphed"],
+      [["send to contacts", "send to family", "share with contacts"], "sextortion_contact_threat"],
+      [["already shared", "photo leaked", "video leaked"], "sextortion_shared"],
+      [["private information", "personal info blackmail"], "private_info_blackmail"],
+      [["business extortion", "reputation extortion"], "business_extortion"],
+      [["false case", "false allegation"], "false_case_threat"],
+      [["repeat extortion", "repeated extortion"], "repeat_extortion"],
+      [["whatsapp harassment", "phone harassment", "call harassment"], "whatsapp_harassment"],
+      [["social media harassment", "impersonation", "fake account"], "social_harassment"],
+      [["stalking", "following me", "offline stalking"], "offline_stalking"],
+      [["ex threatening", "known person", "neighbour threat"], "known_person_threat"],
 
-      [[ "upi paid", "upi blocked", "gpay blocked", "phonepe blocked", "paytm blocked" ], "upi_paid_blocked" ],
-      [[ "qr code", "scan qr", "qr receive", "receive money qr" ], "qr_receive_scam" ],
-      [[ "shared otp", "otp scam", "upi pin scam", "card detail scam" ], "otp_pin_scam" ],
-      [[ "remote access", "anydesk", "teamviewer", "bank drain" ], "remote_access_scam" ],
-      [[ "fake customer care", "customer care scam" ], "fake_customer_care" ],
-      [[ "unauthorised transaction", "unauthorized transaction" ], "unauthorised_transaction" ],
-      [[ "telegram investment", "whatsapp investment", "telegram group scam" ], "telegram_investment" ],
-      [[ "crypto scam", "bitcoin scam", "fake exchange", "crypto trading" ], "crypto_scam" ],
-      [[ "sebi", "rbi regulated", "regulated investment" ], "fake_regulated_investment" ],
-      [[ "task investment", "recharge scam", "investment task" ], "task_investment" ],
-      [[ "job fee", "registration fee", "training fee scam" ], "job_fee_scam" ],
-      [[ "task job", "likes scam", "reviews scam", "youtube like" ], "task_job_scam" ],
-      [[ "visa scam", "overseas job", "foreign job" ], "visa_job_scam" ],
-      [[ "equipment deposit", "security deposit job" ], "equipment_deposit_job" ],
-      [[ "loan app harassment", "loan app threatening", "abusive loan" ], "loan_app_harassment" ],
-      [[ "loan app contacts", "loan app family", "loan app friends" ], "loan_app_contacts" ],
-      [[ "morphed image loan", "loan app photo" ], "loan_app_morphed" ],
-      [[ "fake loan demand", "loan without borrowing" ], "fake_loan_extortion" ],
-      [[ "kyc scam", "kyc update", "account block scam" ], "kyc_scam" ],
-      [[ "credit card reward", "credit card limit", "reward points scam" ], "credit_card_reward" ],
-      [[ "trai scam", "sim misuse", "sim blocked", "sim card scam" ], "sim_trai_scam" ],
-      [[ "account frozen", "cyber lien", "bank freeze" ], "account_lien" ],
-      [[ "atm misuse", "debit card misuse", "card cloned" ], "atm_misuse" ],
-      [[ "instagram scam", "instagram shop", "social media shop" ], "instagram_shop" ],
-      [[ "olx scam", "facebook marketplace", "marketplace scam" ], "marketplace_scam" ],
-      [[ "courier scam", "customs scam", "parcel scam", "courier parcel" ], "courier_customs" ],
-      [[ "refund scam", "ecommerce refund", "replacement fraud", "order refund" ], "ecommerce_refund" ],
-      [[ "matrimonial scam", "matrimony scam", "shaadi scam" ], "matrimonial_scam" ],
-      [[ "romance scam", "dating app scam", "online dating" ], "romance_scam" ],
-      [[ "honey trap", "honey trap scam" ], "honey_trap" ],
+      [["upi paid", "upi blocked", "gpay blocked", "phonepe blocked", "paytm blocked"], "upi_paid_blocked"],
+      [["qr code", "scan qr", "qr receive", "receive money qr"], "qr_receive_scam"],
+      [["shared otp", "otp scam", "upi pin scam", "card detail scam"], "otp_pin_scam"],
+      [["remote access", "anydesk", "teamviewer", "bank drain"], "remote_access_scam"],
+      [["fake customer care", "customer care scam"], "fake_customer_care"],
+      [["unauthorised transaction", "unauthorized transaction"], "unauthorised_transaction"],
+      [["telegram investment", "whatsapp investment", "telegram group scam"], "telegram_investment"],
+      [["crypto scam", "bitcoin scam", "fake exchange", "crypto trading"], "crypto_scam"],
+      [["sebi", "rbi regulated", "regulated investment"], "fake_regulated_investment"],
+      [["task investment", "recharge scam", "investment task"], "task_investment"],
+      [["job fee", "registration fee", "training fee scam"], "job_fee_scam"],
+      [["task job", "likes scam", "reviews scam", "youtube like"], "task_job_scam"],
+      [["visa scam", "overseas job", "foreign job"], "visa_job_scam"],
+      [["equipment deposit", "security deposit job"], "equipment_deposit_job"],
+      [["loan app harassment", "loan app threatening", "abusive loan"], "loan_app_harassment"],
+      [["loan app contacts", "loan app family", "loan app friends"], "loan_app_contacts"],
+      [["morphed image loan", "loan app photo"], "loan_app_morphed"],
+      [["fake loan demand", "loan without borrowing"], "fake_loan_extortion"],
+      [["kyc scam", "kyc update", "account block scam"], "kyc_scam"],
+      [["credit card reward", "credit card limit", "reward points scam"], "credit_card_reward"],
+      [["trai scam", "sim misuse", "sim blocked", "sim card scam"], "sim_trai_scam"],
+      [["account frozen", "cyber lien", "bank freeze"], "account_lien"],
+      [["atm misuse", "debit card misuse", "card cloned"], "atm_misuse"],
+      [["instagram scam", "instagram shop", "social media shop"], "instagram_shop"],
+      [["olx scam", "facebook marketplace", "marketplace scam"], "marketplace_scam"],
+      [["courier scam", "customs scam", "parcel scam", "courier parcel"], "courier_customs"],
+      [["refund scam", "ecommerce refund", "replacement fraud", "order refund"], "ecommerce_refund"],
+      [["matrimonial scam", "matrimony scam", "shaadi scam"], "matrimonial_scam"],
+      [["romance scam", "dating app scam", "online dating"], "romance_scam"],
+      [["honey trap", "honey trap scam"], "honey_trap"],
 
-      [[ "report online fraud", "file cyber complaint", "report cybercrime" ], "cyber_report_needed" ],
-      [[ "1930 not reachable", "1930 not working", "1930 busy" ], "1930_issue" ],
-      [[ "complaint delay", "portal update delay", "site not working" ], "portal_delay" ],
-      [[ "bank asking fir", "bank needs complaint", "bank asking cyber report" ], "bank_needs_cyber" ],
-      [[ "fir refused", "police refused fir", "police not registering" ], "fir_refused" ],
-      [[ "civil matter", "police says civil" ], "civil_matter_pushback" ],
-      [[ "police not acting", "police inaction", "threat police no action" ], "threat_police_inaction" ],
-      [[ "bank reversal", "bank freeze fraud", "transaction reversal" ], "bank_reversal" ],
-      [[ "bank rejected", "bank not helping", "bank complaint rejected" ], "bank_rejected" ],
-      [[ "consumer refund", "seller refund", "product refund" ], "consumer_refund" ],
-      [[ "telecom issue", "sim issue", "mobile network complaint", "jio airtel" ], "telecom_issue" ],
-      [[ "travel scam", "booking scam", "flight refund", "train refund" ], "travel_booking_scam" ],
-      [[ "course scam", "coaching scam", "education scam", "training scam" ], "course_scam" ],
+      [["report online fraud", "file cyber complaint", "report cybercrime"], "cyber_report_needed"],
+      [["1930 not reachable", "1930 not working", "1930 busy"], "1930_issue"],
+      [["complaint delay", "portal update delay", "site not working"], "portal_delay"],
+      [["bank asking fir", "bank needs complaint", "bank asking cyber report"], "bank_needs_cyber"],
+      [["fir refused", "police refused fir", "police not registering"], "fir_refused"],
+      [["civil matter", "police says civil"], "civil_matter_pushback"],
+      [["police not acting", "police inaction", "threat police no action"], "threat_police_inaction"],
+      [["bank reversal", "bank freeze fraud", "transaction reversal"], "bank_reversal"],
+      [["bank rejected", "bank not helping", "bank complaint rejected"], "bank_rejected"],
+      [["consumer refund", "seller refund", "product refund"], "consumer_refund"],
+      [["telecom issue", "sim issue", "mobile network complaint", "jio airtel"], "telecom_issue"],
+      [["travel scam", "booking scam", "flight refund", "train refund"], "travel_booking_scam"],
+      [["course scam", "coaching scam", "education scam", "training scam"], "course_scam"],
 
-      [[ "salary not paid", "unpaid salary", "employer not paying" ], "salary_not_paid" ],
-      [[ "freelance unpaid", "client not paying", "freelancer payment" ], "freelance_unpaid" ],
-      [[ "security deposit", "deposit not returned", "rent deposit" ], "deposit_not_returned" ],
-      [[ "illegal eviction", "landlord eviction", "forced eviction" ], "illegal_eviction" ],
-      [[ "rental scam", "broker scam", "rental listing", "rent agreement" ], "rental_listing" ],
-      [[ "domestic violence", "domestic abuse" ], "domestic_violence" ],
-      [[ "family threatening", "relationship threat", "family problem" ], "family_relationship_threat" ],
+      [["salary not paid", "unpaid salary", "employer not paying"], "salary_not_paid"],
+      [["freelance unpaid", "client not paying", "freelancer payment"], "freelance_unpaid"],
+      [["security deposit", "deposit not returned", "rent deposit"], "deposit_not_returned"],
+      [["illegal eviction", "landlord eviction", "forced eviction"], "illegal_eviction"],
+      [["rental scam", "broker scam", "rental listing", "rent agreement"], "rental_listing"],
+      [["domestic violence", "domestic abuse"], "domestic_violence"],
+      [["family threatening", "relationship threat", "family problem"], "family_relationship_threat"],
     ];
 
     for (const [keywords, leafId] of leafMatches) {
@@ -316,10 +316,10 @@ function Chatbot() {
     }
 
     const doorKeywords: [string[], string][] = [
-      [[ "threat", "blackmail", "extortion", "scared", "afraid" ], "/help/threats" ],
-      [[ "money", "upi", "investment", "job", "loan", "bank", "shopping", "fraud", "paid", "transfer", "scam", "lost", "gift", "task", "commission", "stock", "crypto", "trading" ], "/help/money" ],
-      [[ "police", "fir", "complaint", "station", "report", "cyber cafe", "cyber crime" ], "/help/process" ],
-      [[ "work", "home", "family", "divorce", "tenant", "landlord", "rent" ], "/help/other" ],
+      [["threat", "blackmail", "extortion", "scared", "afraid"], "/help/threats"],
+      [["money", "upi", "investment", "job", "loan", "bank", "shopping", "fraud", "paid", "transfer", "scam", "lost", "gift", "task", "commission", "stock", "crypto", "trading"], "/help/money"],
+      [["police", "fir", "complaint", "station", "report", "cyber cafe", "cyber crime"], "/help/process"],
+      [["work", "home", "family", "divorce", "tenant", "landlord", "rent"], "/help/other"],
     ];
 
     for (const [keywords, door] of doorKeywords) {
@@ -730,29 +730,6 @@ function Home() {
           </Link>
         </div>
       </section>
-
-      {/* Check before you trust */}
-      <section
-        style={{
-          backgroundColor: "#f0f0f0ff",
-        }}
-      >
-        <div className="mx-auto max-w-6xl px-5 py-10">
-          <p className="text-sm font-bold">Check before you trust</p>
-          <p className="mt-1 text-sm text-muted-foreground">Has this number, UPI ID, or link been reported?</p>
-          <div className="mt-4 flex gap-2">
-            <input
-              placeholder="Phone number, UPI ID, or website"
-              className="flex-1 rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-foreground"
-            />
-            <button className="rounded-xl border-2 border-foreground bg-foreground px-5 py-3 text-sm font-bold text-background">
-              Check
-            </button>
-          </div>
-          <p className="mt-2 text-xs text-muted-foreground">v1 — community reported data</p>
-        </div>
-      </section>
-
       <SiteFooter />
       <Chatbot />
     </div>
