@@ -10,11 +10,6 @@ const DOORS = [
   { id: "other", icon: <Users className="size-4" />, label: "Work, Home, Family" },
 ];
 
-function scrollToRights() {
-  const el = document.getElementById("rights");
-  if (el) el.scrollIntoView({ behavior: "smooth" });
-}
-
 export function SiteHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -38,12 +33,13 @@ export function SiteHeader() {
           <Link to="/how-it-works" className="text-sm font-semibold transition-colors hover:text-primary">
             How it works
           </Link>
-          <button
-            onClick={scrollToRights}
+          <Link
+            to="/"
+            hash="rights"
             className="text-sm font-semibold transition-colors hover:text-primary"
           >
             Your rights
-          </button>
+          </Link>
           <div className="relative">
             <button
               onClick={() => setDropdownOpen((v) => !v)}
@@ -122,12 +118,14 @@ export function SiteHeader() {
             <Link to="/how-it-works" onClick={() => setMobileOpen(false)} className="rounded-md px-3 py-2 text-sm font-medium hover:bg-muted">
               How it works
             </Link>
-            <button
-              onClick={() => { setMobileOpen(false); scrollToRights(); }}
-              className="rounded-md px-3 py-2 text-left text-sm font-medium hover:bg-muted"
+            <Link
+              to="/"
+              hash="rights"
+              onClick={() => setMobileOpen(false)}
+              className="block rounded-md px-3 py-2 text-sm font-medium hover:bg-muted"
             >
               Your rights
-            </button>
+            </Link>
           </div>
         </div>
       )}

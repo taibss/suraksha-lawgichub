@@ -2,8 +2,9 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { TREE } from "@/lib/tree";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { ChevronLeft, Home as HomeIcon, AlertTriangle, Shield, FileText, Scale, Phone, Upload } from "lucide-react";
+import { ChevronLeft, Home as HomeIcon, AlertTriangle, Shield, FileText, Scale, Phone, Upload, Copy, Check } from "lucide-react";
 import { useRef, useState } from "react";
+import { draftFn, parseFn } from "./api/draft"
 
 export const Route = createFileRoute("/help/leaf/$leafId")({
   head: ({ params }) => {
@@ -104,12 +105,192 @@ function EvidenceChecklist({ items }: { items: string[] }) {
   );
 }
 
+const COMPLAINT_CONTEXTS: Record<string, string> = {
+  upi_paid_blocked: "UPI fraud — paid and got blocked",
+  qr_receive_scam: "QR code fraud — scanned to receive but money was deducted",
+  otp_pin_scam: "OTP/PIN fraud — shared credentials and lost money",
+  remote_access_scam: "Remote access fraud — installed app and lost money",
+  fake_customer_care: "Fake customer care fraud",
+  unauthorised_transaction: "Unauthorised bank transaction",
+  telegram_investment: "Fake investment fraud via Telegram/WhatsApp",
+  crypto_scam: "Cryptocurrency investment fraud",
+  fake_regulated_investment: "Fake SEBI/RBI regulated investment fraud",
+  task_investment: "Fake task investment recharge scam",
+  job_fee_scam: "Fake job registration/training fee scam",
+  task_job_scam: "Fake task/work from home job scam",
+  visa_job_scam: "Overseas job/visa scam",
+  equipment_deposit_job: "Fake equipment/security deposit job scam",
+  loan_app_harassment: "Loan app harassment and threats",
+  loan_app_contacts: "Loan app contacting family/contacts",
+  loan_app_morphed: "Loan app morphed image extortion",
+  fake_loan_extortion: "Fake loan demand without borrowing",
+  kyc_scam: "Fake KYC/account block scam",
+  credit_card_reward: "Credit card reward/limit scam",
+  sim_trai_scam: "TRAI/SIM misuse threat scam",
+  account_lien: "Bank account frozen / cyber lien",
+  atm_misuse: "ATM/debit card misuse",
+  instagram_shop: "Instagram/social shopping scam",
+  marketplace_scam: "OLX/Facebook Marketplace scam",
+  courier_customs: "Courier/customs parcel scam",
+  ecommerce_refund: "E-commerce refund/replacement fraud",
+  matrimonial_scam: "Matrimonial profile money scam",
+  romance_scam: "Romance/dating app money scam",
+  honey_trap: "Honey trap scam",
+  sextortion_real: "Sextortion with real intimate content",
+  sextortion_morphed: "Sextortion with morphed/fake photos",
+  sextortion_contact_threat: "Sextortion — threat to send content to contacts",
+  sextortion_shared: "Private/morphed content already shared online",
+  private_info_blackmail: "Private information blackmail",
+  business_extortion: "Business/reputation extortion",
+  false_case_threat: "False case / false allegation threat",
+  repeat_extortion: "Repeated extortion demands",
+  digital_arrest: "Fake digital arrest call",
+  fake_parcel_threat: "Fake parcel/customs threat call",
+  identity_misuse_threat: "Aadhaar/SIM/bank identity misuse threat",
+  fake_police_payment: "Fake police fine/security deposit demand",
+  whatsapp_harassment: "Phone/WhatsApp harassment",
+  social_harassment: "Social media harassment/impersonation",
+  offline_stalking: "Offline stalking/following",
+  known_person_threat: "Threats from known person",
+  cyber_report_needed: "Need to report online fraud",
+  "1930_issue": "1930 not reachable / not answered",
+  portal_delay: "Cyber portal complaint delay",
+  bank_needs_cyber: "Bank asking for cyber complaint",
+  fir_refused: "Police refused to file FIR",
+  civil_matter_pushback: "Police says it is civil matter",
+  threat_police_inaction: "Threat case but police not acting",
+  bank_reversal: "Bank freeze/reversal request after fraud",
+  bank_rejected: "Bank rejected fraud complaint",
+  consumer_refund: "E-commerce/seller refund problem",
+  telecom_issue: "Telecom/SIM complaint issue",
+  travel_booking_scam: "Travel booking/refund scam",
+  course_scam: "Course/coaching/education scam",
+  salary_not_paid: "Salary not paid by employer",
+  freelance_unpaid: "Freelance/client not paying",
+  deposit_not_returned: "Security deposit not returned by landlord",
+  illegal_eviction: "Illegal eviction/threat by landlord",
+  rental_listing: "Rental listing/broker scam",
+  domestic_violence: "Domestic violence",
+  family_relationship_threat: "Family threatening adult relationship",
+};
+
 function LeafPage() {
   const { leafId } = Route.useParams();
   const leaf = TREE.leaves[leafId];
   if (!leaf) throw notFound();
 
   const urgent = /high|urgent/i.test(leaf.urgency);
+  const complaintContext = COMPLAINT_CONTEXTS[leafId] ?? "General scam complaint";
+
+  const [amount, setAmount] = useState("");
+  const [scammerId, setScammerId] = useState("");
+  const [transactionId, setTransactionId] = useState("");
+  const [incidentDate, setIncidentDate] = useState("");
+  const [platform, setPlatform] = useState("");
+  const [scammerUser, setScammerUser] = useState("");
+  const [firstContactDate, setFirstContactDate] = useState("");
+  const [demandType, setDemandType] = useState("");
+  const [callerPhone, setCallerPhone] = useState("");
+  const [callDate, setCallDate] = useState("");
+  const [claimedIdentity, setClaimedIdentity] = useState("");
+  const [bankOrStationName, setBankOrStationName] = useState("");
+  const [complaintDate, setComplaintDate] = useState("");
+  const [refNumber, setRefNumber] = useState("");
+  const [officerName, setOfficerName] = useState("");
+  const [relationship, setRelationship] = useState("");
+  const [threatType, setThreatType] = useState("");
+  const [threatDate, setThreatDate] = useState("");
+  const [reportedBefore, setReportedBefore] = useState("");
+  const [freeText, setFreeText] = useState("");
+  const [complaint, setComplaint] = useState("");
+  const [drafting, setDrafting] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const [rawInput, setRawInput] = useState("");
+  const [parsing, setParsing] = useState(false);
+
+  async function autoFill() {
+    if (!rawInput.trim() || parsing) return;
+    setParsing(true);
+    try {
+      const data = await parseFn({ data: { text: rawInput } });
+      if (data.amount) setAmount(data.amount);
+      if (data.scammerId) setScammerId(data.scammerId);
+      if (data.transactionId) setTransactionId(data.transactionId);
+      if (data.date) {
+        setIncidentDate(data.date);
+        setFirstContactDate(data.date);
+        setCallDate(data.date);
+        setComplaintDate(data.date);
+        setThreatDate(data.date);
+      }
+      if (data.platform) setPlatform(data.platform);
+      if (data.scammerUser) setScammerUser(data.scammerUser);
+      if (data.demandType) setDemandType(data.demandType);
+      if (data.callerPhone) setCallerPhone(data.callerPhone);
+      if (data.claimedIdentity) setClaimedIdentity(data.claimedIdentity);
+      if (data.bankOrStationName) setBankOrStationName(data.bankOrStationName);
+      if (data.refNumber) setRefNumber(data.refNumber);
+      if (data.officerName) setOfficerName(data.officerName);
+      if (data.freeText) setFreeText(data.freeText);
+      if (data.relationship) setRelationship(data.relationship);
+      if (data.threatType) setThreatType(data.threatType);
+      if (data.reportedBefore) setReportedBefore(data.reportedBefore);
+      if (data.threatDate) setThreatDate(data.threatDate);
+    } catch {
+      // silently fail, user can fill fields manually
+    } finally {
+      setParsing(false);
+    }
+  }
+
+  function fieldCategory() {
+    const id = leafId;
+    if (/upi|qr|otp|transaction|crypto|investment|loan|card|job|task|romance|matrimonial|kyc|atm|shopping|courier|equipment|visa/.test(id)) return "financial";
+    if (/sextortion|blackmail|morphed|private|extortion|false_case|repeat_extortion/.test(id)) return "sextortion";
+    if (/arrest|parcel|identity|fake_police|digital/.test(id)) return "police_scam";
+    if (/fir|police|bank|cyber|process|inaction|portal|1930/.test(id)) return "process";
+    if (/harassment|stalking|known_person|offline/.test(id)) return "threat";
+    return "default";
+  }
+
+  function buildPayload() {
+    const cat = fieldCategory();
+    const base = { leafId, complaintContext };
+    switch (cat) {
+      case "financial":
+        return { ...base, amount, scammerId, transactionId, date: incidentDate };
+      case "sextortion":
+        return { ...base, platform, scammerUser, date: firstContactDate, demandType };
+      case "police_scam":
+        return { ...base, callerPhone, platform, date: callDate, claimedIdentity };
+      case "process":
+        return { ...base, bankOrStationName, date: complaintDate, refNumber, officerName };
+      case "threat":
+        return { ...base, relationship, threatType, date: threatDate, reportedBefore };
+      default:
+        return { ...base, date: incidentDate, freeText };
+    }
+  }
+
+  async function generateComplaint() {
+    setDrafting(true);
+    setComplaint("");
+    try {
+      const data = await draftFn({ data: buildPayload() });
+      setComplaint(data.draft);
+    } catch {
+      setComplaint("Something went wrong. Please try again.");
+    } finally {
+      setDrafting(false);
+    }
+  }
+
+  async function copyComplaint() {
+    await navigator.clipboard.writeText(complaint);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
 
   return (
     <div className="min-h-screen">
@@ -176,19 +357,176 @@ function LeafPage() {
             </PlanCard>
           </div>
 
-          {/* AI follow-up */}
-          <div className="mt-6 rounded-2xl border border-border bg-ink p-6 text-ink-foreground">
-            <div className="eyebrow text-lime">Ask a follow-up</div>
-            <p className="mt-2 text-sm text-ink-foreground/80">
-              Stuck on a step? Ask for help drafting your cyber complaint, FIR, or what to say next.
+          {/* Generate complaint */}
+          <div className="mt-6 rounded-2xl border border-border bg-card p-6">
+            <div className="eyebrow text-primary">Generate your complaint</div>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Fill in the details and we'll draft a formal complaint for cybercrime.gov.in.
             </p>
-            <textarea
-              placeholder="e.g. What should I write in my cyber complaint?"
-              className="mt-4 min-h-24 w-full rounded-xl border border-white/10 bg-white/[0.04] p-3 text-sm text-ink-foreground placeholder:text-ink-foreground/40 focus:border-lime focus:outline-none"
-            />
-            <button className="mt-3 rounded-full bg-lime px-5 py-2.5 text-sm font-semibold text-lime-foreground">
-              Get drafting help
+            <p className="mt-3 text-xs italic text-muted-foreground">
+              Not sure what to fill? Just describe what happened in the box below and we'll figure it out.
+            </p>
+            <div className="mt-2 flex gap-2">
+              <textarea
+                value={rawInput}
+                onChange={(e) => setRawInput(e.target.value)}
+                placeholder="e.g. I paid ₹15,000 via GPay to buy a phone, the seller blocked me after payment"
+                rows={2}
+                className="flex-1 rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-foreground resize-none"
+              />
+              <button
+                onClick={autoFill}
+                disabled={parsing || !rawInput.trim()}
+                className="shrink-0 rounded-xl bg-foreground px-4 py-2.5 text-sm font-semibold text-background disabled:opacity-50"
+              >
+                {parsing ? "Parsing..." : "Auto-fill"}
+              </button>
+            </div>
+            {fieldCategory() === "financial" && (
+              <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div>
+                  <label className="text-xs font-semibold text-foreground/70">Amount lost</label>
+                  <div className="mt-1 flex items-center rounded-xl border border-border bg-background px-3">
+                    <span className="text-sm text-muted-foreground">₹</span>
+                    <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="0" className="w-full bg-transparent px-2 py-2.5 text-sm outline-none" />
+                  </div>
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-foreground/70">Scammer's UPI ID / phone</label>
+                  <input type="text" value={scammerId} onChange={(e) => setScammerId(e.target.value)} placeholder="e.g. scammer@upi or 98xxxxxxxx" className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-foreground" />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-foreground/70">Transaction ID</label>
+                  <input type="text" value={transactionId} onChange={(e) => setTransactionId(e.target.value)} placeholder="e.g. TXN123456789" className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-foreground" />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-foreground/70">Date of incident</label>
+                  <input type="date" value={incidentDate} onChange={(e) => setIncidentDate(e.target.value)} className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-foreground" />
+                </div>
+              </div>
+            )}
+
+            {fieldCategory() === "sextortion" && (
+              <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div>
+                  <label className="text-xs font-semibold text-foreground/70">Platform where it happened</label>
+                  <input type="text" value={platform} onChange={(e) => setPlatform(e.target.value)} placeholder="WhatsApp / Instagram / Telegram / other" className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-foreground" />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-foreground/70">Scammer phone or username</label>
+                  <input type="text" value={scammerUser} onChange={(e) => setScammerUser(e.target.value)} placeholder="Phone number or @username" className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-foreground" />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-foreground/70">Date first contacted</label>
+                  <input type="date" value={firstContactDate} onChange={(e) => setFirstContactDate(e.target.value)} className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-foreground" />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-foreground/70">What they demanded</label>
+                  <input type="text" value={demandType} onChange={(e) => setDemandType(e.target.value)} placeholder="Money / silence / other" className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-foreground" />
+                </div>
+              </div>
+            )}
+
+            {fieldCategory() === "police_scam" && (
+              <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div>
+                  <label className="text-xs font-semibold text-foreground/70">Caller phone number</label>
+                  <input type="text" value={callerPhone} onChange={(e) => setCallerPhone(e.target.value)} placeholder="e.g. 9876543210" className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-foreground" />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-foreground/70">Platform</label>
+                  <input type="text" value={platform} onChange={(e) => setPlatform(e.target.value)} placeholder="Call / Video call / WhatsApp" className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-foreground" />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-foreground/70">Date of call</label>
+                  <input type="date" value={callDate} onChange={(e) => setCallDate(e.target.value)} className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-foreground" />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-foreground/70">What they claimed</label>
+                  <input type="text" value={claimedIdentity} onChange={(e) => setClaimedIdentity(e.target.value)} placeholder="CBI / Police / Customs / TRAI" className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-foreground" />
+                </div>
+              </div>
+            )}
+
+            {fieldCategory() === "process" && (
+              <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div>
+                  <label className="text-xs font-semibold text-foreground/70">Bank or police station name</label>
+                  <input type="text" value={bankOrStationName} onChange={(e) => setBankOrStationName(e.target.value)} placeholder="Name of bank / police station" className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-foreground" />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-foreground/70">Date of complaint</label>
+                  <input type="date" value={complaintDate} onChange={(e) => setComplaintDate(e.target.value)} className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-foreground" />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-foreground/70">Reference number if any</label>
+                  <input type="text" value={refNumber} onChange={(e) => setRefNumber(e.target.value)} placeholder="e.g. Complaint / FIR / ticket no." className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-foreground" />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-foreground/70">Officer name if known</label>
+                  <input type="text" value={officerName} onChange={(e) => setOfficerName(e.target.value)} placeholder="Name of officer in charge" className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-foreground" />
+                </div>
+              </div>
+            )}
+
+            {fieldCategory() === "threat" && (
+              <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div>
+                  <label className="text-xs font-semibold text-foreground/70">Relationship to person</label>
+                  <input type="text" value={relationship} onChange={(e) => setRelationship(e.target.value)} placeholder="Ex / neighbour / colleague / stranger" className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-foreground" />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-foreground/70">Type of threat</label>
+                  <input type="text" value={threatType} onChange={(e) => setThreatType(e.target.value)} placeholder="e.g. physical harm / defamation / false case" className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-foreground" />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-foreground/70">Date started</label>
+                  <input type="date" value={threatDate} onChange={(e) => setThreatDate(e.target.value)} className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-foreground" />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-foreground/70">Have you reported before?</label>
+                  <input type="text" value={reportedBefore} onChange={(e) => setReportedBefore(e.target.value)} placeholder="Yes / No — if yes, where?" className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-foreground" />
+                </div>
+              </div>
+            )}
+
+            {fieldCategory() === "default" && (
+              <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div>
+                  <label className="text-xs font-semibold text-foreground/70">Date of incident</label>
+                  <input type="date" value={incidentDate} onChange={(e) => setIncidentDate(e.target.value)} className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-foreground" />
+                </div>
+                <div className="sm:col-span-2">
+                  <label className="text-xs font-semibold text-foreground/70">Describe what happened</label>
+                  <textarea value={freeText} onChange={(e) => setFreeText(e.target.value)} placeholder="Describe what happened in detail..." rows={3} className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-foreground resize-none" />
+                </div>
+              </div>
+            )}
+
+            <button
+              onClick={generateComplaint}
+              disabled={drafting}
+              className="mt-4 rounded-full border-2 border-red-700 bg-red-600 px-5 py-2.5 text-sm font-bold text-white shadow-[3px_3px_0_0_#7f1d1d] transition-transform hover:-translate-y-0.5 hover:bg-red-700 disabled:opacity-50 disabled:hover:translate-y-0 disabled:cursor-not-allowed"
+            >
+              {drafting ? "Drafting your complaint..." : "Generate Complaint"}
             </button>
+            {complaint && (
+              <div className="mt-4">
+                <textarea
+                  readOnly
+                  value={complaint}
+                  rows={10}
+                  className="w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none font-mono"
+                />
+                <button
+                  onClick={copyComplaint}
+                  className="mt-2 inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-semibold hover:bg-muted transition-colors"
+                >
+                  {copied ? <Check className="size-4 text-lime" /> : <Copy className="size-4" />}
+                  {copied ? "Copied!" : "Copy complaint"}
+                </button>
+              </div>
+            )}
           </div>
 
           <div className="mt-8 flex flex-wrap gap-3">
