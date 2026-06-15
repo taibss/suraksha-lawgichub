@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import logo from "@/assets/lawgichub-logo.jpeg";
+import logo from "@/assets/lawgichub-logo.png";
 
 const ENTER_MS = 400;
 const VISIBLE_MS = 500;
