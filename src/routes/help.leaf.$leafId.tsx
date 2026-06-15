@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { TREE } from "@/lib/tree";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { ChevronLeft, Home as HomeIcon, AlertTriangle, Shield, FileText, Scale, Phone, Upload, Copy, Check } from "lucide-react";
+import { ChevronLeft, Home as HomeIcon, AlertTriangle, Shield, FileText, Scale, Phone, Upload, Copy, Check, ExternalLink } from "lucide-react";
 import { useRef, useState } from "react";
 import { draftFn, parseFn } from "./api/draft"
 
@@ -54,13 +54,15 @@ function ActionItem({ text, index, badge }: { text: string; index: number; badge
   );
 }
 
-function EvidenceChecklist({ items }: { items: string[] }) {
+function EvidenceChecklist({ items, onFilesChange }: { items: string[]; onFilesChange?: (count: number) => void }) {
   const fileRef = useRef<HTMLInputElement>(null);
   const [files, setFiles] = useState<string[]>([]);
 
   function handleFiles(e: React.ChangeEvent<HTMLInputElement>) {
     const selected = Array.from(e.target.files || []).map(f => f.name);
-    setFiles(prev => [...prev, ...selected]);
+    const updated = [...files, ...selected];
+    setFiles(updated);
+    onFilesChange?.(updated.length);
   }
 
   return (
@@ -208,6 +210,7 @@ function LeafPage() {
 
   const [rawInput, setRawInput] = useState("");
   const [parsing, setParsing] = useState(false);
+  const [evidenceCount, setEvidenceCount] = useState(0);
 
   async function autoFill() {
     if (!rawInput.trim() || parsing) return;
@@ -256,7 +259,7 @@ function LeafPage() {
 
   function buildPayload() {
     const cat = fieldCategory();
-    const base = { leafId, complaintContext };
+    const base = { leafId, complaintContext, evidenceCount };
     switch (cat) {
       case "financial":
         return { ...base, amount, scammerId, transactionId, date: incidentDate };
@@ -291,6 +294,14 @@ function LeafPage() {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   }
+
+  const portalUrl = (() => {
+    if (/upi|qr|otp|crypto|investment|job|task|sextortion|blackmail|digital_arrest|fake_parcel|threat/.test(leafId)) return "https://cybercrime.gov.in";
+    if (/bank|loan_app/.test(leafId)) return "https://sachet.rbi.org.in";
+    if (/consumer|shopping|courier/.test(leafId)) return "https://consumerhelpline.gov.in";
+    if (/fir|police/.test(leafId)) return "https://www.mha.gov.in";
+    return "https://cybercrime.gov.in";
+  })();
 
   return (
     <div className="min-h-screen">
@@ -338,7 +349,7 @@ function LeafPage() {
             </PlanCard>
 
             <PlanCard icon={<Shield className="size-5" />} eyebrow="Evidence checklist" tint="ink">
-              <EvidenceChecklist items={leaf.evidence} />
+              <EvidenceChecklist items={leaf.evidence} onFilesChange={setEvidenceCount} />
             </PlanCard>
 
             <PlanCard icon={<FileText className="size-5" />} eyebrow="Drafts we can prep" tint="card">
@@ -371,7 +382,7 @@ function LeafPage() {
                 value={rawInput}
                 onChange={(e) => setRawInput(e.target.value)}
                 placeholder="e.g. I paid ₹15,000 via GPay to buy a phone, the seller blocked me after payment"
-                rows={2}
+                rows={4}
                 className="flex-1 rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-foreground resize-none"
               />
               <button
@@ -496,10 +507,6 @@ function LeafPage() {
                   <label className="text-xs font-semibold text-foreground/70">Date of incident</label>
                   <input type="date" value={incidentDate} onChange={(e) => setIncidentDate(e.target.value)} className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-foreground" />
                 </div>
-                <div className="sm:col-span-2">
-                  <label className="text-xs font-semibold text-foreground/70">Describe what happened</label>
-                  <textarea value={freeText} onChange={(e) => setFreeText(e.target.value)} placeholder="Describe what happened in detail..." rows={3} className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-foreground resize-none" />
-                </div>
               </div>
             )}
 
@@ -518,13 +525,26 @@ function LeafPage() {
                   rows={10}
                   className="w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none font-mono"
                 />
-                <button
-                  onClick={copyComplaint}
-                  className="mt-2 inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-semibold hover:bg-muted transition-colors"
-                >
-                  {copied ? <Check className="size-4 text-lime" /> : <Copy className="size-4" />}
-                  {copied ? "Copied!" : "Copy complaint"}
-                </button>
+                <div className="mt-3 flex flex-wrap items-center gap-3">
+                  <button
+                    onClick={copyComplaint}
+                    className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-semibold hover:bg-muted transition-colors"
+                  >
+                    {copied ? <Check className="size-4 text-lime" /> : <Copy className="size-4" />}
+                    {copied ? "Copied!" : "Copy complaint"}
+                  </button>
+                  <a
+                    href={portalUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-semibold hover:bg-muted transition-colors"
+                  >
+                    Go to portal <ExternalLink className="size-4" />
+                  </a>
+                </div>
+                <p className="mt-2 text-xs text-muted-foreground">
+                  Your complaint is copied — just paste it on the portal.
+                </p>
               </div>
             )}
           </div>

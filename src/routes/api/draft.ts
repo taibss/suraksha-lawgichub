@@ -46,7 +46,7 @@ If the date is relative like "yesterday" or "2 days ago", figure out the actual 
 
 export const draftFn = createServerFn({ method: "POST" })
   .handler(async ({ data }: any) => {
-    const { leafId, ...fields } = data;
+    const { leafId, evidenceCount, complaintContext, ...fields } = data;
 
     const apiKey = import.meta.env.VITE_GROQ_API_KEY;
 
@@ -54,6 +54,19 @@ export const draftFn = createServerFn({ method: "POST" })
       .filter(([, v]) => v)
       .map(([k, v]) => `${k}: ${v}`)
       .join("\n");
+
+    let legalSections = "";
+    if (/sextortion|blackmail|morphed|private|extortion|false_case/.test(leafId)) {
+      legalSections = "Include a paragraph citing Section 66E (violation of privacy) and Section 67 (publishing or transmitting obscene material) of the Information Technology Act, 2000.";
+    } else if (/upi|qr|otp|credit_card|atm|transaction|unauthorised/.test(leafId)) {
+      legalSections = "Include a paragraph citing Section 66D (cheating by impersonation using computer resource) of the Information Technology Act, 2000 and the RBI circular on limiting customer liability in unauthorised electronic banking transactions.";
+    } else if (/digital_arrest|identity/.test(leafId)) {
+      legalSections = "Include a paragraph citing Section 66C (punishment for identity theft) and Section 66D (cheating by impersonation using computer resource) of the Information Technology Act, 2000.";
+    }
+
+    const evidenceLine = evidenceCount > 0
+      ? `\nEvidence Attached: ${evidenceCount} file(s) uploaded including screenshots and proof of incident.`
+      : "";
 
     const response = await fetch(
       "https://api.groq.com/openai/v1/chat/completions",
@@ -68,11 +81,40 @@ export const draftFn = createServerFn({ method: "POST" })
           messages: [
             {
               role: "system",
-              content: `You are a legal assistant helping Indian scam victims. Generate a formal complaint letter for cybercrime.gov.in. Use the details provided. The complaint type is described in "complaintContext". Format it with: To (Cyber Crime Cell), Subject, Body with all incident details filled in, and closing. Keep it formal, factual, and under 300 words.`,
+              content: `Generate a formal Indian police complaint letter. Follow these strict formatting rules:
+
+1. NO markdown, NO asterisks, NO bold, NO bullet points with dashes, NO numbered lists with dots. Plain text only.
+
+2. Format exactly like this:
+
+To,
+The Officer In Charge,
+Cyber Crime Cell,
+[City/Portal]
+
+Subject: [One line subject based on complaint type]
+
+Respected Sir/Madam,
+
+I, [Your Full Name], son/daughter of [Father's Name], residing at [Your Address], Phone: [Your Phone Number], Email: [Your Email ID], wish to lodge a formal complaint against an unknown cyber offender.
+
+[Write 3-4 paragraphs in plain formal English describing what happened, using only the details provided. Each paragraph is a continuous sentence, no numbering, no bullets.]
+
+In light of the above, I humbly request your good office to register this complaint, investigate the matter, identify and apprehend the perpetrator, and take appropriate legal action at the earliest. I am fully prepared to cooperate with the investigation and provide any additional information required.
+
+Yours faithfully,
+
+[Your Full Name]
+[Your Address]
+[Your Phone Number]
+[Your Email ID]
+Date: [Date of complaint]
+
+3. Use ONLY details provided by user. Leave unProvided details in square brackets. NEVER invent details. No markdown formatting whatsoever.${legalSections ? "\n\n4. " + legalSections : ""}${evidenceLine}`,
             },
             {
               role: "user",
-              content: `${fieldLines}\n\nGenerate a formal complaint letter.`,
+              content: `Complaint type: ${complaintContext}\n\nDetails provided by victim:\n${fieldLines}\n\nGenerate a formal Indian police complaint letter using ONLY the details above. Do not use markdown. Do not invent any details.`,
             },
           ],
         }),
