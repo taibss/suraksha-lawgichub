@@ -1,20 +1,12 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+"use client";
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState, useRef } from "react";
 import { TREE } from "@/lib/tree";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { ArrowRight, Phone, ChevronDown, ChevronUp, X, MessageCircle } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
-import { chatFn } from "./api/chat"
-
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Suraksha — Mumbai's Scam Defence" },
-      { name: "description", content: "Got scammed? We fix that. Fast." },
-    ],
-  }),
-  component: Home,
-});
 
 const PULSE = [
   "Senior dodges ₹14L digital arrest call",
@@ -102,16 +94,13 @@ function RightsSection() {
             </div>
           </button>
           {open === i && (
-            <p
-              className="pb-5 text-sm leading-relaxed text-muted-foreground pl-[104px]">{r.body}</p>
+            <p className="pb-5 text-sm leading-relaxed text-muted-foreground pl-[104px]">{r.body}</p>
           )}
         </div>
       ))}
     </div>
   );
 }
-
-
 
 function RightsSectionOrange() {
   const [open, setOpen] = useState<number | null>(null);
@@ -182,8 +171,9 @@ function RightsSectionDark() {
     </div>
   );
 }
+
 function MessageText({ text }: { text: string }) {
-  const navigate = useNavigate();
+  const router = useRouter();
   const linkRegex = /\/(help|scams|how-it-works)(?:\/\S*)?/g;
   const parts: (string | { path: string })[] = [];
   let last = 0;
@@ -202,7 +192,7 @@ function MessageText({ text }: { text: string }) {
         ) : (
           <button
             key={i}
-            onClick={() => navigate({ to: p.path })}
+            onClick={() => router.push(p.path)}
             className="underline font-semibold hover:text-primary cursor-pointer bg-transparent border-none p-0 inline"
           >
             {p.path}
@@ -218,18 +208,15 @@ function Chatbot() {
   const [messages, setMessages] = useState([
     {
       role: "model",
-      parts: [
-        {
-          text: "Hey! I'm Suraksha 👋 What happened?",
-        },
-      ],
+      parts: [{ text: "Hey! I'm Suraksha 👋 What happened?" }],
     },
   ]);
 
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate();
+  const router = useRouter();
+
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
@@ -254,7 +241,6 @@ function Chatbot() {
       [["social media harassment", "impersonation", "fake account"], "social_harassment"],
       [["stalking", "following me", "offline stalking"], "offline_stalking"],
       [["ex threatening", "known person", "neighbour threat"], "known_person_threat"],
-
       [["upi paid", "upi blocked", "gpay blocked", "phonepe blocked", "paytm blocked"], "upi_paid_blocked"],
       [["qr code", "scan qr", "qr receive", "receive money qr"], "qr_receive_scam"],
       [["shared otp", "otp scam", "upi pin scam", "card detail scam"], "otp_pin_scam"],
@@ -285,7 +271,6 @@ function Chatbot() {
       [["matrimonial scam", "matrimony scam", "shaadi scam"], "matrimonial_scam"],
       [["romance scam", "dating app scam", "online dating"], "romance_scam"],
       [["honey trap", "honey trap scam"], "honey_trap"],
-
       [["report online fraud", "file cyber complaint", "report cybercrime"], "cyber_report_needed"],
       [["1930 not reachable", "1930 not working", "1930 busy"], "1930_issue"],
       [["complaint delay", "portal update delay", "site not working"], "portal_delay"],
@@ -299,7 +284,6 @@ function Chatbot() {
       [["telecom issue", "sim issue", "mobile network complaint", "jio airtel"], "telecom_issue"],
       [["travel scam", "booking scam", "flight refund", "train refund"], "travel_booking_scam"],
       [["course scam", "coaching scam", "education scam", "training scam"], "course_scam"],
-
       [["salary not paid", "unpaid salary", "employer not paying"], "salary_not_paid"],
       [["freelance unpaid", "client not paying", "freelancer payment"], "freelance_unpaid"],
       [["security deposit", "deposit not returned", "rent deposit"], "deposit_not_returned"],
@@ -311,7 +295,7 @@ function Chatbot() {
 
     for (const [keywords, leafId] of leafMatches) {
       if (keywords.some((k) => t.includes(k))) {
-        return { to: "/help/leaf/$leafId", params: { leafId } };
+        return { to: `/help/leaf/${leafId}` };
       }
     }
 
@@ -348,11 +332,12 @@ function Chatbot() {
     const redirectPath = redirectFromInput(input);
 
     try {
-      const data = await chatFn({
-        data: {
-          messages: updated,
-        },
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: updated }),
       });
+      const data = await res.json();
 
       setMessages([
         ...updated,
@@ -362,16 +347,12 @@ function Chatbot() {
         },
       ]);
     } catch (err) {
-      console.error("CHAT ERROR: ", err)
+      console.error("CHAT ERROR: ", err);
       setMessages([
         ...updated,
         {
           role: "model",
-          parts: [
-            {
-              text: "Something went wrong. Please call 1930 directly.",
-            },
-          ],
+          parts: [{ text: "Something went wrong. Please call 1930 directly." }],
         },
       ]);
     } finally {
@@ -379,7 +360,7 @@ function Chatbot() {
     }
 
     if (redirectPath) {
-      navigate(redirectPath);
+      router.push(redirectPath.to);
     }
   }
 
@@ -398,33 +379,16 @@ function Chatbot() {
       </button>
 
       {open && (
-        <div
-          className="fixed bottom-24 right-6 z-50 w-80 h-[420px] rounded-2xl border-2 border-foreground bg-background shadow-[4px_4px_0_0_var(--foreground)] flex flex-col overflow-hidden"
-        >
-          {/* Header */}
+        <div className="fixed bottom-24 right-6 z-50 w-80 h-[420px] rounded-2xl border-2 border-foreground bg-background shadow-[4px_4px_0_0_var(--foreground)] flex flex-col overflow-hidden">
           <div className="flex items-center gap-2 px-4 py-3 border-b border-border shrink-0">
             <span className="size-2 rounded-full bg-lime animate-pulse" />
-            <span className="text-sm font-bold">
-              Suraksha · your safety guide
-            </span>
+            <span className="text-sm font-bold">Suraksha · your safety guide</span>
           </div>
 
-          {/* Messages */}
           <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3">
             {messages.map((m, i) => (
-              <div
-                key={i}
-                className={`flex ${m.role === "user"
-                  ? "justify-end"
-                  : "justify-start"
-                  }`}
-              >
-                <div
-                  className={`max-w-[85%] rounded-2xl px-3 py-2 text-sm ${m.role === "user"
-                    ? "bg-foreground text-background"
-                    : "bg-muted text-foreground"
-                    }`}
-                >
+              <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
+                <div className={`max-w-[85%] rounded-2xl px-3 py-2 text-sm ${m.role === "user" ? "bg-foreground text-background" : "bg-muted text-foreground"}`}>
                   <MessageText text={m.parts[0].text} />
                 </div>
               </div>
@@ -435,7 +399,7 @@ function Chatbot() {
                 {BOT_OPTIONS.map((opt) => (
                   <Link
                     key={opt.to}
-                    to={opt.to}
+                    href={opt.to}
                     className="rounded-full border border-border px-4 py-2 text-sm font-medium text-foreground hover:bg-muted transition-colors text-center"
                   >
                     {opt.label}
@@ -444,27 +408,19 @@ function Chatbot() {
               </div>
             )}
 
-            {loading && (
-              <div className="text-sm text-muted-foreground">
-                Suraksha is thinking...
-              </div>
-            )}
+            {loading && <div className="text-sm text-muted-foreground">Suraksha is thinking...</div>}
 
             <div ref={bottomRef} />
           </div>
 
-          {/* Input */}
           <div className="border-t border-border px-3 py-2 flex gap-2">
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) =>
-                e.key === "Enter" && send()
-              }
+              onKeyDown={(e) => e.key === "Enter" && send()}
               placeholder="What happened?"
               className="flex-1 rounded-full border border-border bg-muted px-4 py-2 text-sm"
             />
-
             <button
               onClick={send}
               disabled={loading || !input.trim()}
@@ -479,7 +435,7 @@ function Chatbot() {
   );
 }
 
-function Home() {
+export default function Home() {
   useEffect(() => {
     if (window.location.hash === "#rights") {
       setTimeout(() => {
@@ -520,7 +476,7 @@ function Home() {
           </p>
           <div className="mt-6">
             <Link
-              to="/scams"
+              href="/scams"
               className="group inline-flex items-center justify-center gap-2 rounded-full border-2 border-foreground bg-primary px-6 py-4 text-base font-semibold text-primary-foreground shadow-[5px_5px_0_0_var(--foreground)] transition-all hover:-translate-y-0.5"
             >
               Show me the scams
@@ -529,6 +485,7 @@ function Home() {
           </div>
         </div>
       </section>
+
       {/* Four doors */}
       <section className="bg-[#f0f0f0]">
         <div className="mx-auto max-w-6xl px-5 py-8">
@@ -536,15 +493,13 @@ function Home() {
             <p className="font-display text-[clamp(1.5rem,4vw,2.5rem)] font-extrabold leading-tight tracking-tight uppercase">
               WHAT ARE WE DEALING WITH?
             </p>
-            <h4>
-              <p className="mt-1 text-sm text-muted-foreground">give us the lore</p></h4>
+            <h4><p className="mt-1 text-sm text-muted-foreground">give us the lore</p></h4>
           </div>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             {TREE.doors.map((d, i) => (
               <Link
                 key={d.id}
-                to="/help/$door"
-                params={{ door: d.id }}
+                href={`/help/${d.id}`}
                 className={`group relative rounded-2xl p-6 transition-transform hover:-translate-y-1 ${DOOR_STYLES[i % 4].bg}`}
               >
                 <div className="text-3xl">{d.emoji}</div>
@@ -558,26 +513,21 @@ function Home() {
           </div>
         </div>
       </section>
+
       {/* Emergency Alert Card */}
       <section className="bg-[#f0f0f0]">
         <div className="mx-auto max-w-6xl px-5 py-4">
           <div className="rounded-2xl bg-[#B91C1C] px-5 py-4 shadow-[5px_5px_0_0_rgba(0,0,0,0.15)]">
             <div className="flex items-center gap-2 mb-2">
               <span className="size-2 rounded-full bg-[#FFD6D6] animate-pulse" />
-              <span className="text-[10px] font-bold uppercase tracking-widest text-white/80">
-                Emergency Alert
-              </span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-white/80">Emergency Alert</span>
             </div>
-
             <h2 className="font-display text-xl font-extrabold text-white leading-tight">
               Scammed in the last 24 hours?
             </h2>
-
             <p className="mt-1 text-sm text-white/85 max-w-lg">
-              Call <span className="font-bold text-[#FFD6D6]">1930</span> immediately —
-              banks can still freeze funds if you act fast.
+              Call <span className="font-bold text-[#FFD6D6]">1930</span> immediately — banks can still freeze funds if you act fast.
             </p>
-
             <div className="mt-3 grid grid-cols-3 gap-3 border-t border-white/20 pt-3 mb-3">
               {[
                 ["24 hrs", "golden window"],
@@ -585,32 +535,17 @@ function Home() {
                 ["12k+", "citizens helped"],
               ].map(([stat, label]) => (
                 <div key={label}>
-                  <p className="text-lg font-extrabold text-white font-display">
-                    {stat}
-                  </p>
-                  <p className="text-[10px] text-white/60">
-                    {label}
-                  </p>
+                  <p className="text-lg font-extrabold text-white font-display">{stat}</p>
+                  <p className="text-[10px] text-white/60">{label}</p>
                 </div>
               ))}
             </div>
-
             <div className="flex flex-wrap gap-2">
-              <a
-                href="tel:1930"
-                className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-xs font-bold text-[#B91C1C] transition-all hover:-translate-y-0.5"
-              >
-                <Phone className="size-3.5" />
-                Call 1930 now
+              <a href="tel:1930" className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-xs font-bold text-[#B91C1C] transition-all hover:-translate-y-0.5">
+                <Phone className="size-3.5" /> Call 1930 now
               </a>
-
-              <Link
-                to="/help/$door"
-                params={{ door: "money" }}
-                className="inline-flex items-center gap-1.5 rounded-full border border-white/70 px-4 py-2 text-xs font-semibold text-white hover:bg-white hover:text-[#B91C1C] transition-colors"
-              >
-                Walk me through it
-                <ArrowRight className="size-3.5" />
+              <Link href="/help/money" className="inline-flex items-center gap-1.5 rounded-full border border-white/70 px-4 py-2 text-xs font-semibold text-white hover:bg-white hover:text-[#B91C1C] transition-colors">
+                Walk me through it <ArrowRight className="size-3.5" />
               </Link>
             </div>
           </div>
@@ -624,15 +559,12 @@ function Home() {
           <h2 className="font-display text-[clamp(1.5rem,4vw,2.5rem)] font-extrabold leading-tight mb-8">
             Things every Indian should know.
           </h2>
-          {/* Single card */}
           <div className="relative overflow-hidden rounded-2xl bg-lime flex flex-col md:flex-row">
-            {/* Barcode left */}
             <div className="hidden md:flex flex-col justify-center px-5 py-8 gap-1 shrink-0">
               {Array.from({ length: 18 }).map((_, i) => (
                 <div key={i} style={{ height: `${[6, 4, 8, 3, 7, 5, 9, 4, 6, 8, 3, 7, 5, 4, 9, 6, 4, 7][i]}px` }} className="w-5 bg-[#1a4a2e] rounded-sm opacity-80" />
               ))}
             </div>
-            {/* Main content */}
             <div className="flex-1 px-6 py-8">
               <div className="flex items-center gap-3 mb-1">
                 <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#1a4a2e" strokeWidth="1.5" className="shrink-0">
@@ -667,7 +599,6 @@ function Home() {
                 Learn more about your rights →
               </button>
             </div>
-            {/* Globe watermark */}
             <div className="absolute bottom-0 right-0 opacity-10 pointer-events-none">
               <svg width="220" height="220" viewBox="0 0 24 24" fill="none" stroke="#1a4a2e" strokeWidth="0.5">
                 <circle cx="12" cy="12" r="10" />
@@ -679,6 +610,7 @@ function Home() {
           </div>
         </div>
       </section>
+
       {/* How it works */}
       <section className="bg-[#f0f0f0]">
         <div className="mx-auto max-w-6xl px-5 py-12">
@@ -693,9 +625,7 @@ function Home() {
               { n: "03", title: "Fix it", body: "A Fellow walks you through the report. A verified advocate is one tap away. 24×7." },
             ].map((s) => (
               <div key={s.n} className="flex md:flex-col items-start gap-4 rounded-2xl border border-border bg-background p-6">
-                <div className="grid size-12 shrink-0 place-items-center rounded-xl bg-lime font-mono text-sm font-bold text-lime-foreground">
-                  {s.n}
-                </div>
+                <div className="grid size-12 shrink-0 place-items-center rounded-xl bg-lime font-mono text-sm font-bold text-lime-foreground">{s.n}</div>
                 <div>
                   <div className="font-display text-xl font-bold">{s.title}</div>
                   <p className="mt-1 text-sm text-muted-foreground">{s.body}</p>
@@ -703,14 +633,12 @@ function Home() {
               </div>
             ))}
           </div>
-          <Link
-            to="/how-it-works"
-            className="mt-8 inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-sm font-bold text-ink-foreground"
-          >
+          <Link href="/how-it-works" className="mt-8 inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-sm font-bold text-ink-foreground">
             Learn more →
           </Link>
         </div>
       </section>
+
       <SiteFooter />
       <Chatbot />
     </div>

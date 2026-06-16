@@ -1,10 +1,11 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 import { TREE } from "@/lib/tree";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { ArrowRight, ChevronLeft, AlertTriangle } from "lucide-react";
+import type { Metadata } from "next";
 
-// Static awareness content per scam
 const SCAM_INFO: Record<string, {
   tag: string;
   howItWorks: string[];
@@ -148,22 +149,19 @@ const SCAM_INFO: Record<string, {
   },
 };
 
-export const Route = createFileRoute("/scams/$scamId")({
-  head: ({ params }) => {
-    const info = SCAM_INFO[params.scamId];
-    const leaf = TREE.leaves[params.scamId];
-    return {
-      meta: [{ title: `${leaf?.title ?? "Scam"} — Suraksha Radar` }],
-    };
-  },
-  component: ScamDetail,
-});
+export function generateMetadata({ params }: { params: { scamId: string } }): Metadata {
+  const info = SCAM_INFO[params.scamId];
+  const leaf = TREE.leaves[params.scamId];
+  return {
+    title: `${leaf?.title ?? "Scam"} — Suraksha Radar`,
+  };
+}
 
-function ScamDetail() {
-  const { scamId } = Route.useParams();
+export default function ScamDetail({ params }: { params: { scamId: string } }) {
+  const { scamId } = params;
   const info = SCAM_INFO[scamId];
   const leaf = TREE.leaves[scamId];
-  if (!info || !leaf) throw notFound();
+  if (!info || !leaf) notFound();
 
   return (
     <div className="min-h-screen">
@@ -182,7 +180,6 @@ function ScamDetail() {
 
       <section className="bg-background">
         <div className="mx-auto max-w-3xl px-5 py-10 space-y-8">
-
           {/* How it works */}
           <div>
             <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4">How this scam works</p>
@@ -222,15 +219,14 @@ function ScamDetail() {
             <p className="font-bold text-lg">Got caught in this?</p>
             <p className="mt-1 text-sm text-muted-foreground">Get your personal action plan — what to do right now, who to call, and how to draft your complaint.</p>
             <Link
-              to="/help/leaf/$leafId"
-              params={{ leafId: info.leafId }}
+              href={`/help/leaf/${info.leafId}`}
               className="mt-4 inline-flex items-center gap-2 rounded-xl border-2 border-foreground bg-foreground px-5 py-3 text-sm font-bold text-background shadow-[3px_3px_0_0_var(--primary)] transition-transform hover:-translate-y-0.5"
             >
               Get my action plan <ArrowRight className="size-4" />
             </Link>
           </div>
 
-          <Link to="/scams" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
+          <Link href="/scams" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
             <ChevronLeft className="size-4" /> Back to Scam Radar
           </Link>
         </div>

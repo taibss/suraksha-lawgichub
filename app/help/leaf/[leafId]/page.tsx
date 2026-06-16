@@ -1,23 +1,12 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+"use client";
+
+import Link from "next/link";
+import { useParams, notFound } from "next/navigation";
 import { TREE } from "@/lib/tree";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { ChevronLeft, Home as HomeIcon, AlertTriangle, Shield, FileText, Scale, Phone, Upload, Copy, Check, ExternalLink } from "lucide-react";
 import { useRef, useState } from "react";
-import { draftFn, parseFn } from "./api/draft"
-
-export const Route = createFileRoute("/help/leaf/$leafId")({
-  head: ({ params }) => {
-    const leaf = TREE.leaves[params.leafId];
-    return {
-      meta: [
-        { title: `${leaf?.title ?? "Action plan"} — Suraksha` },
-        { name: "description", content: leaf?.explanation ?? "Suraksha action plan" },
-      ],
-    };
-  },
-  component: LeafPage,
-});
 
 function extractPhone(text: string): string | null {
   const match = text.match(/\b(1930|112|100|1091|1098|181|1800\d*)\b/);
@@ -77,7 +66,6 @@ function EvidenceChecklist({ items, onFilesChange }: { items: string[]; onFilesC
         ))}
       </ul>
 
-      {/* Upload button */}
       <div className="mt-4 border-t border-border pt-4">
         <input
           ref={fileRef}
@@ -176,13 +164,13 @@ const COMPLAINT_CONTEXTS: Record<string, string> = {
   family_relationship_threat: "Family threatening adult relationship",
 };
 
-function LeafPage() {
-  const { leafId } = Route.useParams();
-  const leaf = TREE.leaves[leafId];
-  if (!leaf) throw notFound();
+export default function LeafPage() {
+  const { leafId } = useParams<{ leafId: string }>();
+  const leaf = TREE.leaves[leafId!];
+  if (!leaf) notFound();
 
   const urgent = /high|urgent/i.test(leaf.urgency);
-  const complaintContext = COMPLAINT_CONTEXTS[leafId] ?? "General scam complaint";
+  const complaintContext = COMPLAINT_CONTEXTS[leafId!] ?? "General scam complaint";
 
   const [amount, setAmount] = useState("");
   const [scammerId, setScammerId] = useState("");
@@ -216,7 +204,12 @@ function LeafPage() {
     if (!rawInput.trim() || parsing) return;
     setParsing(true);
     try {
-      const data = await parseFn({ data: { text: rawInput } });
+      const res = await fetch("/api/draft", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "parse", text: rawInput }),
+      });
+      const data = await res.json();
       if (data.amount) setAmount(data.amount);
       if (data.scammerId) setScammerId(data.scammerId);
       if (data.transactionId) setTransactionId(data.transactionId);
@@ -248,7 +241,7 @@ function LeafPage() {
   }
 
   function fieldCategory() {
-    const id = leafId;
+    const id = leafId!;
     if (/upi|qr|otp|transaction|crypto|investment|loan|card|job|task|romance|matrimonial|kyc|atm|shopping|courier|equipment|visa/.test(id)) return "financial";
     if (/sextortion|blackmail|morphed|private|extortion|false_case|repeat_extortion/.test(id)) return "sextortion";
     if (/arrest|parcel|identity|fake_police|digital/.test(id)) return "police_scam";
@@ -280,7 +273,12 @@ function LeafPage() {
     setDrafting(true);
     setComplaint("");
     try {
-      const data = await draftFn({ data: buildPayload() });
+      const res = await fetch("/api/draft", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "draft", ...buildPayload() }),
+      });
+      const data = await res.json();
       setComplaint(data.draft);
     } catch {
       setComplaint("Something went wrong. Please try again.");
@@ -296,10 +294,10 @@ function LeafPage() {
   }
 
   const portalUrl = (() => {
-    if (/upi|qr|otp|crypto|investment|job|task|sextortion|blackmail|digital_arrest|fake_parcel|threat/.test(leafId)) return "https://cybercrime.gov.in";
-    if (/bank|loan_app/.test(leafId)) return "https://sachet.rbi.org.in";
-    if (/consumer|shopping|courier/.test(leafId)) return "https://consumerhelpline.gov.in";
-    if (/fir|police/.test(leafId)) return "https://www.mha.gov.in";
+    if (/upi|qr|otp|crypto|investment|job|task|sextortion|blackmail|digital_arrest|fake_parcel|threat/.test(leafId!)) return "https://cybercrime.gov.in";
+    if (/bank|loan_app/.test(leafId!)) return "https://sachet.rbi.org.in";
+    if (/consumer|shopping|courier/.test(leafId!)) return "https://consumerhelpline.gov.in";
+    if (/fir|police/.test(leafId!)) return "https://www.mha.gov.in";
     return "https://cybercrime.gov.in";
   })();
 
@@ -307,7 +305,6 @@ function LeafPage() {
     <div className="min-h-screen">
       <SiteHeader />
 
-      {/* Header band */}
       <section className={urgent ? "bg-danger text-primary-foreground" : "bg-primary text-primary-foreground"}>
         <div className="mx-auto max-w-4xl px-5 py-10">
           <div className="eyebrow opacity-80">Action plan</div>
@@ -322,7 +319,6 @@ function LeafPage() {
         </div>
       </section>
 
-      {/* What happened */}
       <section className="bg-background">
         <div className="mx-auto max-w-4xl px-5 py-10">
           <div className="rounded-2xl border-2 border-foreground bg-card p-6 shadow-[5px_5px_0_0_var(--foreground)]">
@@ -330,7 +326,6 @@ function LeafPage() {
             <p className="mt-2 text-lg text-foreground/90">{leaf.explanation}</p>
           </div>
 
-          {/* Action grid — swapped order: Do this now, Authorities, Evidence, Drafts */}
           <div className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2">
             <PlanCard icon={<AlertTriangle className="size-5" />} eyebrow="Do this now" tint="lime">
               <ol className="space-y-2.5">
@@ -557,7 +552,7 @@ function LeafPage() {
               <ChevronLeft className="size-4" /> Back
             </button>
             <Link
-              to="/help"
+              href="/help"
               className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-semibold hover:bg-muted"
             >
               <HomeIcon className="size-4" /> Start over

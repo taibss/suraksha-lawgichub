@@ -1,7 +1,10 @@
-import { Link } from "@tanstack/react-router";
+"use client";
+
+import Link from "next/link";
 import { Menu, X, Banknote, ShieldAlert, Building2, Users } from "lucide-react";
 import { useState } from "react";
 import logo from "@/assets/lawgichub-logo.png";
+
 const DOORS = [
   { id: "money", icon: <Banknote className="size-4" />, label: "I lost money" },
   { id: "threats", icon: <ShieldAlert className="size-4" />, label: "Someone is threatening me" },
@@ -16,8 +19,8 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
-        <Link to="/" className="flex items-center gap-3 text-xl font-bold tracking-tight">
-          <img src={logo} alt="Suraksha" className="h-14 w-auto object-contain" />
+        <Link href="/" className="flex items-center gap-3 text-xl font-bold tracking-tight">
+          <img src={logo.src} alt="Suraksha" className="h-14 w-auto object-contain" />
           <span className="flex items-center gap-1.5">
             Suraksha
             <span className="size-2 rounded-full bg-primary" aria-hidden />
@@ -26,15 +29,14 @@ export function SiteHeader() {
 
         {/* Desktop nav */}
         <nav className="hidden items-center gap-7 md:flex">
-          <Link to="/scams" className="text-sm font-semibold transition-colors hover:text-primary">
+          <Link href="/scams" className="text-sm font-semibold transition-colors hover:text-primary">
             Scam radar
           </Link>
-          <Link to="/how-it-works" className="text-sm font-semibold transition-colors hover:text-primary">
+          <Link href="/how-it-works" className="text-sm font-semibold transition-colors hover:text-primary">
             How it works
           </Link>
           <Link
-            to="/"
-            hash="rights"
+            href="/#rights"
             className="text-sm font-semibold transition-colors hover:text-primary"
           >
             Your rights
@@ -53,8 +55,7 @@ export function SiteHeader() {
                   {DOORS.map((d) => (
                     <Link
                       key={d.id}
-                      to="/help/$door"
-                      params={{ door: d.id }}
+                      href={`/help/${d.id}`}
                       onClick={() => setDropdownOpen(false)}
                       className="flex items-center gap-3 px-4 py-3 text-sm font-medium hover:bg-muted border-b border-border last:border-0"
                     >
@@ -84,8 +85,7 @@ export function SiteHeader() {
                   {DOORS.map((d) => (
                     <Link
                       key={d.id}
-                      to="/help/$door"
-                      params={{ door: d.id }}
+                      href={`/help/${d.id}`}
                       onClick={() => setDropdownOpen(false)}
                       className="flex items-center gap-3 px-4 py-3 text-sm font-medium hover:bg-muted border-b border-border last:border-0"
                     >
@@ -111,15 +111,14 @@ export function SiteHeader() {
       {mobileOpen && (
         <div className="border-t border-border bg-background md:hidden">
           <div className="mx-auto flex max-w-6xl flex-col gap-1 px-5 py-3">
-            <Link to="/scams" onClick={() => setMobileOpen(false)} className="rounded-md px-3 py-2 text-sm font-medium hover:bg-muted">
+            <Link href="/scams" onClick={() => setMobileOpen(false)} className="rounded-md px-3 py-2 text-sm font-medium hover:bg-muted">
               Scam radar
             </Link>
-            <Link to="/how-it-works" onClick={() => setMobileOpen(false)} className="rounded-md px-3 py-2 text-sm font-medium hover:bg-muted">
+            <Link href="/how-it-works" onClick={() => setMobileOpen(false)} className="rounded-md px-3 py-2 text-sm font-medium hover:bg-muted">
               How it works
             </Link>
             <Link
-              to="/"
-              hash="rights"
+              href="/#rights"
               onClick={() => setMobileOpen(false)}
               className="block rounded-md px-3 py-2 text-sm font-medium hover:bg-muted"
             >

@@ -1,38 +1,26 @@
-import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
+"use client";
+
+import Link from "next/link";
+import { useParams, useRouter, useSearchParams, notFound } from "next/navigation";
+import { useCallback, useEffect, useMemo } from "react";
 import { TREE, type TreeOption } from "@/lib/tree";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { ArrowRight, ChevronLeft, Home as HomeIcon } from "lucide-react";
-import { useEffect, useMemo } from "react";
-import { z } from "zod";
 
-const searchSchema = z.object({
-  path: z.array(z.string()).optional(),
-});
+export default function DoorView() {
+  const { door } = useParams<{ door: string }>();
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
-export const Route = createFileRoute("/help/$door")({
-  validateSearch: searchSchema,
-  head: ({ params }) => {
-    const d = TREE.doors.find((x) => x.id === params.door);
-    return {
-      meta: [
-        { title: `${d?.title ?? "Help"} — Suraksha` },
-        { name: "description", content: d?.subtitle ?? "Suraksha triage" },
-      ],
-    };
-  },
-  component: DoorView,
-});
-
-function DoorView() {
-  const { door } = Route.useParams();
-  const { path = [] } = Route.useSearch();
-  const navigate = useNavigate();
+  const path = useMemo(() => {
+    const raw = searchParams.getAll("path");
+    return raw.length > 0 ? raw : [];
+  }, [searchParams]);
 
   const doorData = useMemo(() => TREE.doors.find((d) => d.id === door), [door]);
-  if (!doorData) throw notFound();
+  if (!doorData) notFound();
 
-  // Walk the path
   let node: { question?: string; options: TreeOption[]; title?: string } = doorData;
   const crumbs: string[] = [doorData.title];
   for (const idxStr of path) {
@@ -41,36 +29,49 @@ function DoorView() {
     if (!next) break;
     crumbs.push(next.label);
     if (next.leaf) {
-      // Redirect to leaf
-      return <LeafRedirect leafId={next.leaf} />;
+      const LeafRedirect = () => {
+        useEffect(() => {
+          router.replace(`/help/leaf/${next.leaf!}`);
+        }, [router, next.leaf]);
+        return null;
+      };
+      return <LeafRedirect />;
     }
     node = next as TreeOption & { options: TreeOption[] };
   }
 
-  function choose(i: number) {
-    const newPath = [...path, String(i)];
-    const chosen = node.options?.[i];
-    if (chosen?.leaf) {
-      navigate({ to: "/help/leaf/$leafId", params: { leafId: chosen.leaf } });
-    } else {
-      navigate({ to: "/help/$door", params: { door }, search: { path: newPath } });
-    }
-  }
+  const choose = useCallback(
+    (i: number) => {
+      const newPath = [...path, String(i)];
+      const chosen = node.options?.[i];
+      if (chosen?.leaf) {
+        router.push(`/help/leaf/${chosen.leaf}`);
+      } else {
+        const params = new URLSearchParams();
+        newPath.forEach((p) => params.append("path", p));
+        router.push(`/help/${door}?${params.toString()}`);
+      }
+    },
+    [path, door, router]
+  );
 
-  function back() {
+  const back = useCallback(() => {
     if (path.length === 0) {
-      navigate({ to: "/help" });
+      router.push("/help");
     } else {
-      navigate({ to: "/help/$door", params: { door }, search: { path: path.slice(0, -1) } });
+      const newPath = path.slice(0, -1);
+      const params = new URLSearchParams();
+      newPath.forEach((p) => params.append("path", p));
+      router.push(`/help/${door}?${params.toString()}`);
     }
-  }
+  }, [path, door, router]);
 
   return (
     <div className="min-h-screen">
       <SiteHeader />
       <section className="bg-background">
         <div className="mx-auto max-w-3xl px-5 py-10">
-          <Breadcrumbs crumbs={crumbs} />
+          <Breadcrumbs crumbs={crumbs} door={door} />
 
           <div className="mt-5">
             <div className="text-3xl">{doorData.emoji}</div>
@@ -105,7 +106,7 @@ function DoorView() {
               <ChevronLeft className="size-4" /> Back
             </button>
             <Link
-              to="/help"
+              href="/help"
               className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-semibold hover:bg-muted"
             >
               <HomeIcon className="size-4" /> Start over
@@ -118,10 +119,10 @@ function DoorView() {
   );
 }
 
-function Breadcrumbs({ crumbs }: { crumbs: string[] }) {
+function Breadcrumbs({ crumbs, door }: { crumbs: string[]; door: string }) {
   return (
     <div className="eyebrow flex flex-wrap items-center gap-1.5 text-muted-foreground">
-      <Link to="/help" className="hover:text-foreground">Triage</Link>
+      <Link href="/help" className="hover:text-foreground">Triage</Link>
       {crumbs.map((c, i) => (
         <span key={i} className="flex items-center gap-1.5">
           <span>›</span>
@@ -130,12 +131,4 @@ function Breadcrumbs({ crumbs }: { crumbs: string[] }) {
       ))}
     </div>
   );
-}
-
-function LeafRedirect({ leafId }: { leafId: string }) {
-  const navigate = useNavigate();
-  useEffect(() => {
-    navigate({ to: "/help/leaf/$leafId", params: { leafId }, replace: true });
-  }, [leafId, navigate]);
-  return null;
 }
