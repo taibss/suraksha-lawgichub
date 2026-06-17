@@ -7,20 +7,8 @@ import { TREE } from "@/lib/tree";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { ArrowRight, Phone, ChevronDown, ChevronUp, X, MessageCircle } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { chatFn } from "./api/chat"
 import splashLogo from "@/assets/lawgichub-logo.png";
-
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Suraksha — Mumbai's Scam Defence" },
-      { name: "description", content: "Got scammed? We fix that. Fast." },
-    ],
-  }),
-  component: Home,
-});
 
 const PULSE = [
   "Senior dodges ₹14L digital arrest call",
@@ -449,7 +437,7 @@ function Chatbot() {
   );
 }
 
-function Home() {
+export default function Home() {
   const [showSplash, setShowSplash] = useState(true);
   const [contentReady, setContentReady] = useState(false);
   const [cardsReady, setCardsReady] = useState(false);
@@ -484,7 +472,7 @@ function Home() {
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
           >
             <img
-              src={splashLogo}
+              src={splashLogo.src}
               alt=""
               className="w-full h-full object-contain p-12 md:p-20"
             />
@@ -548,7 +536,7 @@ function Home() {
               className="mt-6"
             >
               <Link
-                to="/scams"
+                href="/scams"
                 className="group inline-flex items-center justify-center gap-2 rounded-full border-2 border-foreground bg-primary px-6 py-4 text-base font-semibold text-primary-foreground shadow-[5px_5px_0_0_var(--foreground)] transition-all hover:-translate-y-0.5"
               >
                 Show me the scams
@@ -580,8 +568,7 @@ function Home() {
                 {TREE.doors.map((d, i) => (
                   <Link
                     key={d.id}
-                    to="/help/$door"
-                    params={{ door: d.id }}
+                    href={"/help/" + d.id}
                     style={DOOR_STYLES[i % 4].style}
                     className={`group relative rounded-2xl p-6 ${i % 4 === 2 ? "shadow-[5px_5px_0_0_white]" : "shadow-[5px_5px_0_0_var(--foreground)]"} transition-transform hover:-translate-y-1 ${DOOR_STYLES[i % 4].bg}`}
                   >
@@ -653,8 +640,7 @@ function Home() {
                   </a>
 
                   <Link
-                    to="/help/$door"
-                    params={{ door: "money" }}
+                    href="/help/money"
                     className="inline-flex items-center gap-1.5 rounded-full border border-white/70 px-4 py-2 text-xs font-semibold text-white hover:bg-white hover:text-[#B91C1C] transition-colors"
                   >
                     Walk me through it
@@ -761,7 +747,7 @@ function Home() {
                 ))}
               </div>
               <Link
-                to="/how-it-works"
+                href="/how-it-works"
                 className="mt-8 inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-sm font-bold text-ink-foreground"
               >
                 Learn more →

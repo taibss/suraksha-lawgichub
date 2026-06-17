@@ -7,20 +7,6 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { ChevronLeft, Home as HomeIcon, AlertTriangle, Shield, FileText, Scale, Phone, Upload, Copy, Check, ExternalLink } from "lucide-react";
 import { useRef, useState } from "react";
-import { draftFn, parseFn } from "./api/draft"
-
-export const Route = createFileRoute("/help/leaf/$leafId")({
-  head: ({ params }) => {
-    const leaf = TREE.leaves[params.leafId];
-    return {
-      meta: [
-        { title: `${leaf?.title ?? "Action plan"} — Suraksha` },
-        { name: "description", content: leaf?.explanation ?? "Suraksha action plan" },
-      ],
-    };
-  },
-  component: LeafPage,
-});
 
 function portalUrl(leafId: string): string {
   if (/upi|qr|otp|crypto|investment|job|task|sextortion|blackmail|digital_arrest|fake_parcel|threat/.test(leafId)) {
@@ -624,8 +610,7 @@ function AdvocateFloatingCard({ leafId }: { leafId: string }) {
       </p>
       <div className="mt-3 flex gap-2">
         <Link
-          to="/advocate"
-          search={{ issue: leafId, leafId: "" }}
+          href="/advocate"
           className="flex-1 rounded-full bg-lime px-4 py-2 text-center text-xs font-bold text-ink"
         >
           Connect →
