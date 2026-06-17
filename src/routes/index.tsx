@@ -4,7 +4,9 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { ArrowRight, Phone, ChevronDown, ChevronUp, X, MessageCircle } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { chatFn } from "./api/chat"
+import splashLogo from "@/assets/lawgichub-logo.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -481,20 +483,57 @@ function Chatbot() {
 }
 
 function Home() {
+  const [showSplash, setShowSplash] = useState(true);
+  const [contentReady, setContentReady] = useState(false);
+  const [cardsReady, setCardsReady] = useState(false);
+  const [emergencyReady, setEmergencyReady] = useState(false);
   useEffect(() => {
-    if (window.location.hash === "#rights") {
-      setTimeout(() => {
-        document.getElementById("rights")?.scrollIntoView({ behavior: "smooth" });
-      }, 100);
-    }
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+      setContentReady(true);
+    }, 1300);
+    return () => clearTimeout(timer);
   }, []);
+  useEffect(() => {
+    if (!contentReady) return;
+    const timer = setTimeout(() => setCardsReady(true), 900);
+    return () => clearTimeout(timer);
+  }, [contentReady]);
+  useEffect(() => {
+    if (!cardsReady) return;
+    const timer = setTimeout(() => setEmergencyReady(true), 500);
+    return () => clearTimeout(timer);
+  }, [cardsReady]);
 
   return (
-    <div className="min-h-screen">
+    <>
+      <AnimatePresence>
+        {showSplash && (
+          <motion.div
+            key="splash"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-white"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <img
+              src={splashLogo}
+              alt=""
+              className="w-full h-full object-contain p-12 md:p-20"
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <div className="min-h-screen">
       <SiteHeader />
 
       {/* Pulse strip */}
-      <div className="bg-ink text-ink-foreground">
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={contentReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0 }}
+      >
+        <div className="bg-ink text-ink-foreground">
         <div className="mx-auto flex max-w-6xl items-center gap-3 overflow-hidden px-5 py-2.5">
           <span className="eyebrow shrink-0 text-lime">● Live</span>
           <div className="relative flex-1 overflow-hidden">
@@ -506,20 +545,41 @@ function Home() {
           </div>
         </div>
       </div>
+        </motion.div>
 
       {/* Hero */}
       <section className="bg-primary text-primary-foreground">
         <div className="mx-auto max-w-6xl px-5 py-12 md:py-20">
-          <span className="inline-flex items-center rounded-full bg-lime px-4 py-1.5 text-xs font-bold tracking-widest text-lime-foreground">
+          <motion.span
+            initial={{ opacity: 0, y: 24 }}
+            animate={contentReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+            className="inline-flex items-center rounded-full bg-lime px-4 py-1.5 text-xs font-bold tracking-widest text-lime-foreground"
+          >
             MUMBAI'S SCAM DEFENCE
-          </span>
-          <h1 className="mt-4 font-display text-[clamp(2rem,5vw,3.5rem)] font-extrabold leading-[0.95] tracking-tight">
+          </motion.span>
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={contentReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+            className="mt-4 font-display text-[clamp(2rem,5vw,3.5rem)] font-extrabold leading-[0.95] tracking-tight"
+          >
             Got scammed?<br />We fix that.
-          </h1>
-          <p className="mt-4 max-w-md text-base text-primary-foreground/85">
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 24 }}
+            animate={contentReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
+            className="mt-4 max-w-md text-base text-primary-foreground/85"
+          >
             Lawyer on call. Complaint drafted. No cap, no wait.
-          </p>
-          <div className="mt-6">
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={contentReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.5 }}
+            className="mt-6"
+          >
             <Link
               to="/scams"
               className="group inline-flex items-center justify-center gap-2 rounded-full border-2 border-foreground bg-primary px-6 py-4 text-base font-semibold text-primary-foreground shadow-[5px_5px_0_0_var(--foreground)] transition-all hover:-translate-y-0.5"
@@ -527,10 +587,15 @@ function Home() {
               Show me the scams
               <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
             </Link>
-          </div>
+          </motion.div>
         </div>
       </section>
       {/* Four doors */}
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={cardsReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      >
       <section
         style={{
           backgroundColor: "#f0f0f0ff",
@@ -564,7 +629,13 @@ function Home() {
           </div>
         </div>
       </section>
+      </motion.div>
       {/* Emergency Alert Card */}
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={emergencyReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      >
       <section
         style={{
           backgroundColor: "#f0f0f0ff",
@@ -626,8 +697,12 @@ function Home() {
           </div>
         </div>
       </section>
-
-      {/* My Rights */}
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={emergencyReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      >
       <section
         id="rights"
         style={{
@@ -732,6 +807,8 @@ function Home() {
       </section>
       <SiteFooter />
       <Chatbot />
+    </motion.div>
     </div>
+    </>
   );
 }

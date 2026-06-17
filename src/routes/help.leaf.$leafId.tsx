@@ -542,11 +542,7 @@ function LeafPage() {
                   rows={10}
                   className="w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none font-mono"
                 />
-<<<<<<< HEAD
                 <div className="mt-3 flex flex-wrap items-center gap-3">
-=======
-                <div className="mt-2 flex flex-wrap gap-2">
->>>>>>> f4ee245 (added lawyer page)
                   <button
                     onClick={copyComplaint}
                     className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-semibold hover:bg-muted transition-colors"
@@ -555,21 +551,12 @@ function LeafPage() {
                     {copied ? "Copied!" : "Copy complaint"}
                   </button>
                   <a
-<<<<<<< HEAD
                     href={portalUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-semibold hover:bg-muted transition-colors"
                   >
                     Go to portal <ExternalLink className="size-4" />
-=======
-                    href={portalUrl(leafId)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-full border-2 border-foreground bg-foreground px-4 py-2 text-sm font-bold text-background shadow-[3px_3px_0_0_var(--foreground)] transition-transform hover:-translate-y-0.5"
-                  >
-                    Go to portal →
->>>>>>> f4ee245 (added lawyer page)
                   </a>
                 </div>
                 <p className="mt-2 text-xs text-muted-foreground">

@@ -81,7 +81,6 @@ export const draftFn = createServerFn({ method: "POST" })
           messages: [
             {
               role: "system",
-<<<<<<< HEAD
               content: `Generate a formal Indian police complaint letter. Follow these strict formatting rules:
 
 1. NO markdown, NO asterisks, NO bold, NO bullet points with dashes, NO numbered lists with dots. Plain text only.
@@ -112,9 +111,6 @@ Yours faithfully,
 Date: [Date of complaint]
 
 3. Use ONLY details provided by user. Leave unProvided details in square brackets. NEVER invent details. No markdown formatting whatsoever.${legalSections ? "\n\n4. " + legalSections : ""}${evidenceLine}`,
-=======
-              content: `You are a legal assistant helping Indian scam victims. Generate a formal complaint letter for cybercrime.gov.in. Use the details provided. The complaint type is described in "complaintContext". Format it with: To (Cyber Crime Cell), Subject, Body as continuous paragraphs with all incident details filled in, and closing. Do NOT use any markdown syntax — no asterisks, no dashes, no numbered lists, no bullet points. Use only plain text paragraphs. Keep it formal, factual, and under 300 words.`,
->>>>>>> f4ee245 (added lawyer page)
             },
             {
               role: "user",
