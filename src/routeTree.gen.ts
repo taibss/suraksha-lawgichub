@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
+import { Route as AdvocateRouteImport } from './routes/advocate'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ScamsIndexRouteImport } from './routes/scams.index'
 import { Route as HelpIndexRouteImport } from './routes/help.index'
@@ -20,6 +21,11 @@ import { Route as HelpLeafLeafIdRouteImport } from './routes/help.leaf.$leafId'
 const HowItWorksRoute = HowItWorksRouteImport.update({
   id: '/how-it-works',
   path: '/how-it-works',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdvocateRoute = AdvocateRouteImport.update({
+  id: '/advocate',
+  path: '/advocate',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -55,6 +61,7 @@ const HelpLeafLeafIdRoute = HelpLeafLeafIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/advocate': typeof AdvocateRoute
   '/how-it-works': typeof HowItWorksRoute
   '/help/$door': typeof HelpDoorRoute
   '/scams/$scamId': typeof ScamsScamIdRoute
@@ -64,6 +71,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/advocate': typeof AdvocateRoute
   '/how-it-works': typeof HowItWorksRoute
   '/help/$door': typeof HelpDoorRoute
   '/scams/$scamId': typeof ScamsScamIdRoute
@@ -74,6 +82,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/advocate': typeof AdvocateRoute
   '/how-it-works': typeof HowItWorksRoute
   '/help/$door': typeof HelpDoorRoute
   '/scams/$scamId': typeof ScamsScamIdRoute
@@ -85,6 +94,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/advocate'
     | '/how-it-works'
     | '/help/$door'
     | '/scams/$scamId'
@@ -94,6 +104,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/advocate'
     | '/how-it-works'
     | '/help/$door'
     | '/scams/$scamId'
@@ -103,6 +114,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/advocate'
     | '/how-it-works'
     | '/help/$door'
     | '/scams/$scamId'
@@ -113,6 +125,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdvocateRoute: typeof AdvocateRoute
   HowItWorksRoute: typeof HowItWorksRoute
   HelpDoorRoute: typeof HelpDoorRoute
   ScamsScamIdRoute: typeof ScamsScamIdRoute
@@ -128,6 +141,13 @@ declare module '@tanstack/react-router' {
       path: '/how-it-works'
       fullPath: '/how-it-works'
       preLoaderRoute: typeof HowItWorksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/advocate': {
+      id: '/advocate'
+      path: '/advocate'
+      fullPath: '/advocate'
+      preLoaderRoute: typeof AdvocateRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -177,6 +197,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdvocateRoute: AdvocateRoute,
   HowItWorksRoute: HowItWorksRoute,
   HelpDoorRoute: HelpDoorRoute,
   ScamsScamIdRoute: ScamsScamIdRoute,

@@ -25,7 +25,7 @@ const PULSE = [
 ];
 
 const DOOR_STYLES = [
-  { bg: "text-foreground border-2 border-border", style: { backgroundColor: "#15dbdbff" } },
+  { bg: "text-foreground border-2 border-border", style: { backgroundColor: "#a9def9" } },
   { bg: "bg-lime text-lime-foreground", style: {} },
   { bg: "bg-ink text-ink-foreground", style: {} },
   { bg: "bg-card text-foreground border-2 border-border", style: {} },
@@ -551,7 +551,7 @@ function Home() {
                 to="/help/$door"
                 params={{ door: d.id }}
                 style={DOOR_STYLES[i % 4].style}
-                className={`group relative rounded-2xl p-6 transition-transform hover:-translate-y-1 ${DOOR_STYLES[i % 4].bg}`}
+                className={`group relative rounded-2xl p-6 ${i % 4 === 2 ? "shadow-[5px_5px_0_0_white]" : "shadow-[5px_5px_0_0_var(--foreground)]"} transition-transform hover:-translate-y-1 ${DOOR_STYLES[i % 4].bg}`}
               >
                 <div className="text-3xl">{d.emoji}</div>
                 <div className="mt-3 font-display text-xl font-extrabold">{d.title}</div>

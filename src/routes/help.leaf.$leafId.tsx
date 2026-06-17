@@ -19,6 +19,22 @@ export const Route = createFileRoute("/help/leaf/$leafId")({
   component: LeafPage,
 });
 
+function portalUrl(leafId: string): string {
+  if (/upi|qr|otp|crypto|investment|job|task|sextortion|blackmail|digital_arrest|fake_parcel|threat/.test(leafId)) {
+    return "https://cybercrime.gov.in";
+  }
+  if (/bank|loan_app/.test(leafId)) {
+    return "https://sachet.rbi.org.in";
+  }
+  if (/consumer|shopping|courier/.test(leafId)) {
+    return "https://consumerhelpline.gov.in";
+  }
+  if (/fir|police/.test(leafId)) {
+    return "https://www.mha.gov.in";
+  }
+  return "https://cybercrime.gov.in";
+}
+
 function extractPhone(text: string): string | null {
   const match = text.match(/\b(1930|112|100|1091|1098|181|1800\d*)\b/);
   return match ? match[1] : null;
@@ -304,26 +320,27 @@ function LeafPage() {
   })();
 
   return (
-    <div className="min-h-screen">
-      <SiteHeader />
+    <>
+      <div className="min-h-screen">
+        <SiteHeader />
 
-      {/* Header band */}
-      <section className={urgent ? "bg-danger text-primary-foreground" : "bg-primary text-primary-foreground"}>
-        <div className="mx-auto max-w-4xl px-5 py-10">
-          <div className="eyebrow opacity-80">Action plan</div>
-          <h1 className="mt-2 font-display text-[clamp(1.75rem,5vw,3rem)] font-extrabold leading-[1.05] tracking-tight">
-            {leaf.title}
-          </h1>
-          <div className="mt-4 flex flex-wrap gap-2 text-sm">
-            <span className="rounded-full bg-foreground/15 px-3 py-1">Urgency: {leaf.urgency}</span>
-            <span className="rounded-full bg-foreground/15 px-3 py-1">#{leafId}</span>
-            {leaf.lawyer && <span className="rounded-full bg-foreground/15 px-3 py-1">Lawyer: {leaf.lawyer}</span>}
+        {/* Header band */}
+        <section className={urgent ? "bg-danger text-primary-foreground" : "bg-primary text-primary-foreground"}>
+          <div className="mx-auto max-w-4xl px-5 py-10">
+            <div className="eyebrow opacity-80">Action plan</div>
+            <h1 className="mt-2 font-display text-[clamp(1.75rem,5vw,3rem)] font-extrabold leading-[1.05] tracking-tight">
+              {leaf.title}
+            </h1>
+            <div className="mt-4 flex flex-wrap gap-2 text-sm">
+              <span className="rounded-full bg-foreground/15 px-3 py-1">Urgency: {leaf.urgency}</span>
+              <span className="rounded-full bg-foreground/15 px-3 py-1">#{leafId}</span>
+              {leaf.lawyer && <span className="rounded-full bg-foreground/15 px-3 py-1">Lawyer: {leaf.lawyer}</span>}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* What happened */}
-      <section className="bg-background">
+        {/* What happened */}
+        <section className="bg-background">
         <div className="mx-auto max-w-4xl px-5 py-10">
           <div className="rounded-2xl border-2 border-foreground bg-card p-6 shadow-[5px_5px_0_0_var(--foreground)]">
             <div className="eyebrow text-primary">What likely happened</div>
@@ -525,7 +542,11 @@ function LeafPage() {
                   rows={10}
                   className="w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none font-mono"
                 />
+<<<<<<< HEAD
                 <div className="mt-3 flex flex-wrap items-center gap-3">
+=======
+                <div className="mt-2 flex flex-wrap gap-2">
+>>>>>>> f4ee245 (added lawyer page)
                   <button
                     onClick={copyComplaint}
                     className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-semibold hover:bg-muted transition-colors"
@@ -534,12 +555,21 @@ function LeafPage() {
                     {copied ? "Copied!" : "Copy complaint"}
                   </button>
                   <a
+<<<<<<< HEAD
                     href={portalUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-semibold hover:bg-muted transition-colors"
                   >
                     Go to portal <ExternalLink className="size-4" />
+=======
+                    href={portalUrl(leafId)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border-2 border-foreground bg-foreground px-4 py-2 text-sm font-bold text-background shadow-[3px_3px_0_0_var(--foreground)] transition-transform hover:-translate-y-0.5"
+                  >
+                    Go to portal →
+>>>>>>> f4ee245 (added lawyer page)
                   </a>
                 </div>
                 <p className="mt-2 text-xs text-muted-foreground">
@@ -567,6 +597,48 @@ function LeafPage() {
       </section>
 
       <SiteFooter />
+      </div>
+
+      <AdvocateFloatingCard leafId={leafId} />
+    </>
+  );
+}
+
+function AdvocateFloatingCard({ leafId }: { leafId: string }) {
+  const [showBrief, setShowBrief] = useState(false);
+
+  if (!showBrief) {
+    return (
+      <button
+        onClick={() => setShowBrief(true)}
+        className="fixed bottom-6 right-6 z-50 rounded-full border-2 border-foreground bg-foreground px-6 py-4 text-base font-bold text-background shadow-[5px_5px_0_0_#ffb703] transition-transform hover:-translate-y-0.5 bg-gradient-to-b from-white/15 to-transparent"
+      >
+        ⚖ Talk to an Advocate
+      </button>
+    );
+  }
+
+  return (
+    <div className="fixed bottom-6 right-6 z-50 w-64 rounded-2xl border-2 border-lime bg-ink p-4 shadow-[4px_4px_0_0_var(--foreground)]">
+      <p className="text-sm font-bold text-lime">Talk to a Verified Advocate</p>
+      <p className="mt-1 text-xs text-lime/70">
+        Free first consultation. No upfront payment. A LawgicHub advocate will call you back.
+      </p>
+      <div className="mt-3 flex gap-2">
+        <Link
+          to="/advocate"
+          search={{ issue: leafId, leafId: "" }}
+          className="flex-1 rounded-full bg-lime px-4 py-2 text-center text-xs font-bold text-ink"
+        >
+          Connect →
+        </Link>
+        <button
+          onClick={() => setShowBrief(false)}
+          className="rounded-full border border-lime/30 px-3 py-2 text-xs text-lime/70"
+        >
+          ✕
+        </button>
+      </div>
     </div>
   );
 }
