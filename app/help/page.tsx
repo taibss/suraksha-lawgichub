@@ -1,21 +1,13 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+"use client";
+
+import Link from "next/link";
 import { TREE } from "@/lib/tree";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { ArrowRight, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 
-export const Route = createFileRoute("/help/")({
-  head: () => ({
-    meta: [
-      { title: "Get help — Suraksha" },
-      { name: "description", content: "Tell us what's going on. We'll turn the panic into a clear plan." },
-    ],
-  }),
-  component: HelpIndex,
-});
-
-function HelpIndex() {
+export default function HelpIndex() {
   const [q, setQ] = useState("");
   const results = useMemo(() => {
     const term = q.toLowerCase().trim();
@@ -57,8 +49,7 @@ function HelpIndex() {
               {results.map(([id, l]) => (
                 <Link
                   key={id}
-                  to="/help/leaf/$leafId"
-                  params={{ leafId: id }}
+                  href={`/help/leaf/${id}`}
                   className="flex items-center justify-between gap-3 border-b border-border px-4 py-3 last:border-0 hover:bg-muted"
                 >
                   <div>
@@ -88,8 +79,7 @@ function HelpIndex() {
               return (
                 <Link
                   key={d.id}
-                  to="/help/$door"
-                  params={{ door: d.id }}
+                  href={`/help/${d.id}`}
                   className={`group block rounded-3xl border-2 border-foreground p-6 shadow-[5px_5px_0_0_var(--foreground)] transition-transform hover:-translate-y-1 hover:shadow-[8px_8px_0_0_var(--foreground)] ${cls}`}
                 >
                   <div className="text-3xl">{d.emoji}</div>

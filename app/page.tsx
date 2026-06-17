@@ -1,4 +1,8 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+"use client";
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState, useRef } from "react";
 import { TREE } from "@/lib/tree";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -104,16 +108,13 @@ function RightsSection() {
             </div>
           </button>
           {open === i && (
-            <p
-              className="pb-5 text-sm leading-relaxed text-muted-foreground pl-[104px]">{r.body}</p>
+            <p className="pb-5 text-sm leading-relaxed text-muted-foreground pl-[104px]">{r.body}</p>
           )}
         </div>
       ))}
     </div>
   );
 }
-
-
 
 function RightsSectionOrange() {
   const [open, setOpen] = useState<number | null>(null);
@@ -184,8 +185,9 @@ function RightsSectionDark() {
     </div>
   );
 }
+
 function MessageText({ text }: { text: string }) {
-  const navigate = useNavigate();
+  const router = useRouter();
   const linkRegex = /\/(help|scams|how-it-works)(?:\/\S*)?/g;
   const parts: (string | { path: string })[] = [];
   let last = 0;
@@ -204,7 +206,7 @@ function MessageText({ text }: { text: string }) {
         ) : (
           <button
             key={i}
-            onClick={() => navigate({ to: p.path })}
+            onClick={() => router.push(p.path)}
             className="underline font-semibold hover:text-primary cursor-pointer bg-transparent border-none p-0 inline"
           >
             {p.path}
@@ -220,18 +222,15 @@ function Chatbot() {
   const [messages, setMessages] = useState([
     {
       role: "model",
-      parts: [
-        {
-          text: "Hey! I'm Suraksha 👋 What happened?",
-        },
-      ],
+      parts: [{ text: "Hey! I'm Suraksha 👋 What happened?" }],
     },
   ]);
 
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate();
+  const router = useRouter();
+
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
@@ -256,7 +255,6 @@ function Chatbot() {
       [["social media harassment", "impersonation", "fake account"], "social_harassment"],
       [["stalking", "following me", "offline stalking"], "offline_stalking"],
       [["ex threatening", "known person", "neighbour threat"], "known_person_threat"],
-
       [["upi paid", "upi blocked", "gpay blocked", "phonepe blocked", "paytm blocked"], "upi_paid_blocked"],
       [["qr code", "scan qr", "qr receive", "receive money qr"], "qr_receive_scam"],
       [["shared otp", "otp scam", "upi pin scam", "card detail scam"], "otp_pin_scam"],
@@ -287,7 +285,6 @@ function Chatbot() {
       [["matrimonial scam", "matrimony scam", "shaadi scam"], "matrimonial_scam"],
       [["romance scam", "dating app scam", "online dating"], "romance_scam"],
       [["honey trap", "honey trap scam"], "honey_trap"],
-
       [["report online fraud", "file cyber complaint", "report cybercrime"], "cyber_report_needed"],
       [["1930 not reachable", "1930 not working", "1930 busy"], "1930_issue"],
       [["complaint delay", "portal update delay", "site not working"], "portal_delay"],
@@ -301,7 +298,6 @@ function Chatbot() {
       [["telecom issue", "sim issue", "mobile network complaint", "jio airtel"], "telecom_issue"],
       [["travel scam", "booking scam", "flight refund", "train refund"], "travel_booking_scam"],
       [["course scam", "coaching scam", "education scam", "training scam"], "course_scam"],
-
       [["salary not paid", "unpaid salary", "employer not paying"], "salary_not_paid"],
       [["freelance unpaid", "client not paying", "freelancer payment"], "freelance_unpaid"],
       [["security deposit", "deposit not returned", "rent deposit"], "deposit_not_returned"],
@@ -313,7 +309,7 @@ function Chatbot() {
 
     for (const [keywords, leafId] of leafMatches) {
       if (keywords.some((k) => t.includes(k))) {
-        return { to: "/help/leaf/$leafId", params: { leafId } };
+        return { to: `/help/leaf/${leafId}` };
       }
     }
 
@@ -350,11 +346,12 @@ function Chatbot() {
     const redirectPath = redirectFromInput(input);
 
     try {
-      const data = await chatFn({
-        data: {
-          messages: updated,
-        },
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: updated }),
       });
+      const data = await res.json();
 
       setMessages([
         ...updated,
@@ -364,16 +361,12 @@ function Chatbot() {
         },
       ]);
     } catch (err) {
-      console.error("CHAT ERROR: ", err)
+      console.error("CHAT ERROR: ", err);
       setMessages([
         ...updated,
         {
           role: "model",
-          parts: [
-            {
-              text: "Something went wrong. Please call 1930 directly.",
-            },
-          ],
+          parts: [{ text: "Something went wrong. Please call 1930 directly." }],
         },
       ]);
     } finally {
@@ -381,7 +374,7 @@ function Chatbot() {
     }
 
     if (redirectPath) {
-      navigate(redirectPath);
+      router.push(redirectPath.to);
     }
   }
 
@@ -400,33 +393,16 @@ function Chatbot() {
       </button>
 
       {open && (
-        <div
-          className="fixed bottom-24 right-6 z-50 w-80 h-[420px] rounded-2xl border-2 border-foreground bg-background shadow-[4px_4px_0_0_var(--foreground)] flex flex-col overflow-hidden"
-        >
-          {/* Header */}
+        <div className="fixed bottom-24 right-6 z-50 w-80 h-[420px] rounded-2xl border-2 border-foreground bg-background shadow-[4px_4px_0_0_var(--foreground)] flex flex-col overflow-hidden">
           <div className="flex items-center gap-2 px-4 py-3 border-b border-border shrink-0">
             <span className="size-2 rounded-full bg-lime animate-pulse" />
-            <span className="text-sm font-bold">
-              Suraksha · your safety guide
-            </span>
+            <span className="text-sm font-bold">Suraksha · your safety guide</span>
           </div>
 
-          {/* Messages */}
           <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3">
             {messages.map((m, i) => (
-              <div
-                key={i}
-                className={`flex ${m.role === "user"
-                  ? "justify-end"
-                  : "justify-start"
-                  }`}
-              >
-                <div
-                  className={`max-w-[85%] rounded-2xl px-3 py-2 text-sm ${m.role === "user"
-                    ? "bg-foreground text-background"
-                    : "bg-muted text-foreground"
-                    }`}
-                >
+              <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
+                <div className={`max-w-[85%] rounded-2xl px-3 py-2 text-sm ${m.role === "user" ? "bg-foreground text-background" : "bg-muted text-foreground"}`}>
                   <MessageText text={m.parts[0].text} />
                 </div>
               </div>
@@ -437,7 +413,7 @@ function Chatbot() {
                 {BOT_OPTIONS.map((opt) => (
                   <Link
                     key={opt.to}
-                    to={opt.to}
+                    href={opt.to}
                     className="rounded-full border border-border px-4 py-2 text-sm font-medium text-foreground hover:bg-muted transition-colors text-center"
                   >
                     {opt.label}
@@ -446,27 +422,19 @@ function Chatbot() {
               </div>
             )}
 
-            {loading && (
-              <div className="text-sm text-muted-foreground">
-                Suraksha is thinking...
-              </div>
-            )}
+            {loading && <div className="text-sm text-muted-foreground">Suraksha is thinking...</div>}
 
             <div ref={bottomRef} />
           </div>
 
-          {/* Input */}
           <div className="border-t border-border px-3 py-2 flex gap-2">
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) =>
-                e.key === "Enter" && send()
-              }
+              onKeyDown={(e) => e.key === "Enter" && send()}
               placeholder="What happened?"
               className="flex-1 rounded-full border border-border bg-muted px-4 py-2 text-sm"
             />
-
             <button
               onClick={send}
               disabled={loading || !input.trim()}

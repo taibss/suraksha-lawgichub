@@ -1,7 +1,17 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import Link from "next/link";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { ArrowRight } from "lucide-react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Scam Radar — Suraksha",
+  description: "What's circulating right now in India. Red flags and what to do.",
+  openGraph: {
+    title: "Scam Radar — Suraksha",
+    description: "What's circulating in India right now.",
+  },
+};
 
 const RADAR = [
   { tag: "Trending", title: 'The "Digital Arrest" call', body: "Fake cop video call, bans you from hanging up.", leaf: "digital_arrest" },
@@ -14,19 +24,7 @@ const RADAR = [
   { tag: "Serious", title: "Sextortion", body: "Recorded video call, threats to leak.", leaf: "sextortion_real" },
 ];
 
-export const Route = createFileRoute("/scams/")({
-  head: () => ({
-    meta: [
-      { title: "Scam Radar — Suraksha" },
-      { name: "description", content: "What's circulating right now in India. Red flags and what to do." },
-      { property: "og:title", content: "Scam Radar — Suraksha" },
-      { property: "og:description", content: "What's circulating in India right now." },
-    ],
-  }),
-  component: Scams,
-});
-
-function Scams() {
+export default function Scams() {
   return (
     <div className="min-h-screen">
       <SiteHeader />
@@ -47,8 +45,7 @@ function Scams() {
             {RADAR.map((r) => (
               <Link
                 key={r.title}
-                to="/scams/$scamId"
-                params={{ scamId: r.leaf }}
+                href={`/scams/${r.leaf}`}
                 className="group block rounded-2xl border-2 border-foreground bg-card p-5 shadow-[4px_4px_0_0_var(--foreground)] transition-transform hover:-translate-y-1 hover:shadow-[6px_6px_0_0_var(--foreground)]"
               >
                 <span className="eyebrow text-primary">{r.tag}</span>

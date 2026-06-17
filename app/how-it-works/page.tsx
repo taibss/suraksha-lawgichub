@@ -1,18 +1,16 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import Link from "next/link";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import type { Metadata } from "next";
 
-export const Route = createFileRoute("/how-it-works")({
-  head: () => ({
-    meta: [
-      { title: "How it works — Suraksha" },
-      { name: "description", content: "Three moves. One unbothered you. Spot it. Block it. Fix it." },
-      { property: "og:title", content: "How it works — Suraksha" },
-      { property: "og:description", content: "Spot it. Block it. Fix it." },
-    ],
-  }),
-  component: HowItWorks,
-});
+export const metadata: Metadata = {
+  title: "How it works — Suraksha",
+  description: "Three moves. One unbothered you. Spot it. Block it. Fix it.",
+  openGraph: {
+    title: "How it works — Suraksha",
+    description: "Spot it. Block it. Fix it.",
+  },
+};
 
 const STEPS = [
   { n: "01", title: "Spot it", body: "Real scams turned into warnings you'll actually read. We translate every FIR into a one-line red flag." },
@@ -20,7 +18,7 @@ const STEPS = [
   { n: "03", title: "Fix it", body: "A Fellow walks you through the report. A verified advocate is one tap away. 24×7." },
 ];
 
-function HowItWorks() {
+export default function HowItWorks() {
   return (
     <div className="min-h-screen">
       <SiteHeader />
@@ -44,7 +42,7 @@ function HowItWorks() {
             ))}
           </div>
           <Link
-            to="/help"
+            href="/help"
             className="mt-10 inline-flex items-center rounded-full border-2 border-lime bg-lime px-6 py-3 text-base font-semibold text-lime-foreground shadow-[4px_4px_0_0_white] transition-transform hover:-translate-y-0.5"
           >
             Start the triage →

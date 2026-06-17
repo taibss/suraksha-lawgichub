@@ -1,54 +1,44 @@
-import { createServerFn } from "@tanstack/react-start";
-
 const GROQ_MODEL = "openai/gpt-oss-120b";
 
-export const parseFn = createServerFn({ method: "POST" })
-  .handler(async ({ data }: any) => {
-    const { text } = data;
+export async function POST(request: Request) {
+  const body = await request.json();
+  const apiKey = process.env.GROQ_API_KEY;
 
-    const apiKey = import.meta.env.VITE_GROQ_API_KEY;
+  if (body.action === "parse") {
+    const { text } = body;
 
-    const response = await fetch(
-      "https://api.groq.com/openai/v1/chat/completions",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-          model: GROQ_MODEL,
-          messages: [
-            {
-              role: "system",
-              content: `Extract structured details from the user's scam description. Return ONLY valid JSON with these possible fields (set any to empty string if not mentioned):
+    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: GROQ_MODEL,
+        messages: [
+          {
+            role: "system",
+            content: `Extract structured details from the user's scam description. Return ONLY valid JSON with these possible fields (set any to empty string if not mentioned):
 amount (number as string), scammerId (string), transactionId (string), date (YYYY-MM-DD string), platform (string), scammerUser (string), demandType (string), callerPhone (string), claimedIdentity (string), bankOrStationName (string), refNumber (string), officerName (string), freeText (string), relationship (string), threatType (string), threatDate (YYYY-MM-DD string), reportedBefore (string).
 If the date is relative like "yesterday" or "2 days ago", figure out the actual date. Do not include any other text.`,
-            },
-            {
-              role: "user",
-              content: text,
-            },
-          ],
-        }),
-      }
-    );
+          },
+          { role: "user", content: text },
+        ],
+      }),
+    });
 
     const result = await response.json();
     const raw = result.choices?.[0]?.message?.content ?? "{}";
 
     try {
-      return JSON.parse(raw);
+      return Response.json(JSON.parse(raw));
     } catch {
-      return {};
+      return Response.json({});
     }
-  });
+  }
 
-export const draftFn = createServerFn({ method: "POST" })
-  .handler(async ({ data }: any) => {
-    const { leafId, evidenceCount, complaintContext, ...fields } = data;
-
-    const apiKey = import.meta.env.VITE_GROQ_API_KEY;
+  if (body.action === "draft") {
+    const { leafId, evidenceCount, complaintContext, ...fields } = body;
 
     const fieldLines = Object.entries(fields)
       .filter(([, v]) => v)
@@ -68,20 +58,18 @@ export const draftFn = createServerFn({ method: "POST" })
       ? `\nEvidence Attached: ${evidenceCount} file(s) uploaded including screenshots and proof of incident.`
       : "";
 
-    const response = await fetch(
-      "https://api.groq.com/openai/v1/chat/completions",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-          model: GROQ_MODEL,
-          messages: [
-            {
-              role: "system",
-              content: `Generate a formal Indian police complaint letter. Follow these strict formatting rules:
+    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: GROQ_MODEL,
+        messages: [
+          {
+            role: "system",
+            content: `Generate a formal Indian police complaint letter. Follow these strict formatting rules:
 
 1. NO markdown, NO asterisks, NO bold, NO bullet points with dashes, NO numbered lists with dots. Plain text only.
 
@@ -111,21 +99,23 @@ Yours faithfully,
 Date: [Date of complaint]
 
 3. Use ONLY details provided by user. Leave unProvided details in square brackets. NEVER invent details. No markdown formatting whatsoever.${legalSections ? "\n\n4. " + legalSections : ""}${evidenceLine}`,
-            },
-            {
-              role: "user",
-              content: `Complaint type: ${complaintContext}\n\nDetails provided by victim:\n${fieldLines}\n\nGenerate a formal Indian police complaint letter using ONLY the details above. Do not use markdown. Do not invent any details.`,
-            },
-          ],
-        }),
-      }
-    );
+          },
+          {
+            role: "user",
+            content: `Complaint type: ${complaintContext}\n\nDetails provided by victim:\n${fieldLines}\n\nGenerate a formal Indian police complaint letter using ONLY the details above. Do not use markdown. Do not invent any details.`,
+          },
+        ],
+      }),
+    });
 
     const result = await response.json();
 
-    return {
+    return Response.json({
       draft:
         result.choices?.[0]?.message?.content ??
         "Sorry, unable to generate complaint. Please try again.",
-    };
-  });
+    });
+  }
+
+  return Response.json({ error: "Invalid action" }, { status: 400 });
+}

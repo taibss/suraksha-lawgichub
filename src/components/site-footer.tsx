@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import Link from "next/link";
 
 export function SiteFooter() {
   return (
@@ -14,9 +14,9 @@ export function SiteFooter() {
             </p>
           </div>
           <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
-            <Link to="/help" className="hover:underline">Get help</Link>
-            <Link to="/scams" className="hover:underline">Scam radar</Link>
-            <Link to="/how-it-works" className="hover:underline">How it works</Link>
+            <Link href="/help" className="hover:underline">Get help</Link>
+            <Link href="/scams" className="hover:underline">Scam radar</Link>
+            <Link href="/how-it-works" className="hover:underline">How it works</Link>
           </div>
         </div>
         <p className="eyebrow mt-8 text-muted-foreground">© Suraksha · Mumbai · For information, not legal advice.</p>
