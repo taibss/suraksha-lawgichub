@@ -6,9 +6,11 @@ import { useEffect, useState, useRef } from "react";
 import { TREE } from "@/lib/tree";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { ArrowRight, Phone, ChevronDown, ChevronUp, X, MessageCircle } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, Phone, ChevronDown, ChevronUp, X } from "lucide-react";
+import { motion, AnimatePresence, useInView } from "framer-motion";
+import { FadeUp } from "@/components/fade-up";
 import splashLogo from "@/assets/lawgichub-logo.png";
+import nyayOwl from "@/assets/suraksha-owl.png";
 
 const PULSE = [
   "Senior dodges ₹14L digital arrest call",
@@ -207,10 +209,11 @@ function MessageText({ text }: { text: string }) {
 
 function Chatbot() {
   const [open, setOpen] = useState(false);
+  const [showBubble, setShowBubble] = useState(false);
   const [messages, setMessages] = useState([
     {
       role: "model",
-      parts: [{ text: "Hey! I'm Suraksha 👋 What happened?" }],
+      parts: [{ text: "Hey! I'm Nyay, Suraksha's legal guide. Got scammed or need help? Tell me what happened." }],
     },
   ]);
 
@@ -218,6 +221,15 @@ function Chatbot() {
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    if (!open) {
+      const timer = setTimeout(() => setShowBubble(true), 3000);
+      return () => clearTimeout(timer);
+    } else {
+      setShowBubble(false);
+    }
+  }, [open]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -368,29 +380,60 @@ function Chatbot() {
 
   return (
     <>
-      <button
-        onClick={() => setOpen((v) => !v)}
-        className="fixed bottom-6 right-6 z-50 flex size-14 items-center justify-center rounded-full bg-ink border-2 border-lime shadow-xl transition-transform hover:scale-105"
-        aria-label="Ask Suraksha"
-      >
-        {open ? (
-          <X className="size-5 text-lime" />
-        ) : (
-          <MessageCircle className="size-6 text-lime" />
+      <div className="fixed bottom-6 right-6 z-50 group">
+        {/* Speech bubble - appears after 3s when chat is closed */}
+        {!open && showBubble && (
+          <div className="absolute bottom-full right-0 mb-3 opacity-0 animate-[fadeInBubble_0.4s_ease_forwards] pointer-events-none">
+            <div className="relative rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-ink whitespace-nowrap shadow-lg border-2 border-[#7C3AED]">
+              Hi! I'm Nyay
+              <div className="absolute top-full right-6 -mt-px">
+                <div className="w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-[#7C3AED]" />
+              </div>
+            </div>
+          </div>
         )}
-      </button>
+        <button
+          onClick={() => setOpen((v) => !v)}
+          className="flex size-20 items-center justify-center rounded-full shadow-xl transition-transform hover:scale-105"
+          style={!open ? { animation: "owlBounce 2s ease-in-out infinite" } : undefined}
+          aria-label="Ask Nyay"
+        >
+          {open ? (
+            <div className="flex size-20 items-center justify-center rounded-full bg-ink border-2 border-[#7C3AED]">
+              <X className="size-6 text-[#7C3AED]" />
+            </div>
+          ) : (
+            <img
+              src={nyayOwl.src}
+              alt="Nyay assistant"
+              className="size-20 rounded-full object-cover"
+            />
+          )}
+        </button>
+      </div>
 
       {open && (
-        <div className="fixed bottom-24 right-6 z-50 w-80 h-[420px] rounded-2xl border-2 border-foreground bg-background shadow-[4px_4px_0_0_var(--foreground)] flex flex-col overflow-hidden">
-          <div className="flex items-center gap-2 px-4 py-3 border-b border-border shrink-0">
-            <span className="size-2 rounded-full bg-lime animate-pulse" />
-            <span className="text-sm font-bold">Suraksha · your safety guide</span>
+        <div className="fixed bottom-28 right-6 z-50 w-80 h-[420px] rounded-2xl border-2 border-[#7C3AED] bg-background shadow-[4px_4px_0_0_#7C3AED] flex flex-col overflow-hidden">
+          {/* Header */}
+          <div className="flex items-center gap-3 px-4 py-3 border-b border-border shrink-0">
+            <div className="relative shrink-0">
+              <img src={nyayOwl.src} alt="" className="size-9 rounded-full object-cover" />
+              <span className="absolute -bottom-0.5 -right-0.5 size-3 rounded-full bg-[#7C3AED] border-2 border-background animate-pulse" />
+            </div>
+            <div>
+              <span className="text-sm font-bold">Nyay</span>
+              <span className="block text-[10px] text-muted-foreground">Suraksha's legal guide</span>
+            </div>
           </div>
 
+          {/* Messages */}
           <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3">
             {messages.map((m, i) => (
-              <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
-                <div className={`max-w-[85%] rounded-2xl px-3 py-2 text-sm ${m.role === "user" ? "bg-foreground text-background" : "bg-muted text-foreground"}`}>
+              <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"} items-end gap-2`}>
+                {m.role === "model" && (
+                  <img src={nyayOwl.src} alt="" className="size-7 rounded-full object-cover shrink-0" />
+                )}
+                <div className={`max-w-[80%] rounded-2xl px-3 py-2 text-sm ${m.role === "user" ? "bg-foreground text-background" : "bg-muted text-foreground"}`}>
                   <MessageText text={m.parts[0].text} />
                 </div>
               </div>
@@ -410,11 +453,12 @@ function Chatbot() {
               </div>
             )}
 
-            {loading && <div className="text-sm text-muted-foreground">Suraksha is thinking...</div>}
+            {loading && <div className="text-sm text-muted-foreground">Nyay is thinking...</div>}
 
             <div ref={bottomRef} />
           </div>
 
+          {/* Input */}
           <div className="border-t border-border px-3 py-2 flex gap-2">
             <input
               value={input}
@@ -426,7 +470,7 @@ function Chatbot() {
             <button
               onClick={send}
               disabled={loading || !input.trim()}
-              className="rounded-full bg-foreground px-4 py-2 text-sm font-bold text-background"
+              className="rounded-full bg-[#7C3AED] px-4 py-2 text-sm font-bold text-white hover:bg-[#6D28D9] transition-colors disabled:opacity-50"
             >
               Send
             </button>
@@ -440,8 +484,6 @@ function Chatbot() {
 export default function Home() {
   const [showSplash, setShowSplash] = useState(true);
   const [contentReady, setContentReady] = useState(false);
-  const [cardsReady, setCardsReady] = useState(false);
-  const [emergencyReady, setEmergencyReady] = useState(false);
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowSplash(false);
@@ -449,16 +491,9 @@ export default function Home() {
     }, 1300);
     return () => clearTimeout(timer);
   }, []);
-  useEffect(() => {
-    if (!contentReady) return;
-    const timer = setTimeout(() => setCardsReady(true), 900);
-    return () => clearTimeout(timer);
-  }, [contentReady]);
-  useEffect(() => {
-    if (!cardsReady) return;
-    const timer = setTimeout(() => setEmergencyReady(true), 500);
-    return () => clearTimeout(timer);
-  }, [cardsReady]);
+
+  const rightsRef = useRef(null);
+  const rightsInView = useInView(rightsRef, { once: true, margin: "-80px" });
 
   return (
     <>
@@ -484,9 +519,9 @@ export default function Home() {
 
         {/* Pulse strip */}
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={contentReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0 }}
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 1.3 }}
         >
           <div className="bg-ink text-ink-foreground">
             <div className="mx-auto flex max-w-6xl items-center gap-3 overflow-hidden px-5 py-2.5">
@@ -505,34 +540,46 @@ export default function Home() {
         {/* Hero */}
         <section className="bg-primary text-primary-foreground">
           <div className="mx-auto max-w-6xl px-5 py-12 md:py-20">
-            <motion.span
-              initial={{ opacity: 0, y: 24 }}
-              animate={contentReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
-              className="inline-flex items-center rounded-full bg-lime px-4 py-1.5 text-xs font-bold tracking-widest text-lime-foreground"
-            >
-              MUMBAI'S SCAM DEFENCE
-            </motion.span>
-            <motion.h1
-              initial={{ opacity: 0, y: 24 }}
-              animate={contentReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-              className="mt-4 font-display text-[clamp(2rem,5vw,3.5rem)] font-extrabold leading-[0.95] tracking-tight"
-            >
-              Got scammed?<br />We fix that.
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 24 }}
-              animate={contentReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
-              className="mt-4 max-w-md text-base text-primary-foreground/85"
-            >
-              Lawyer on call. Complaint drafted. No cap, no wait.
-            </motion.p>
             <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              animate={contentReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.5 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 1.4 }}
+            >
+              <span className="inline-flex items-center rounded-full bg-lime px-4 py-1.5 text-xs font-bold tracking-widest text-lime-foreground">
+                MUMBAI'S SCAM DEFENCE
+              </span>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 1.5 }}
+            >
+              <h1 className="mt-4 font-display text-[clamp(2rem,5vw,3.5rem)] font-extrabold leading-[0.95] tracking-tight">
+                Got scammed?
+              </h1>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 1.62 }}
+            >
+              <h1 className="font-display text-[clamp(2rem,5vw,3.5rem)] font-extrabold leading-[0.95] tracking-tight">
+                We fix that.
+              </h1>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 1.72 }}
+            >
+              <p className="mt-4 max-w-md text-base text-primary-foreground/85">
+                Lawyer on call. Complaint drafted. No cap, no wait.
+              </p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 1.82 }}
               className="mt-6"
             >
               <Link
@@ -545,32 +592,25 @@ export default function Home() {
             </motion.div>
           </div>
         </section>
+
         {/* Four doors */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={cardsReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <section
-            style={{
-              backgroundColor: "#f0f0f0ff",
-            }}
-          >
-            <div className="mx-auto max-w-6xl px-5 py-8">
-              <div className="mb-4">
-                <p className="font-display text-[clamp(1.5rem,4vw,2.5rem)] font-extrabold leading-tight tracking-tight uppercase">
-                  WHAT ARE WE DEALING WITH?
-                </p>
-                <h4>
-                  <p className="mt-1 text-sm text-muted-foreground">give us the lore</p></h4>
-              </div>
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                {TREE.doors.map((d, i) => (
+        <section style={{ backgroundColor: "#f0f0f0ff" }}>
+          <div className="mx-auto max-w-6xl px-5 py-8">
+            <FadeUp delay={0}>
+              <p className="font-display text-[clamp(1.5rem,4vw,2.5rem)] font-extrabold leading-tight tracking-tight uppercase">
+                WHAT ARE WE DEALING WITH?
+              </p>
+            </FadeUp>
+            <FadeUp delay={0.1}>
+              <p className="mt-1 text-sm text-muted-foreground">give us the lore</p>
+            </FadeUp>
+            <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {TREE.doors.map((d, i) => (
+                <FadeUp key={d.id} delay={0.1 + i * 0.1}>
                   <Link
-                    key={d.id}
                     href={"/help/" + d.id}
                     style={DOOR_STYLES[i % 4].style}
-                    className={`group relative rounded-2xl p-6 ${i % 4 === 2 ? "shadow-[5px_5px_0_0_white]" : "shadow-[5px_5px_0_0_var(--foreground)]"} transition-transform hover:-translate-y-1 ${DOOR_STYLES[i % 4].bg}`}
+                    className={`group relative block rounded-2xl p-6 ${i % 4 === 2 ? "shadow-[5px_5px_0_0_white]" : "shadow-[5px_5px_0_0_var(--foreground)]"} transition-transform duration-300 hover:-translate-y-2 ${DOOR_STYLES[i % 4].bg}`}
                   >
                     <div className="text-3xl">{d.emoji}</div>
                     <div className="mt-3 font-display text-xl font-extrabold">{d.title}</div>
@@ -579,22 +619,15 @@ export default function Home() {
                       Get help <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
                     </div>
                   </Link>
-                ))}
-              </div>
+                </FadeUp>
+              ))}
             </div>
-          </section>
-        </motion.div>
+          </div>
+        </section>
+
         {/* Emergency Alert Card */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={emergencyReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <section
-            style={{
-              backgroundColor: "#f0f0f0ff",
-            }}
-          >
+        <FadeUp delay={0}>
+          <section style={{ backgroundColor: "#f0f0f0ff" }}>
             <div className="mx-auto max-w-6xl px-5 py-4">
               <div className="rounded-2xl bg-[#B91C1C] px-5 py-4 shadow-[5px_5px_0_0_rgba(0,0,0,0.15)]">
                 <div className="flex items-center gap-2 mb-2">
@@ -603,33 +636,31 @@ export default function Home() {
                     Emergency Alert
                   </span>
                 </div>
-
                 <h2 className="font-display text-xl font-extrabold text-white leading-tight">
                   Scammed in the last 24 hours?
                 </h2>
-
                 <p className="mt-1 text-sm text-white/85 max-w-lg">
                   Call <span className="font-bold text-[#FFD6D6]">1930</span> immediately —
                   banks can still freeze funds if you act fast.
                 </p>
-
                 <div className="mt-3 grid grid-cols-3 gap-3 border-t border-white/20 pt-3 mb-3">
                   {[
                     ["24 hrs", "golden window"],
                     ["₹3.1Cr", "frozen this week"],
                     ["12k+", "citizens helped"],
-                  ].map(([stat, label]) => (
-                    <div key={label}>
-                      <p className="text-lg font-extrabold text-white font-display">
-                        {stat}
-                      </p>
-                      <p className="text-[10px] text-white/60">
-                        {label}
-                      </p>
-                    </div>
+                  ].map(([stat, label], idx) => (
+                    <FadeUp key={label} delay={0.1 + idx * 0.1}>
+                      <div>
+                        <p className="text-lg font-extrabold text-white font-display">
+                          {stat}
+                        </p>
+                        <p className="text-[10px] text-white/60">
+                          {label}
+                        </p>
+                      </div>
+                    </FadeUp>
                   ))}
                 </div>
-
                 <div className="flex flex-wrap gap-2">
                   <a
                     href="tel:1930"
@@ -638,7 +669,6 @@ export default function Home() {
                     <Phone className="size-3.5" />
                     Call 1930 now
                   </a>
-
                   <Link
                     href="/help/money"
                     className="inline-flex items-center gap-1.5 rounded-full border border-white/70 px-4 py-2 text-xs font-semibold text-white hover:bg-white hover:text-[#B91C1C] transition-colors"
@@ -650,32 +680,35 @@ export default function Home() {
               </div>
             </div>
           </section>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={emergencyReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <section
-            id="rights"
-            style={{
-              backgroundColor: "#f0f0f0ff",
-            }}
-          >
-            <div className="mx-auto max-w-6xl px-5 py-12">
+        </FadeUp>
+
+        {/* Know Your Rights */}
+        <section id="rights" style={{ backgroundColor: "#f0f0f0ff" }}>
+          <div className="mx-auto max-w-6xl px-5 py-12">
+            <FadeUp delay={0}>
               <p className="text-xs font-bold uppercase tracking-widest text-primary mb-2">Know your rights</p>
+            </FadeUp>
+            <FadeUp delay={0.12}>
               <h2 className="font-display text-[clamp(1.5rem,4vw,2.5rem)] font-extrabold leading-tight mb-8">
                 Things every Indian should know.
               </h2>
-              {/* Single card */}
+            </FadeUp>
+            <motion.div
+              ref={rightsRef}
+              style={{ position: "relative", willChange: "transform, opacity" }}
+              initial={{ opacity: 0, y: 50, scale: 0.97 }}
+              animate={rightsInView
+                ? { opacity: 1, y: 0, scale: 1 }
+                : { opacity: 0, y: 50, scale: 0.97 }
+              }
+              transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+            >
               <div className="relative overflow-hidden rounded-2xl bg-lime flex flex-col md:flex-row">
-                {/* Barcode left */}
                 <div className="hidden md:flex flex-col justify-center px-5 py-8 gap-1 shrink-0">
                   {Array.from({ length: 18 }).map((_, i) => (
                     <div key={i} style={{ height: `${[6, 4, 8, 3, 7, 5, 9, 4, 6, 8, 3, 7, 5, 4, 9, 6, 4, 7][i]}px` }} className="w-5 bg-[#1a4a2e] rounded-sm opacity-80" />
                   ))}
                 </div>
-                {/* Main content */}
                 <div className="flex-1 px-6 py-8">
                   <div className="flex items-center gap-3 mb-1">
                     <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#1a4a2e" strokeWidth="1.5" className="shrink-0">
@@ -695,22 +728,23 @@ export default function Home() {
                       "Screenshots and WhatsApp chats are valid evidence in court",
                       "You can report cybercrime anonymously via 1930 or cybercrime.gov.in",
                       "First legal consultation is free via District Legal Aid",
-                    ].map((right) => (
-                      <div key={right} className="flex items-start gap-3">
-                        <span className="mt-0.5 size-5 rounded-full bg-[#1a4a2e] flex items-center justify-center shrink-0">
-                          <svg width="10" height="10" viewBox="0 0 12 10" fill="none">
-                            <path d="M1 5l3.5 3.5L11 1" stroke="#bef264" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                          </svg>
-                        </span>
-                        <span className="text-sm font-medium text-[#1a4a2e]">{right}</span>
-                      </div>
+                    ].map((right, idx) => (
+                      <FadeUp key={right} delay={0.2 + idx * 0.07}>
+                        <div className="flex items-start gap-3">
+                          <span className="mt-0.5 size-5 rounded-full bg-[#1a4a2e] flex items-center justify-center shrink-0">
+                            <svg width="10" height="10" viewBox="0 0 12 10" fill="none">
+                              <path d="M1 5l3.5 3.5L11 1" stroke="#bef264" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          </span>
+                          <span className="text-sm font-medium text-[#1a4a2e]">{right}</span>
+                        </div>
+                      </FadeUp>
                     ))}
                   </div>
                   <button className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#1a4a2e] px-5 py-2.5 text-sm font-bold text-lime">
                     Learn more about your rights →
                   </button>
                 </div>
-                {/* Globe watermark */}
                 <div className="absolute bottom-0 right-0 opacity-10 pointer-events-none">
                   <svg width="220" height="220" viewBox="0 0 24 24" fill="none" stroke="#1a4a2e" strokeWidth="0.5">
                     <circle cx="12" cy="12" r="10" />
@@ -720,22 +754,29 @@ export default function Home() {
                   </svg>
                 </div>
               </div>
-            </div>
-          </section>
-          {/* How it works */}
-          <section className="bg-[#f0f0f0]">
-            <div className="mx-auto max-w-6xl px-5 py-12">
+            </motion.div>
+          </div>
+        </section>
+
+        {/* How it works */}
+        <section className="bg-[#f0f0f0]">
+          <div className="mx-auto max-w-6xl px-5 py-12">
+            <FadeUp delay={0}>
               <p className="text-xs font-bold uppercase tracking-widest text-primary mb-2">How it works</p>
+            </FadeUp>
+            <FadeUp delay={0.1}>
               <h2 className="font-display text-[clamp(1.5rem,4vw,2.5rem)] font-extrabold leading-tight mb-8">
                 Three moves. One unbothered you.
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {[
-                  { n: "01", title: "Spot it", body: "Real scams turned into warnings you'll actually read. We translate every FIR into a one-line red flag." },
-                  { n: "02", title: "Block it", body: "Know the red flags before the crook calls. A 60-second checklist for every common scam pattern." },
-                  { n: "03", title: "Fix it", body: "A Fellow walks you through the report. A verified advocate is one tap away. 24×7." },
-                ].map((s) => (
-                  <div key={s.n} className="flex md:flex-col items-start gap-4 rounded-2xl border border-border bg-background p-6">
+            </FadeUp>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {[
+                { n: "01", title: "Spot it", body: "Real scams turned into warnings you'll actually read. We translate every FIR into a one-line red flag." },
+                { n: "02", title: "Block it", body: "Know the red flags before the crook calls. A 60-second checklist for every common scam pattern." },
+                { n: "03", title: "Fix it", body: "A Fellow walks you through the report. A verified advocate is one tap away. 24×7." },
+              ].map((s, idx) => (
+                <FadeUp key={s.n} delay={0.1 + idx * 0.12}>
+                  <div className="flex md:flex-col items-start gap-4 rounded-2xl border border-border bg-background p-6">
                     <div className="grid size-12 shrink-0 place-items-center rounded-xl bg-lime font-mono text-sm font-bold text-lime-foreground">
                       {s.n}
                     </div>
@@ -744,19 +785,24 @@ export default function Home() {
                       <p className="mt-1 text-sm text-muted-foreground">{s.body}</p>
                     </div>
                   </div>
-                ))}
-              </div>
+                </FadeUp>
+              ))}
+            </div>
+            <FadeUp delay={0.42}>
               <Link
                 href="/how-it-works"
                 className="mt-8 inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-sm font-bold text-ink-foreground"
               >
                 Learn more →
               </Link>
-            </div>
-          </section>
+            </FadeUp>
+          </div>
+        </section>
+
+        <FadeUp delay={0}>
           <SiteFooter />
-          <Chatbot />
-        </motion.div>
+        </FadeUp>
+        <Chatbot />
       </div>
     </>
   );

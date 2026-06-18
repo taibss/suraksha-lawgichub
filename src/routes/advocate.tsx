@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { FadeUp } from "@/components/fade-up";
 import { CheckCircle, ChevronLeft } from "lucide-react";
 import { useState } from "react";
 
@@ -67,25 +68,33 @@ function AdvocatePage() {
       {/* Header section */}
       <section className="bg-ink text-ink-foreground">
         <div className="mx-auto max-w-4xl px-5 py-14">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-lime/30 bg-lime/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-lime">
-            Powered by LawgicHub
-          </span>
-          <h1 className="mt-4 font-display text-[clamp(1.5rem,5vw,2.25rem)] font-extrabold leading-[1.02] tracking-tight">
-            Talk to a<br />Verified Advocate
-          </h1>
-          <p className="mt-3 max-w-xl text-base text-ink-foreground/70">
-            Free first consultation. No upfront payment. Connect with a verified legal professional across India.
-          </p>
+          <FadeUp>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-lime/30 bg-lime/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-lime">
+              Powered by LawgicHub
+            </span>
+          </FadeUp>
+          <FadeUp delay={0.1}>
+            <h1 className="mt-4 font-display text-[clamp(1.5rem,5vw,2.25rem)] font-extrabold leading-[1.02] tracking-tight">
+              Talk to a<br />Verified Advocate
+            </h1>
+          </FadeUp>
+          <FadeUp delay={0.2}>
+            <p className="mt-3 max-w-xl text-base text-ink-foreground/70">
+              Free first consultation. No upfront payment. Connect with a verified legal professional across India.
+            </p>
+          </FadeUp>
 
           {/* Trust indicators */}
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
-            {TRUST_INDICATORS.map((item) => (
-              <span key={item.label} className="inline-flex items-center gap-2.5 text-sm text-ink-foreground/85">
-                <span className="flex size-5 items-center justify-center rounded-full bg-lime/15">
-                  <CheckCircle className="size-3.5 text-lime" />
+            {TRUST_INDICATORS.map((item, i) => (
+              <FadeUp key={item.label} delay={0.3 + i * 0.1}>
+                <span className="inline-flex items-center gap-2.5 text-sm text-ink-foreground/85">
+                  <span className="flex size-5 items-center justify-center rounded-full bg-lime/15">
+                    <CheckCircle className="size-3.5 text-lime" />
+                  </span>
+                  {item.label}
                 </span>
-                {item.label}
-              </span>
+              </FadeUp>
             ))}
           </div>
         </div>
@@ -102,6 +111,7 @@ function AdvocatePage() {
           </button>
           {!submitted ? (
             /* Form card */
+            <FadeUp>
             <div className="rounded-2xl border-2 border-foreground bg-card p-6 shadow-[5px_5px_0_0_var(--foreground)]">
               <h2 className="font-display text-xl font-bold">Connect with an advocate</h2>
               <p className="mt-1 text-sm text-muted-foreground">
@@ -202,8 +212,10 @@ function AdvocatePage() {
                 </button>
               </form>
             </div>
+            </FadeUp>
           ) : (
             /* Success state */
+            <FadeUp>
             <div className="rounded-2xl border-2 border-foreground bg-card p-8 shadow-[5px_5px_0_0_var(--foreground)] text-center">
               <div className="mx-auto flex size-16 items-center justify-center rounded-full bg-lime">
                 <CheckCircle className="size-8 text-lime-foreground" />
@@ -229,12 +241,15 @@ function AdvocatePage() {
                 </a>
               </div>
             </div>
+            </FadeUp>
           )}
 
           {/* What happens next */}
+          <FadeUp>
           <div className="mt-12">
             <h2 className="font-display text-xl font-bold text-center">What happens next</h2>
             <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <FadeUp delay={0.1}>
               <div className="rounded-2xl border-2 border-foreground bg-card p-5 shadow-[4px_4px_0_0_var(--foreground)] text-center">
                 <div className="mx-auto grid size-10 place-items-center rounded-xl bg-lime font-mono text-sm font-bold text-lime-foreground">
                   01
@@ -243,6 +258,8 @@ function AdvocatePage() {
                   Advocate reviews your case
                 </h3>
               </div>
+              </FadeUp>
+              <FadeUp delay={0.2}>
               <div className="rounded-2xl border-2 border-foreground bg-card p-5 shadow-[4px_4px_0_0_var(--foreground)] text-center">
                 <div className="mx-auto grid size-10 place-items-center rounded-xl bg-lime font-mono text-sm font-bold text-lime-foreground">
                   02
@@ -251,14 +268,18 @@ function AdvocatePage() {
                   Calls you at your preferred time
                 </h3>
               </div>
+              </FadeUp>
+              <FadeUp delay={0.3}>
               <div className="rounded-2xl border-2 border-foreground bg-card p-5 shadow-[4px_4px_0_0_var(--foreground)] text-center">
                 <div className="mx-auto grid size-10 place-items-center rounded-xl bg-lime font-mono text-sm font-bold text-lime-foreground">
                   03
                 </div>
                 <h3 className="mt-3 font-display text-base font-bold">Takes your case forward</h3>
               </div>
+              </FadeUp>
             </div>
           </div>
+          </FadeUp>
 
           {/* Powered by */}
           <p className="mt-12 text-center text-xs text-muted-foreground">
