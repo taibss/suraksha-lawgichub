@@ -32,10 +32,10 @@ export default function BlogPage() {
         <div className="mx-auto max-w-6xl px-5 py-14">
           <span className="eyebrow text-lime">● Our Blog</span>
           <h1 className="mt-3 font-display text-[clamp(2rem,6vw,3.5rem)] font-extrabold leading-[1] tracking-tight">
-            Understand it. Prevent it.<br />Fight back.
+            Scam Awareness
           </h1>
           <p className="mt-4 max-w-xl text-ink-foreground/80">
-            Guides, rights, and real stories for every Indian.
+            Plain language guides — written for when it matters.
           </p>
         </div>
       </section>

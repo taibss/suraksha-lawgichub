@@ -1,4 +1,6 @@
 import Link from "next/link";
+import Script from "next/script";
+import ReactMarkdown from "react-markdown";
 import { notFound } from "next/navigation";
 import { BLOG_POSTS } from "@/data/blog";
 import { SiteHeader } from "@/components/site-header";
@@ -8,56 +10,120 @@ import type { Metadata } from "next";
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const post = BLOG_POSTS.find((p) => p.slug === slug);
+  if (!post) return { title: "Blog — Suraksha" };
+
+  const url = `https://dem0-suraksha.mukadamtaiba.workers.dev/blog/${post.slug}`;
+
   return {
-    title: post ? `${post.title} — Suraksha` : "Blog — Suraksha",
+    title: `${post.title} — Suraksha`,
+    description: post.excerpt,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      url,
+      type: "article",
+    },
+    alternates: {
+      canonical: url,
+    },
   };
 }
 
-function renderContent(content: string) {
-  const lines = content.split("\n").filter((l) => l.trim());
-  const elements: React.ReactNode[] = [];
+function extractFaqItems(content: string): { question: string; answer: string }[] {
+  const lines = content.split("\n");
+  const items: { question: string; answer: string }[] = [];
+  let inFaq = false;
+  let currentQuestion = "";
+  let currentAnswer = "";
 
-  lines.forEach((line, i) => {
+  for (const line of lines) {
     const trimmed = line.trim();
-    if (trimmed.startsWith("## ")) {
-      elements.push(
-        <h2 key={i} className="font-display text-2xl font-bold mt-8 mb-3">
-          {trimmed.replace("## ", "")}
-        </h2>
-      );
-    } else if (trimmed.startsWith("- ")) {
-      const text = trimmed.replace("- ", "");
-      elements.push(
-        <li key={i} className="text-base leading-relaxed text-foreground ml-4 list-disc">
-          <span dangerouslySetInnerHTML={{ __html: text.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold">$1</strong>') }} />
-        </li>
-      );
-    } else if (/^\d+\./.test(trimmed)) {
-      const text = trimmed.replace(/^\d+\.\s*/, "");
-      elements.push(
-        <li key={i} className="text-base leading-relaxed text-foreground ml-4 list-decimal">
-          <span dangerouslySetInnerHTML={{ __html: text.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold">$1</strong>') }} />
-        </li>
-      );
-    } else {
-      elements.push(
-        <p key={i} className="text-base leading-relaxed text-foreground mb-4">
-          <span dangerouslySetInnerHTML={{ __html: trimmed.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold">$1</strong>') }} />
-        </p>
-      );
-    }
-  });
 
-  return elements;
+    if (trimmed === "## FAQ" || trimmed === "## FAQs") {
+      inFaq = true;
+      continue;
+    }
+
+    if (trimmed === "---" || trimmed.startsWith("## ")) {
+      if (inFaq && currentQuestion && currentAnswer) {
+        items.push({ question: currentQuestion, answer: currentAnswer.trim() });
+      }
+      inFaq = false;
+      currentQuestion = "";
+      currentAnswer = "";
+      continue;
+    }
+
+    if (inFaq) {
+      if (trimmed.startsWith("**") && trimmed.includes("**")) {
+        if (currentQuestion && currentAnswer) {
+          items.push({ question: currentQuestion, answer: currentAnswer.trim() });
+        }
+        currentQuestion = trimmed.replace(/\*\*/g, "").replace(/\?$/, "").trim() + "?";
+        currentAnswer = "";
+      } else if (trimmed) {
+        currentAnswer += (currentAnswer ? " " : "") + trimmed;
+      }
+    }
+  }
+
+  if (inFaq && currentQuestion && currentAnswer) {
+    items.push({ question: currentQuestion, answer: currentAnswer.trim() });
+  }
+
+  return items;
 }
+
 
 export default async function BlogArticle({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const post = BLOG_POSTS.find((p) => p.slug === slug);
   if (!post) notFound();
 
+  const url = `https://dem0-suraksha.mukadamtaiba.workers.dev/blog/${post.slug}`;
+  const faqItems = extractFaqItems(post.content);
+
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description: post.excerpt,
+    publisher: {
+      "@type": "Organization",
+      name: "Suraksha by LawgicHub",
+    },
+  };
+
+  const faqSchema = faqItems.length > 0
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: faqItems.map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: item.answer,
+          },
+        })),
+      }
+    : null;
+
   return (
     <div className="min-h-screen">
+      <Script
+        id="article-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      {faqSchema && (
+        <Script
+          id="faq-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
+
       <SiteHeader />
 
       <section className="bg-ink text-ink-foreground">
@@ -79,8 +145,19 @@ export default async function BlogArticle({ params }: { params: Promise<{ slug: 
       </section>
 
       <section className="bg-background">
-        <div className="mx-auto max-w-2xl px-5 py-10">
-          {renderContent(post.content)}
+        <div className="mx-auto max-w-2xl px-5 py-12">
+          <div className="prose prose-lg max-w-none">
+            <ReactMarkdown
+              components={{
+                h2: ({children}) => <h2 className="text-xl font-bold mt-8 mb-3 text-gray-900">{children}</h2>,
+                p: ({children}) => <p className="mb-5 leading-relaxed text-gray-700">{children}</p>,
+                strong: ({children}) => <strong className="font-semibold text-gray-900">{children}</strong>,
+                a: ({href, children}) => <a href={href} className="text-blue-600 underline" target="_blank">{children}</a>,
+              }}
+            >
+              {post.content}
+            </ReactMarkdown>
+          </div>
 
           <div className="mt-10 rounded-2xl bg-primary p-6 text-white">
             <p className="font-display font-bold text-lg">Got caught in this?</p>
