@@ -216,16 +216,19 @@ export default async function ScamDetail({ params }: { params: Promise<{ scamId:
           </div>
 
           {/* CTA */}
-          <div className="rounded-2xl border-2 border-foreground bg-card p-6 shadow-[4px_4px_0_0_var(--foreground)]">
-            <p className="font-bold text-lg">Got caught in this?</p>
-            <p className="mt-1 text-sm text-muted-foreground">Get your personal action plan — what to do right now, who to call, and how to draft your complaint.</p>
-            <Link
-              href={`/help/leaf/${info.leafId}`}
-              className="mt-4 inline-flex items-center gap-2 rounded-xl border-2 border-foreground bg-foreground px-5 py-3 text-sm font-bold text-background shadow-[3px_3px_0_0_var(--primary)] transition-transform hover:-translate-y-0.5"
-            >
-              Get my action plan <ArrowRight className="size-4" />
-            </Link>
-          </div>
+          <section className="bg-background">
+            <div className="mx-auto max-w-6xl px-5 py-10 flex flex-col items-center text-center gap-2">
+              <p className="text-sm font-semibold text-foreground">Got caught in this?</p>
+              <p className="text-sm text-muted-foreground">Get your personal action plan — what to do right now, who to call, and how to draft your complaint.</p>
+              <Link
+                href={`/help/leaf/${info.leafId}`}
+                className="mt-2 inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold text-white shadow-[0_4px_12px_rgba(26,58,143,0.4)]"
+                style={{ backgroundColor: "#1a3a8f" }}
+              >
+                Get my action plan →
+              </Link>
+            </div>
+          </section>
 
           <Link href="/scams" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
             <ChevronLeft className="size-4" /> Back to Scam Radar

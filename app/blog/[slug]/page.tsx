@@ -5,7 +5,6 @@ import { notFound } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { HelpfulWidget } from "./helpful-widget";
 import type { Metadata } from "next";
 
 async function getPost(slug: string) {
@@ -195,20 +194,19 @@ export default async function BlogArticle({ params }: { params: Promise<{ slug: 
             </div>
           </div>
 
-          <div className="mt-10 rounded-2xl bg-primary p-6 text-white">
-            <p className="font-display font-bold text-lg">Got caught in this?</p>
-            <p className="mt-1 text-sm text-white/80">Get your personal action plan — free, instant.</p>
-            <Link
-              href="/help"
-              className="mt-4 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-bold text-primary"
-            >
-              Get my action plan →
-            </Link>
-          </div>
-
-          <div className="mt-10">
-            <HelpfulWidget />
-          </div>
+          <section className="bg-background">
+            <div className="mx-auto max-w-6xl px-5 py-10 flex flex-col items-center text-center gap-2">
+              <p className="text-sm font-semibold text-foreground">Got caught in this?</p>
+              <p className="text-sm text-muted-foreground">Get your personal action plan — free, instant.</p>
+              <Link
+                href="/help"
+                className="mt-2 inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold text-white shadow-[0_4px_12px_rgba(26,58,143,0.4)]"
+                style={{ backgroundColor: "#1a3a8f" }}
+              >
+                Get my action plan →
+              </Link>
+            </div>
+          </section>
 
           <Link href="/blog" className="mt-8 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
             ← Back to Blog

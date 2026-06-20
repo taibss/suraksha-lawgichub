@@ -70,16 +70,17 @@ export default function HelpIndex() {
           <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
             {TREE.doors.map((d, i) => {
               const accents = [
-                "bg-primary text-primary-foreground",
-                "bg-lime text-lime-foreground",
-                "bg-ink text-ink-foreground",
-                "bg-card text-foreground",
+                { bg: "text-foreground", style: { backgroundColor: "#83E7FF" } },
+                { bg: "bg-lime text-lime-foreground", style: {} },
+                { bg: "bg-ink text-ink-foreground", style: {} },
+                { bg: "bg-card text-foreground", style: {} },
               ];
-              const cls = accents[i % accents.length];
+              const { bg: cls, style } = accents[i % accents.length];
               return (
                 <Link
                   key={d.id}
                   href={`/help/${d.id}`}
+                  style={style}
                   className={`group block rounded-3xl border-2 border-foreground p-6 shadow-[5px_5px_0_0_var(--foreground)] transition-transform hover:-translate-y-1 hover:shadow-[8px_8px_0_0_var(--foreground)] ${cls}`}
                 >
                   <div className="text-3xl">{d.emoji}</div>

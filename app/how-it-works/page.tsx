@@ -28,22 +28,26 @@ export default function HowItWorks() {
           <h1 className="mt-3 font-display text-[clamp(2rem,6vw,3.5rem)] font-extrabold leading-[1.02] tracking-tight">
             Three moves.<br />One unbothered you.
           </h1>
-          <div className="mt-10 grid grid-cols-1 gap-4">
+        </div>
+      </section>
+      <section className="bg-lime">
+        <div className="mx-auto max-w-4xl px-5 py-16">
+          <div className="grid grid-cols-1 gap-4">
             {STEPS.map((s) => (
-              <div key={s.n} className="flex items-start gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-6">
-                <div className="grid size-12 shrink-0 place-items-center rounded-xl bg-lime font-mono text-sm font-bold text-lime-foreground">
+              <div key={s.n} className="flex items-start gap-4 rounded-2xl border border-border/40 bg-white p-6">
+                <div className="grid size-12 shrink-0 place-items-center rounded-xl bg-[#1a4a2e] font-mono text-sm font-bold text-lime">
                   {s.n}
                 </div>
                 <div>
-                  <div className="font-display text-2xl font-bold">{s.title}</div>
-                  <p className="mt-1 text-ink-foreground/75">{s.body}</p>
+                  <div className="font-display text-2xl font-bold text-[#1a4a2e]">{s.title}</div>
+                  <p className="mt-1 text-[#1a4a2e]/75">{s.body}</p>
                 </div>
               </div>
             ))}
           </div>
           <Link
             href="/help"
-            className="mt-10 inline-flex items-center rounded-full border-2 border-lime bg-lime px-6 py-3 text-base font-semibold text-lime-foreground shadow-[4px_4px_0_0_white] transition-transform hover:-translate-y-0.5"
+            className="mt-10 inline-flex items-center rounded-full border-2 border-[#1a4a2e] bg-[#1a4a2e] px-6 py-3 text-base font-semibold text-lime shadow-[4px_4px_0_0_rgba(0,0,0,0.15)] transition-transform hover:-translate-y-0.5"
           >
             Start the triage →
           </Link>

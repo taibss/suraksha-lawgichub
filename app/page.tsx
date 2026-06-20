@@ -21,7 +21,7 @@ const PULSE = [
 ];
 
 const DOOR_STYLES = [
-  { bg: "text-foreground border-2 border-border", style: { backgroundColor: "#a9def9" } },
+  { bg: "text-foreground border-2 border-border", style: { backgroundColor: "#83E7FF" } },
   { bg: "bg-lime text-lime-foreground", style: {} },
   { bg: "bg-ink text-ink-foreground", style: {} },
   { bg: "bg-card text-foreground border-2 border-border", style: {} },
@@ -72,7 +72,7 @@ function Chatbot() {
       try {
         const saved = sessionStorage.getItem("nyay-chat");
         if (saved) return JSON.parse(saved);
-      } catch {}
+      } catch { }
     }
     return [
       {
@@ -90,7 +90,7 @@ function Chatbot() {
   useEffect(() => {
     try {
       sessionStorage.setItem("nyay-chat", JSON.stringify(messages));
-    } catch {}
+    } catch { }
   }, [messages]);
 
   useEffect(() => {
@@ -225,9 +225,10 @@ function Chatbot() {
       setTimeout(() => {
         const redirectMsg = {
           role: "model",
-          parts: [{ text: isDistress
-            ? "I'm sorry you're dealing with this. Let me take you somewhere that can help. Suraksha has your back."
-            : "Sure! Let me take you there. Suraksha has got you covered."
+          parts: [{
+            text: isDistress
+              ? "I'm sorry you're dealing with this. Let me take you somewhere that can help. Suraksha has your back."
+              : "Sure! Let me take you there. Suraksha has got you covered."
           }],
         };
         setMessages([...updated, redirectMsg]);
@@ -445,10 +446,10 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 1.5 }}
             >
-              <h1 className="mt-4 font-display text-[clamp(3rem,8vw,6rem)] font-extrabold leading-[0.95] tracking-tight">
+              <h2 className="mt-4 font-display text-[clamp(3rem,8vw,6rem)] font-extrabold leading-[0.95] tracking-tight">
                 Got scammed?<br></br>
                 Start here.
-              </h1>
+              </h2>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -530,7 +531,7 @@ export default function Home() {
                   Just got scammed?
                 </h2>
                 <p className="mt-1 text-sm text-white/85 max-w-lg">
-                  Call <span className="font-bold text-[#FFD6D6]">1930</span> right now —
+                  Call <span className="font-bold text-[#FFD6D6]" style={{ textShadow: "0 0 12px rgba(255,214,214,0.6)" }}>1930</span> right now —
                   banks can freeze the money if you act within 24 hours.
                 </p>
                 <div className="mt-3 grid grid-cols-3 gap-3 border-t border-white/20 pt-3 mb-3">

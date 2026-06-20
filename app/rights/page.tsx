@@ -82,90 +82,229 @@ export default function RightsPage() {
     <div className="min-h-screen">
       <SiteHeader />
 
-      <section className="bg-ink text-ink-foreground">
-        <div className="mx-auto max-w-6xl px-5 py-14">
-          <span className="eyebrow text-lime">● Legal Framework</span>
-          <h1 className="mt-3 font-display text-[clamp(2rem,6vw,3.5rem)] font-extrabold leading-[1] tracking-tight">
+      <section className="bg-lime">
+        <div className="mx-auto max-w-3xl px-5 py-14">
+          <span className="eyebrow text-[#1a4a2e]">● Legal Framework</span>
+          <h1 className="mt-3 font-display text-[clamp(2rem,6vw,3.5rem)] font-extrabold leading-[1] tracking-tight text-[#1a4a2e]">
             Know Your Rights
           </h1>
-          <p className="mt-4 max-w-xl text-ink-foreground/80">
+          <p className="mt-4 max-w-xl text-[#1a4a2e]/70">
             Laws that protect you — plain language, no jargon.
           </p>
         </div>
       </section>
 
       <section className="bg-background">
-        <div className="mx-auto max-w-6xl px-5 py-12">
-          <h2 className="font-display text-2xl font-extrabold tracking-tight mb-6">
-            Cyber Crime Laws
-          </h2>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {CYBER_CRIME_LAWS.map((law) => (
-              <div
-                key={law.section}
-                className="group rounded-2xl border-2 border-border bg-card p-6 shadow-[4px_4px_0_0_var(--foreground)] transition-transform hover:-translate-y-1"
-              >
-                <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-primary">
-                  {law.section} {law.act}
-                </span>
-                <h3 className="mt-3 font-display font-bold text-base leading-snug">
-                  {law.title}
-                </h3>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  {law.description}
-                </p>
-                <div className="mt-4 inline-flex items-center rounded-full bg-lime px-3 py-1.5 text-xs font-bold text-lime-foreground">
-                  {law.penalty}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-background">
-        <div className="mx-auto max-w-6xl px-5 py-12">
-          <h2 className="font-display text-2xl font-extrabold tracking-tight mb-6">
-            Your Rights as a Victim
-          </h2>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {VICTIM_RIGHTS.map((right) => (
-              <div
-                key={right.section}
-                className="group rounded-2xl border-2 border-border bg-card p-6 shadow-[4px_4px_0_0_var(--foreground)] transition-transform hover:-translate-y-1"
-              >
-                <span className="inline-block rounded-full bg-amber-100 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-amber-800">
-                  {right.section}
-                </span>
-                <h3 className="mt-3 font-display font-bold text-base leading-snug">
-                  {right.title}
-                </h3>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  {right.description}
-                </p>
-                <div className="mt-4 inline-flex items-center rounded-full bg-amber-100 px-3 py-1.5 text-xs font-bold text-amber-800">
-                  {right.right}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-background">
-        <div className="mx-auto max-w-6xl px-5 py-12">
-          <div className="rounded-2xl bg-primary p-6 text-white md:flex md:items-center md:justify-between md:gap-6">
-            <div>
-              <p className="font-display font-bold text-lg">Need help using these rights?</p>
-              <p className="mt-1 text-sm text-white/80">Get your personal action plan — free, instant.</p>
-            </div>
-            <Link
-              href="/help"
-              className="mt-4 md:mt-0 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-bold text-primary transition-transform hover:-translate-y-0.5"
+        <div className="mx-auto max-w-3xl px-5 py-12">
+          <div
+            className="relative rounded-xl px-9 pt-10 pb-10"
+            style={{ backgroundColor: "#1a4a2e", borderRadius: "12px", boxShadow: "0 8px 24px rgba(0,0,0,0.15)" }}
+          >
+            {/* Seal badge */}
+            <div
+              className="absolute top-5 right-5 flex h-14 w-14 items-center justify-center rounded-full text-center"
+              style={{
+                border: "2px solid #bef264",
+                transform: "rotate(-8deg)",
+              }}
             >
-              Get my action plan →
-            </Link>
+              <span
+                className="font-bold uppercase leading-tight"
+                style={{ color: "#bef264", fontSize: "8px" }}
+              >
+                Suraksha<br />verified
+              </span>
+            </div>
+
+            {/* Document header */}
+            <div
+              className="mb-8 text-center"
+              style={{ borderBottom: "2px solid rgba(255,255,255,0.2)", paddingBottom: "20px" }}
+            >
+              <p
+                className="mb-1 text-xs font-bold uppercase tracking-widest"
+                style={{ color: "#bef264" }}
+              >
+                Know your rights
+              </p>
+              <h2
+                className="text-2xl font-bold"
+                style={{ color: "#ffffff", fontFamily: "Georgia, 'Times New Roman', serif" }}
+              >
+                Statute of Citizen Protections
+              </h2>
+            </div>
+
+            {/* Section I */}
+            <p
+              className="mb-4 text-sm font-bold"
+              style={{
+                color: "#bef264",
+                fontFamily: "Georgia, 'Times New Roman', serif",
+                borderBottom: "1px solid rgba(190,242,100,0.25)",
+                paddingBottom: "8px",
+              }}
+            >
+              I. Cyber crime laws
+            </p>
+
+            {CYBER_CRIME_LAWS.map((law) => {
+              const sectionParts = law.section.replace("Section ", "").split(" ");
+              const sectionNum = sectionParts[0] || law.section;
+              return (
+                <div
+                  key={law.section}
+                  className="flex items-start gap-5 py-5"
+                  style={{ borderBottom: "1px dashed rgba(190,242,100,0.25)" }}
+                >
+                  <div className="shrink-0 text-center" style={{ minWidth: "56px" }}>
+                    <div
+                      className="font-bold"
+                      style={{
+                        color: "#bef264",
+                        fontSize: "28px",
+                        fontFamily: "Georgia, 'Times New Roman', serif",
+                        lineHeight: 1,
+                      }}
+                    >
+                      {sectionNum}
+                    </div>
+                    <div
+                      className="mt-1 uppercase"
+                      style={{ color: "rgba(255,255,255,0.6)", fontSize: "9px", letterSpacing: "0.05em" }}
+                    >
+                      {law.act}
+                    </div>
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p
+                      className="uppercase"
+                      style={{ color: "rgba(190,242,100,0.7)", fontSize: "10px", fontWeight: 700, letterSpacing: "0.08em" }}
+                    >
+                      {law.title}
+                    </p>
+                    <p
+                      className="mt-1 font-bold"
+                      style={{
+                        color: "#ffffff",
+                        fontSize: "15px",
+                        fontFamily: "Georgia, 'Times New Roman', serif",
+                      }}
+                    >
+                      {law.section}, {law.act}
+                    </p>
+                    <p className="mt-1 text-sm" style={{ color: "rgba(255,255,255,0.75)" }}>
+                      {law.description}
+                    </p>
+                    <p
+                      className="mt-2 font-bold"
+                      style={{
+                        color: "#bef264",
+                        fontSize: "14px",
+                        borderBottom: "1px solid #bef264",
+                        paddingBottom: "1px",
+                        display: "inline-block",
+                      }}
+                    >
+                      {law.penalty}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+
+            {/* Section II */}
+            <p
+              className="mb-4 mt-8 text-sm font-bold"
+              style={{
+                color: "#bef264",
+                fontFamily: "Georgia, 'Times New Roman', serif",
+                borderBottom: "1px solid rgba(190,242,100,0.25)",
+                paddingBottom: "8px",
+              }}
+            >
+              II. Your rights as a victim
+            </p>
+
+            {VICTIM_RIGHTS.map((right) => {
+              const sectionParts = right.section.replace("Section ", "").split(" ");
+              const sectionNum = sectionParts[0] || right.section;
+              return (
+                <div
+                  key={right.section}
+                  className="flex items-start gap-5 py-5"
+                  style={{ borderBottom: "1px dashed rgba(190,242,100,0.25)" }}
+                >
+                  <div className="shrink-0 text-center" style={{ minWidth: "56px" }}>
+                    <div
+                      className="font-bold"
+                      style={{
+                        color: "#bef264",
+                        fontSize: "28px",
+                        fontFamily: "Georgia, 'Times New Roman', serif",
+                        lineHeight: 1,
+                      }}
+                    >
+                      {sectionNum}
+                    </div>
+                    <div
+                      className="mt-1 uppercase"
+                      style={{ color: "rgba(255,255,255,0.6)", fontSize: "9px", letterSpacing: "0.05em" }}
+                    >
+                      {right.section.replace("Section ", "").replace(sectionNum, "").trim() || "CrPC"}
+                    </div>
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p
+                      className="uppercase"
+                      style={{ color: "rgba(190,242,100,0.7)", fontSize: "10px", fontWeight: 700, letterSpacing: "0.08em" }}
+                    >
+                      {right.title}
+                    </p>
+                    <p
+                      className="mt-1 font-bold"
+                      style={{
+                        color: "#ffffff",
+                        fontSize: "15px",
+                        fontFamily: "Georgia, 'Times New Roman', serif",
+                      }}
+                    >
+                      {right.section}
+                    </p>
+                    <p className="mt-1 text-sm" style={{ color: "rgba(255,255,255,0.75)" }}>
+                      {right.description}
+                    </p>
+                    <p
+                      className="mt-2 font-bold"
+                      style={{
+                        color: "#bef264",
+                        fontSize: "14px",
+                        borderBottom: "1px solid #bef264",
+                        paddingBottom: "1px",
+                        display: "inline-block",
+                      }}
+                    >
+                      {right.right}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
+        </div>
+      </section>
+
+      <section className="bg-background">
+        <div className="mx-auto max-w-6xl px-5 py-10 flex flex-col items-center text-center gap-2">
+          <p className="text-sm font-semibold text-foreground">Need help using these rights?</p>
+          <p className="text-sm text-muted-foreground">Get your personal action plan — free, instant.</p>
+          <Link
+            href="/help"
+            className="mt-2 inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold text-white shadow-[0_4px_12px_rgba(26,58,143,0.4)]"
+            style={{ backgroundColor: "#1a3a8f" }}
+          >
+            Get my action plan →
+          </Link>
         </div>
       </section>
 

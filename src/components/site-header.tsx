@@ -38,12 +38,6 @@ export function SiteHeader() {
           <Link href="/blog" className="text-sm font-semibold transition-colors hover:text-primary">
             Blog
           </Link>
-          <Link
-            href="/#rights"
-            className="text-sm font-semibold transition-colors hover:text-primary"
-          >
-            Your rights
-          </Link>
           <div className="relative">
             <button
               onClick={() => setDropdownOpen((v) => !v)}
@@ -122,13 +116,6 @@ export function SiteHeader() {
             </Link>
             <Link href="/blog" onClick={() => setMobileOpen(false)} className="rounded-md px-3 py-2 text-sm font-medium hover:bg-muted">
               Blog
-            </Link>
-            <Link
-              href="/#rights"
-              onClick={() => setMobileOpen(false)}
-              className="block rounded-md px-3 py-2 text-sm font-medium hover:bg-muted"
-            >
-              Your rights
             </Link>
           </div>
         </div>
