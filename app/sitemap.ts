@@ -12,7 +12,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/advocate`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.7 },
   ];
 
-  const blogPages = (data ?? []).map((post) => ({
+  const blogPages = (data as { slug: string }[] ?? []).map((post) => ({
     url: `${BASE_URL}/blog/${post.slug}`,
     lastModified: new Date(),
     changeFrequency: "monthly" as const,
