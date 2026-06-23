@@ -98,7 +98,35 @@ export default function DoorView() {
             ))}
           </div>
 
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-8 mb-16 md:mb-0" />
+        </div>
+      </section>
+
+      {/* Sticky action bar — mobile only */}
+      <div
+        className="fixed bottom-0 left-0 right-0 z-40 border-t border-border/60 bg-background/90 backdrop-blur-lg md:hidden"
+        style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+      >
+        <div className="flex gap-2 px-3 py-2">
+          <button
+            onClick={back}
+            className="flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-border bg-card py-2.5 text-[13px] font-semibold text-foreground transition-colors hover:bg-muted active:bg-muted"
+          >
+            <ChevronLeft className="size-3.5" /> Back
+          </button>
+          <Link
+            href="/help"
+            className="flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-border bg-card py-2.5 text-[13px] font-semibold text-foreground transition-colors hover:bg-muted active:bg-muted"
+          >
+            <HomeIcon className="size-3.5" /> Start over
+          </Link>
+        </div>
+      </div>
+
+      {/* Desktop action bar — in normal flow */}
+      <section className="hidden md:block">
+        <div className="mx-auto max-w-3xl px-5 py-6">
+          <div className="flex flex-wrap justify-end gap-3">
             <button
               onClick={back}
               className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-semibold hover:bg-muted"

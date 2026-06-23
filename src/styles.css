@@ -115,17 +115,8 @@
   animation: splash-lifecycle 2s ease-in-out forwards;
 }
 
-@keyframes owlBounce {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
+@keyframes nyayBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
 }
 
-@keyframes fadeInBubble {
-  0% { opacity: 0; transform: translateY(8px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes owlGlow {
-  0%, 100% { box-shadow: 0 0 10px 2px rgba(124,58,237,0.4); }
-  50% { box-shadow: 0 0 20px 6px rgba(124,58,237,0.7); }
-}
