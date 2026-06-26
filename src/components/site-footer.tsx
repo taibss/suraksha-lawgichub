@@ -6,7 +6,6 @@ import logo from "@/assets/lawgichub-logo.png";
 const EXPLORE = [
   { label: "Scam radar", href: "/scams" },
   { label: "How it works", href: "/how-it-works" },
-  { label: "Blog", href: "/blog" },
   { label: "Your rights", href: "/rights" },
 ];
 
@@ -14,6 +13,11 @@ const GET_HELP = [
   { label: "I lost money", href: "/help/money" },
   { label: "Someone threatening me", href: "/help/threats" },
   { label: "Police / Bank problem", href: "/help/process" },
+];
+
+const ABOUT_US = [
+  { label: "lawgichub.com", href: "https://lawgichub.com" },
+  { label: "Blog", href: "/blog" },
 ];
 
 const LEGAL = [
@@ -105,6 +109,16 @@ export function SiteFooter({ showStatement = false }: { showStatement?: boolean 
                   ))}
                 </ul>
               </div>
+              <div>
+                <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-[#bef264]">About Us</h3>
+                <ul className="flex flex-col gap-2">
+                  {ABOUT_US.map((link) => (
+                    <li key={link.href}>
+                      <Link href={link.href} className="text-sm text-white/70 transition-colors hover:text-[#bef264]">{link.label}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
 
             {/* Mobile: Two-column grid for Explore + Get Help */}
@@ -145,23 +159,42 @@ export function SiteFooter({ showStatement = false }: { showStatement?: boolean 
               </div>
             </div>
 
-            {/* Mobile: Legal — full width below the grid */}
-            <div className="mt-8 md:hidden">
-              <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-[#bef264]">
-                Legal
-              </h3>
-              <ul className="flex flex-col">
-                {LEGAL.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="block py-2 text-sm text-white/70 transition-colors hover:text-[#bef264]"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+            {/* Mobile: Legal + About Us — two-column grid below Explore & Get Help */}
+            <div className="grid grid-cols-2 gap-x-8 gap-y-8 mt-8 md:hidden">
+              <div>
+                <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-[#bef264]">
+                  Legal
+                </h3>
+                <ul className="flex flex-col">
+                  {LEGAL.map((link) => (
+                    <li key={link.href}>
+                      <Link
+                        href={link.href}
+                        className="block py-2 text-sm text-white/70 transition-colors hover:text-[#bef264]"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-[#bef264]">
+                  About Us
+                </h3>
+                <ul className="flex flex-col">
+                  {ABOUT_US.map((link) => (
+                    <li key={link.href}>
+                      <Link
+                        href={link.href}
+                        className="block py-2 text-sm text-white/70 transition-colors hover:text-[#bef264]"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
 
